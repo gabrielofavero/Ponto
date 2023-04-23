@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Reader</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Análise de Ponto</h1>
+        <h2>Meu RH</h2>
+        <input type="file" id="pdf-input" accept=".pdf" />
+        <h2>EPM</h2>
+        <input type="file" id="xlsx-input" accept=".xlsx" />
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.2/xlsx.full.min.js"></script>
+    <script src="/assets/main.js"></script>
+    <script src="/assets/epm.js"></script>
+    <script src="/assets/meuRH.js"></script>
+    <script src="/assets/date.js"></script>
+</body>
+</html>
