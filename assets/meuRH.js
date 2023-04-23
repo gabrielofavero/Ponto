@@ -16,6 +16,7 @@ function _meuRH(){
             break;
         }
     }
+    console.log(result);
     localStorage.setItem('meuRH-result', JSON.stringify(result));
 }
 

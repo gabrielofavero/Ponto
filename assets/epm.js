@@ -17,5 +17,6 @@ function _epm() {
             result[key] = _numberToTime(sum);
         }
     }
+    console.log(result);
     localStorage.setItem('EPM-result', JSON.stringify(result));
 }
