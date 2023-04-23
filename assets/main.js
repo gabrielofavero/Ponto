@@ -34,6 +34,7 @@ pdfInput.addEventListener('change', async (event) => {
         }
     }
     localStorage.setItem('meuRH', JSON.stringify(pdfTextContent));
+    console.log(pdfTextContent)
     _meuRH();
 });
 
