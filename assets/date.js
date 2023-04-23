@@ -2,7 +2,20 @@ function _timeToNumber(time) {
     let split = time.split(":");
     let hour = parseInt(split[0]);
     let minute = parseFloat(split[1]) / 60
-    return (hour + minute).toFixed(2);
+    return hour + minute;
+}
+
+function _numberToTime(number) {
+    let hour = Math.floor(number);
+    let minute = Math.round((number - hour) * 60);
+
+    if (hour < 10) {
+        hour = "0" + hour;
+    }
+    if (minute < 10) {
+        minute = "0" + minute;
+    }
+    return hour + ":" + minute;
 }
 
 function _removeYear(date) {
@@ -27,9 +40,63 @@ function _isLater(time1, time2) {
     }
 }
 
-function _extractNumber(time1, time2) {
-    let numb1 = _timeToNumber(time1);
-    let numb2 = _timeToNumber(time2);
-    return numb2 - numb1;
+function _sumTime (timeArray){
+    let hour = 0;
+    let minute = 0;
+    for (let i = 0; i < timeArray.length; i++){
+        let split = timeArray[i].split(":");
+        hour += parseInt(split[0]);
+        minute += parseInt(split[1]);
+    }
+    hour += Math.floor(minute / 60);
+    minute = minute % 60;
+
+    if (hour < 10) {
+        hour = "0" + hour;
+    }
+    if (minute < 10) {
+        minute = "0" + minute;
+    }
+    return hour + ":" + minute;
 }
 
+function _timeDifference(time1, time2) {
+    let split1 = time1.split(":");
+    let split2 = time2.split(":");
+    let hour = parseInt(split2[0]) - parseInt(split1[0]);
+    let minute = parseInt(split2[1]) - parseInt(split1[1]);
+    if (minute < 0) {
+        hour--;
+        minute += 60;
+    }
+    return hour + ":" + minute;
+}
+
+function _epmToNumber(epm) { // "90,4h" -> 90.4
+    return parseFloat(epm.replace(",", "."));
+}
+
+function _findByDateAndCompare(date) {
+    let epm = JSON.parse(localStorage.getItem('EPM'));
+    let meuRH = JSON.parse(localStorage.getItem('meuRH'));
+
+    if (epm[date] && meuRH[date]) {
+        _timeDifference(epm[date], meuRH[date]);
+    } else return "";
+}
+
+function _compare() {
+    let epm = JSON.parse(localStorage.getItem('EPM-result'));
+    let meuRH = JSON.parse(localStorage.getItem('meuRH-result'));
+    let result = {};
+    
+    let keys = Object.keys(epm);
+
+    for (let i = 0; i < keys.length; i++) {
+        let key = keys[i];
+        if (epm[key] && meuRH[key]) {
+            result[key] = _timeDifference(epm[key], meuRH[key]);
+        }
+    }
+    console.log(result);
+}

@@ -1,23 +1,22 @@
-var index = 0;
-
 function _meuRH(){
     let meuRH = JSON.parse(localStorage.getItem('meuRH'));
     let nameFound = false;
     let result = {};
+    let i = 0;
 
-    for (index; index < meuRH.length; index++) {
-        let value = meuRH[index];
+    for (i; i < meuRH.length; i++) {
+        let value = meuRH[i];
         if (value.includes("Nome: ") && !nameFound) {
             _updateName(value);
             nameFound = true;
         } else if (_isFullDate(value)) {
-            _processDay(meuRH, result);
+            _processDay(meuRH, result, i);
         } else if (value == "Banco de Horas") {
             _processBancoDeHoras(meuRH, result);
             break;
         }
     }
-    console.log(result);
+    localStorage.setItem('meuRH-result', JSON.stringify(result));
 }
 
 function _updateName(value) {
@@ -30,26 +29,25 @@ function _updateName(value) {
     localStorage.setItem('fullName', split.join(" "));
 }
 
-function _processDay(meuRH, result) {
-    let key = _removeYear(meuRH[index]);
-    let value = 0;
-    index++;
+function _processDay(meuRH, result, i) {
+    let key = _removeYear(meuRH[i]);
+    let timeArray = [];
+    i++;
 
     let time1 = "";
     let time2 = "";
 
-
-    for (index; index < meuRH.length; index++) {
-        let value = meuRH[index];
+    for (i; i < meuRH.length; i++) {
+        let value = meuRH[i];
         if (_isFullDate(value) || value == "Banco de Horas") {
             break;
         } else {
-            if (value){
+            if (value && value.split(":").length == 2){
                 if (time1 == "") {
                     time1 = value;
                 } else {
                     time2 = value;
-                    value += _extractNumber(time1, time2);
+                    timeArray.push(_timeDifference(time1, time2));
                     time1 = "";
                     time2 = "";
                 }
@@ -57,9 +55,9 @@ function _processDay(meuRH, result) {
         }
     }
 
-    result[key] = value;
+    result[key] = _sumTime(timeArray);
 }
 
-function _processBancoDeHoras(meuRH, result){
+function _processBancoDeHoras(meuRH, result, i){
 
 }

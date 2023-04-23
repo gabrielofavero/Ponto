@@ -1,6 +1,17 @@
 const pdfInput = document.getElementById('pdf-input');
 const xlsxInput = document.getElementById('xlsx-input');
 
+window.onload = _start();
+
+function _start() {
+    if (localStorage.getItem('meuRH')) {
+        _meuRH();
+    }
+    if (localStorage.getItem('EPM')) {
+        _epm();
+    }
+}
+
 pdfInput.addEventListener('change', async (event) => {
     const file = event.target.files[0];
     if (!file) return;
@@ -23,16 +34,13 @@ pdfInput.addEventListener('change', async (event) => {
         }
     }
     localStorage.setItem('meuRH', JSON.stringify(pdfTextContent));
-    console.log(pdfTextContent);
+    _meuRH();
 });
-
 
 xlsxInput.addEventListener('change', (event) => {
     const file = event.target.files[0];
     if (!file) return;
-
     const reader = new FileReader();
-
     reader.onload = (event) => {
         const data = event.target.result;
         const workbook = XLSX.read(data, {
@@ -50,7 +58,7 @@ xlsxInput.addEventListener('change', (event) => {
             xlsxContent.push(row.map(cell => cell.toString()));
         }
         localStorage.setItem('EPM', JSON.stringify(xlsxContent));
-        console.log(xlsxContent);
+        _epm();
     };
     reader.readAsBinaryString(file);
 });
