@@ -31,12 +31,17 @@ function _updateName(value) {
 }
 
 function _processDay(meuRH, result, i) {
+    let ENTRADA = "e";
+    let SAIDA = "s";
+
     let key = _removeYear(meuRH[i]);
-    let timeArray = [];
+    let system = {
+        [key]: {}
+    };
     i++;
 
-    let time1 = "";
-    let time2 = "";
+    let e = 0;
+    let s = 0;
 
     for (i; i < meuRH.length; i++) {
         let value = meuRH[i];
@@ -44,20 +49,18 @@ function _processDay(meuRH, result, i) {
             break;
         } else {
             if (value && value.split(":").length == 2){
-                if (time1 == "") {
-                    time1 = value;
+                if (e == s) {
+                    e++;
+                    system[key][ENTRADA + e] = value;
                 } else {
-                    time2 = value;
-                    timeArray.push(_timeDifference(time1, time2));
-                    time1 = "";
-                    time2 = "";
+                    s++;
+                    system[key][SAIDA + s] = value;
+                }
                 }
             }
         }
+        result["system"] = Object.assign({}, result["system"], system);
     }
-
-    result[key] = _sumTime(timeArray);
-}
 
 function _processBancoDeHoras(meuRH, result, i){
     let keys = [];
@@ -82,5 +85,15 @@ function _processBancoDeHoras(meuRH, result, i){
     for (let j = 0; j < keys.length; j++) {
         innerResult[keys[j]] = values[j];
     }
-    result["Banco de Horas"] = innerResult;
+    result["keypoints"] = innerResult;
+}
+
+function _getSaldoAnterior(result){
+    let saldoAnterior = result["keypoints"]["Saldo Anterior"];
+    return _numberToTime(saldoAnterior);
+}
+
+function _getSaldoValorizado(result){
+    let saldoValorizado = result["keypoints"]["Saldo Valorizado"];
+    return _numberToTime(saldoValorizado);
 }
