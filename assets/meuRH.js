@@ -12,7 +12,7 @@ function _meuRH(){
         } else if (_isFullDate(value)) {
             _processDay(meuRH, result, i);
         } else if (value == "Banco de Horas") {
-            _processBancoDeHoras(meuRH, result);
+            _processBancoDeHoras(meuRH, result, i);
             break;
         }
     }
@@ -60,5 +60,27 @@ function _processDay(meuRH, result, i) {
 }
 
 function _processBancoDeHoras(meuRH, result, i){
+    let keys = [];
+    let values = [];
+    let keysFound = false;
+    let innerResult = {};
+    i++;
 
+    for (i; i < meuRH.length; i++) {
+        let value = meuRH[i].replace(",", ".");
+        if (value) {
+            if (isNaN(value) && !keysFound) {
+                keys.push(value);
+            } else if (!isNaN(value)) {
+                keysFound = true;
+                values.push(parseFloat(value));
+            } else {
+                break;
+            }
+        }
+    }
+    for (let j = 0; j < keys.length; j++) {
+        innerResult[keys[j]] = values[j];
+    }
+    result["Banco de Horas"] = innerResult;
 }
