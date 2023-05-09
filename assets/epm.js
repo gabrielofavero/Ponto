@@ -1,5 +1,5 @@
 function _epm() {
-    let epm = JSON.parse(localStorage.getItem('EPM'));
+    let epm = _getLocal('EPM');
     let week = ["seg", "ter", "qua", "qui", "sex", "sáb", "dom"];
     let result = {};
 
@@ -17,6 +17,5 @@ function _epm() {
             result[key] = _numberToTime(sum);
         }
     }
-    console.log(result);
     localStorage.setItem('EPM-result', JSON.stringify(result));
 }

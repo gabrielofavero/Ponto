@@ -4,10 +4,10 @@ const xlsxInput = document.getElementById('xlsx-input');
 window.onload = _start();
 
 function _start() {
-    if (localStorage.getItem('meuRH')) {
+    if (_getLocal('meuRH')) {
         _meuRH();
     }
-    if (localStorage.getItem('EPM')) {
+    if (_getLocal('EPM')) {
         _epm();
     }
 }
@@ -34,7 +34,6 @@ pdfInput.addEventListener('change', async (event) => {
         }
     }
     localStorage.setItem('meuRH', JSON.stringify(pdfTextContent));
-    console.log(pdfTextContent)
     _meuRH();
 });
 
@@ -63,3 +62,13 @@ xlsxInput.addEventListener('change', (event) => {
     };
     reader.readAsBinaryString(file);
 });
+
+function _getLocal(localName){
+    let localData = localStorage.getItem(localName);
+    if (localData){
+        return JSON.parse(localData);
+    } else {
+        _logger(ERROR, "Não foi possível recuperar '" + localName + "' do LocalStorage");
+        return {};
+    }
+}

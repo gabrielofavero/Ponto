@@ -16,7 +16,6 @@ function _meuRH(){
             break;
         }
     }
-    console.log(result);
     localStorage.setItem('meuRH-result', JSON.stringify(result));
 }
 
@@ -76,7 +75,7 @@ function _processBancoDeHoras(meuRH, result, i){
                 keys.push(value);
             } else if (!isNaN(value)) {
                 keysFound = true;
-                values.push(parseFloat(value));
+                values.push(_numberToTime(parseFloat(value)));
             } else {
                 break;
             }
@@ -88,12 +87,26 @@ function _processBancoDeHoras(meuRH, result, i){
     result["keypoints"] = innerResult;
 }
 
-function _getSaldoAnterior(result){
-    let saldoAnterior = result["keypoints"]["Saldo Anterior"];
-    return _numberToTime(saldoAnterior);
-}
+function _getDayTime(day, dayObj) {
+    let size = Object.keys(dayObj) / 2;
+    let timeArray = [];
 
-function _getSaldoValorizado(result){
-    let saldoValorizado = result["keypoints"]["Saldo Valorizado"];
-    return _numberToTime(saldoValorizado);
+    if (size % 2 == 0) {
+        for (let i = 1; i <= size; i++ ) {
+            let entrada = dayObj["e"+i];
+            let saida = dayObj["s"+i];
+    
+            if (entrada && saida) {
+                timeArray.push(_timeDifference(entrada, saida));
+            } else {
+                _logger(ERROR, "Ponto inconsistente: " + day);
+                return "Inconsistente";
+            }
+        }
+    } else {
+        _logger(ERROR, "Marcações Ímpares: " + day);
+        return "Ímpar";
+    }
+
+    return _sumTime(timeArray);
 }

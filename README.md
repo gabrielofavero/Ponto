@@ -1,8 +1,16 @@
 # Ponto
 
 ## O que deve fazer
-- Meu RH: Compensação de horas. Simular compensação em 1 ou mais dias. Interface para inputar horário de entrada e saída
-- EPM: Verificar horas com o Meu RH
+
+# Meu RH
+- Simulação de Ponto
+- Conversores Manuais
+- Como Inserir PDF?
+
+# EPM
+- Comparar Horas com Meu RH
+- Conversores Manuais
+- Como Inserir XLSX?
 
 ## To-Do
 - Carregamento de PDF e XLSX ✅

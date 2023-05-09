@@ -6,16 +6,23 @@ function _timeToNumber(time) {
 }
 
 function _numberToTime(number) {
+    let before = "";
+
+    if (number < 0){
+        before = "-"
+        number = -number;
+    }
+
     let hour = Math.floor(number);
     let minute = Math.round((number - hour) * 60);
-
+    
     if (hour < 10) {
         hour = "0" + hour;
     }
     if (minute < 10) {
         minute = "0" + minute;
     }
-    return hour + ":" + minute;
+    return before + hour + ":" + minute;
 }
 
 function _removeYear(date) {
@@ -74,29 +81,4 @@ function _timeDifference(time1, time2) {
 
 function _epmToNumber(epm) { // "90,4h" -> 90.4
     return parseFloat(epm.replace(",", "."));
-}
-
-function _findByDateAndCompare(date) {
-    let epm = JSON.parse(localStorage.getItem('EPM'));
-    let meuRH = JSON.parse(localStorage.getItem('meuRH'));
-
-    if (epm[date] && meuRH[date]) {
-        _timeDifference(epm[date], meuRH[date]);
-    } else return "";
-}
-
-function _compare() {
-    let epm = JSON.parse(localStorage.getItem('EPM-result'));
-    let meuRH = JSON.parse(localStorage.getItem('meuRH-result'));
-    let result = {};
-    
-    let keys = Object.keys(epm);
-
-    for (let i = 0; i < keys.length; i++) {
-        let key = keys[i];
-        if (epm[key] && meuRH[key]) {
-            result[key] = _timeDifference(epm[key], meuRH[key]);
-        }
-    }
-    console.log(result);
 }
