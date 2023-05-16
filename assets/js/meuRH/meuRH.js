@@ -1,22 +1,31 @@
 function _meuRH(){
     let meuRH = JSON.parse(localStorage.getItem('meuRH'));
-    let nameFound = false;
-    let result = {};
-    let i = 0;
 
-    for (i; i < meuRH.length; i++) {
-        let value = meuRH[i];
-        if (value.includes("Nome: ") && !nameFound) {
-            _updateName(value);
-            nameFound = true;
-        } else if (_isFullDate(value)) {
-            _processDay(meuRH, result, i);
-        } else if (value == "Banco de Horas") {
-            _processBancoDeHoras(meuRH, result, i);
-            break;
+    if (meuRH){
+        let nameFound = false;
+        let result = {};
+        let i = 0;
+    
+        for (i; i < meuRH.length; i++) {
+            let value = meuRH[i];
+            if (value.includes("Nome: ") && !nameFound) {
+                _updateName(value);
+                nameFound = true;
+            } else if (_isFullDate(value)) {
+                _processDay(meuRH, result, i);
+            } else if (value == "Banco de Horas") {
+                _processBancoDeHoras(meuRH, result, i);
+                break;
+            }
         }
+        _updateKeypoints(result);
+        console.log(result)
+        localStorage.setItem('meuRH-result', JSON.stringify(result));
+        _setLoaded('meuRH');
+        _checkOverlap();
+    } else {
+        _setNotLoaded('meuRH');
     }
-    localStorage.setItem('meuRH-result', JSON.stringify(result));
 }
 
 function _updateName(value) {

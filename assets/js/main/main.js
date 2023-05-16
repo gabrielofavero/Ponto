@@ -1,12 +1,64 @@
 /**
-* Template Name: NiceAdmin
-* Updated: Mar 09 2023 with Bootstrap v5.2.3
-* Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
-* Author: BootstrapMade.com
-* License: https://bootstrapmade.com/license/
-*/
-(function() {
+ * Template Name: NiceAdmin
+ * Updated: Mar 09 2023 with Bootstrap v5.2.3
+ * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
+ * Author: BootstrapMade.com
+ * License: https://bootstrapmade.com/license/
+ */
+(function () {
   "use strict";
+
+  const pdfInput = document.getElementById('meuRH-input');
+  pdfInput.addEventListener('change', async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const pdf = await pdfjsLib.getDocument({
+      url: URL.createObjectURL(file)
+    }).promise;
+    const numPages = pdf.numPages;
+    const pdfTextContent = [];
+
+    for (let pageIndex = 1; pageIndex <= numPages; pageIndex++) {
+      const page = await pdf.getPage(pageIndex);
+      const
+        content = await page.getTextContent();
+      const strings = content.items.map(item => item.str.trim());
+      const lines = strings.join('\n').split('\n');
+
+      for (const line of lines) {
+        pdfTextContent.push(line);
+      }
+    }
+    localStorage.setItem('meuRH', JSON.stringify(pdfTextContent));
+    _meuRH();
+  });
+  const xlsxInput = document.getElementById('epm-input');
+  xlsxInput.addEventListener('change', (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const data = event.target.result;
+      const workbook = XLSX.read(data, {
+        type: 'binary'
+      });
+
+      const sheetName = workbook.SheetNames[0];
+      const sheet = workbook.Sheets[sheetName];
+      const rows = XLSX.utils.sheet_to_json(sheet, {
+        header: 1
+      });
+      const xlsxContent = [];
+
+      for (const row of rows) {
+        xlsxContent.push(row.map(cell => cell.toString()));
+      }
+      localStorage.setItem('EPM', JSON.stringify(xlsxContent));
+      _epm();
+    };
+    reader.readAsBinaryString(file);
+  });
 
   /**
    * Easy selector helper function
@@ -42,7 +94,7 @@
    * Sidebar toggle
    */
   if (select('.toggle-sidebar-btn')) {
-    on('click', '.toggle-sidebar-btn', function(e) {
+    on('click', '.toggle-sidebar-btn', function (e) {
       select('body').classList.toggle('toggle-sidebar')
     })
   }
@@ -51,7 +103,7 @@
    * Search bar toggle
    */
   if (select('.search-bar-toggle')) {
-    on('click', '.search-bar-toggle', function(e) {
+    on('click', '.search-bar-toggle', function (e) {
       select('.search-bar').classList.toggle('search-bar-show')
     })
   }
@@ -112,7 +164,7 @@
    * Initiate tooltips
    */
   var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-  var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+  var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
     return new bootstrap.Tooltip(tooltipTriggerEl)
   })
 
@@ -285,8 +337,8 @@
   var needsValidation = document.querySelectorAll('.needs-validation')
 
   Array.prototype.slice.call(needsValidation)
-    .forEach(function(form) {
-      form.addEventListener('submit', function(event) {
+    .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
         if (!form.checkValidity()) {
           event.preventDefault()
           event.stopPropagation()
@@ -310,7 +362,7 @@
   const mainContainer = select('#main');
   if (mainContainer) {
     setTimeout(() => {
-      new ResizeObserver(function() {
+      new ResizeObserver(function () {
         select('.echart', true).forEach(getEchart => {
           echarts.getInstanceByDom(getEchart).resize();
         })
@@ -318,4 +370,48 @@
     }, 200);
   }
 
+  window.onload = _start();
 })();
+
+function _start() {
+  if (_getLocal('meuRH')) {
+    _meuRH();
+  }
+
+  if (_getLocal('EPM')) {
+    _epm(); 
+  }
+}
+
+function _getLocal(localName) {
+  let localData = localStorage.getItem(localName);
+  if (localData) {
+    return JSON.parse(localData);
+  } else {
+    return "";
+  }
+}
+
+function _setLoaded(type){
+  let status = document.getElementById(type + "-status");
+  let result = _getLocal(type + '-result')
+  if (result && result["keypoints"] && result["keypoints"]["Início"] && result["keypoints"]["Fim"]){
+    status.innerHTML = `<span class="badge rounded-pill bg-success">Carregado</span><br><span class="text-muted small pt-2">Período: ${result["keypoints"]["Início"]} - ${result["keypoints"]["Fim"]}</span>`
+  } else {
+    status.innerHTML = `<span class="badge rounded-pill bg-danger">Erro</span><br><span class="text-muted small pt-2">O arquivo não foi carregado corretamente. Tente novamente</span>`
+  }
+}
+
+function _setNotLoaded(type){
+  let status = document.getElementById(type + "-status")
+  status.innerHTML = `<span class="badge rounded-pill bg-warning text-dark">Não Carregado</span><br><span class="text-muted small pt-2">O acesso a alguns recursos estará limitado</span>`;
+}
+
+function _updateKeypoints(result) {
+  if (result && result.system && Object.keys(result.system).length > 1){
+      let systemKeys = Object.keys(result.system);
+      systemKeys.sort((a, b) => a - b);
+      result["keypoints"]["Início"] = systemKeys[0];
+      result["keypoints"]["Fim"] = systemKeys[systemKeys.length-1];
+  }
+}
