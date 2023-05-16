@@ -54,7 +54,7 @@
       for (const row of rows) {
         xlsxContent.push(row.map(cell => cell.toString()));
       }
-      localStorage.setItem('EPM', JSON.stringify(xlsxContent));
+      localStorage.setItem('epm', JSON.stringify(xlsxContent));
       _epm();
     };
     reader.readAsBinaryString(file);
@@ -376,10 +376,14 @@
 function _start() {
   if (_getLocal('meuRH')) {
     _meuRH();
+  } else {
+    _setNotLoaded('meuRH');
   }
 
-  if (_getLocal('EPM')) {
+  if (_getLocal('epm')) {
     _epm(); 
+  } else {
+    _setNotLoaded('epm');
   }
 }
 
@@ -404,7 +408,7 @@ function _setLoaded(type){
 
 function _setNotLoaded(type){
   let status = document.getElementById(type + "-status")
-  status.innerHTML = `<span class="badge rounded-pill bg-warning text-dark">Não Carregado</span><br><span class="text-muted small pt-2">O acesso a alguns recursos estará limitado</span>`;
+  status.innerHTML = `<span class="badge rounded-pill bg-warning text-dark">Não Carregado</span><br><span class="text-muted small pt-2">Carregue para ter acesso a todos os recursos</span>`;
 }
 
 function _updateKeypoints(result) {
@@ -414,4 +418,12 @@ function _updateKeypoints(result) {
       result["keypoints"]["Início"] = systemKeys[0];
       result["keypoints"]["Fim"] = systemKeys[systemKeys.length-1];
   }
+}
+
+function _clearData() {
+  localStorage.removeItem('meuRH');
+  localStorage.removeItem('meuRH-result');
+  localStorage.removeItem('epm');
+  localStorage.removeItem('epm-result');
+  _start();
 }

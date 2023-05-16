@@ -1,5 +1,5 @@
 function _epm() {
-    let epm = _getLocal('EPM');
+    let epm = _getLocal('epm');
     let week = ["seg", "ter", "qua", "qui", "sex", "sáb", "dom"];
     let result = {
         system: {},
