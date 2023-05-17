@@ -1244,3 +1244,7 @@ h6 {
 #overlaping, #meuRH-input, #epm-input, #meuRH-visualizar, #epm-visualizar{
   display: none;
 }
+
+#meuRH-filter, #meuRH-icon, #meuRH-input, #epm-filter, #epm-icon, #epm-input {
+  cursor: pointer;
+}
