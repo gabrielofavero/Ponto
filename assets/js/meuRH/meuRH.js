@@ -22,7 +22,15 @@ function _meuRH(){
         console.log(result)
         localStorage.setItem('meuRH-result', JSON.stringify(result));
         _setLoaded('meuRH');
+        _showLogin();
         _checkOverlap();
+
+        if (_getLocal('epm')){
+            _showNavs();
+        } else {
+            _hideNavs();
+        }
+
     } else {
         _setNotLoaded('meuRH');
     }

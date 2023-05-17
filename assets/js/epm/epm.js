@@ -26,6 +26,13 @@ function _epm() {
         localStorage.setItem('epm-result', JSON.stringify(result));
         _setLoaded('epm');
         _checkOverlap();
+
+        if (_getLocal('meuRH')){
+            _showNavs();
+        } else {
+            _hideNavs();
+        }
+
     } else {
         _setNotLoaded('epm');
     }

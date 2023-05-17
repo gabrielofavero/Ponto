@@ -18,8 +18,8 @@ function _checkOverlap(){
     const keypointsEPM = _getLocal('epm-result')["keypoints"];
 
     if (keypointsMeuRH && keypointsEPM) {
-        const defaultYear = 2023;
-        const defaultNextYear = 2024;
+        const currentYear = (new Date()).getFullYear();
+        const nextYear = currentYear + 1;
     
         let meuRHStart = keypointsMeuRH["Início"];
         let meuRHEnd = keypointsMeuRH["Fim"];
@@ -28,20 +28,20 @@ function _checkOverlap(){
         let epmEnd = keypointsEPM["Fim"];
     
         if (meuRHStart && meuRHEnd && epmStart && epmEnd) {
-            const [dia1, mes1] = meuRHStart.split('/').map(Number);
-            const [dia2, mes2] = meuRHEnd.split('/').map(Number);
-            const [dia3, mes3] = epmStart.split('/').map(Number);
-            const [dia4, mes4] = epmEnd.split('/').map(Number);
+            const [day1, month1] = meuRHStart.split('/').map(Number);
+            const [day2, month2] = meuRHEnd.split('/').map(Number);
+            const [day3, month3] = epmStart.split('/').map(Number);
+            const [day4, month4] = epmEnd.split('/').map(Number);
             
-            const ano1 = defaultYear;
-            const ano2 = (mes2 == 1 && mes1 > mes2) ? defaultNextYear : defaultYear;
-            const ano3 = defaultYear;
-            const ano4 = (mes4 == 1 && mes3 > mes4) ? defaultNextYear : defaultYear;
+            const year1 = currentYear;
+            const year2 = (month2 == 1 && month1 > month2) ? nextYear : currentYear;
+            const year3 = currentYear;
+            const year4 = (month4 == 1 && month3 > month4) ? nextYear : currentYear;
     
-            const startDate1 = new Date(ano1, mes1 - 1, dia1);
-            const endDate1 = new Date(ano2, mes2 - 1, dia2);
-            const startDate2 = new Date(ano3, mes3 - 1, dia3);
-            const endDate2 = new Date(ano4, mes4 - 1, dia4);
+            const startDate1 = new Date(year1, month1 - 1, day1);
+            const endDate1 = new Date(year2, month2 - 1, day2);
+            const startDate2 = new Date(year3, month3 - 1, day3);
+            const endDate2 = new Date(year4, month4 - 1, day4);
     
             const isOvelapping = (startDate1 <= endDate2 && endDate1 >= startDate2) || (startDate2 <= endDate1 && endDate2 >= startDate1)
     

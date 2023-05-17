@@ -194,31 +194,31 @@
           }],
           ["bold", "italic", "underline", "strike"],
           [{
-              color: []
-            },
-            {
-              background: []
-            }
+            color: []
+          },
+          {
+            background: []
+          }
           ],
           [{
-              script: "super"
-            },
-            {
-              script: "sub"
-            }
+            script: "super"
+          },
+          {
+            script: "sub"
+          }
           ],
           [{
-              list: "ordered"
-            },
-            {
-              list: "bullet"
-            },
-            {
-              indent: "-1"
-            },
-            {
-              indent: "+1"
-            }
+            list: "ordered"
+          },
+          {
+            list: "bullet"
+          },
+          {
+            indent: "-1"
+          },
+          {
+            indent: "+1"
+          }
           ],
           ["direction", {
             align: []
@@ -252,31 +252,31 @@
     autosave_retention: '2m',
     image_advtab: true,
     link_list: [{
-        title: 'My page 1',
-        value: 'https://www.tiny.cloud'
-      },
-      {
-        title: 'My page 2',
-        value: 'http://www.moxiecode.com'
-      }
+      title: 'My page 1',
+      value: 'https://www.tiny.cloud'
+    },
+    {
+      title: 'My page 2',
+      value: 'http://www.moxiecode.com'
+    }
     ],
     image_list: [{
-        title: 'My page 1',
-        value: 'https://www.tiny.cloud'
-      },
-      {
-        title: 'My page 2',
-        value: 'http://www.moxiecode.com'
-      }
+      title: 'My page 1',
+      value: 'https://www.tiny.cloud'
+    },
+    {
+      title: 'My page 2',
+      value: 'http://www.moxiecode.com'
+    }
     ],
     image_class_list: [{
-        title: 'None',
-        value: ''
-      },
-      {
-        title: 'Some class',
-        value: 'class-name'
-      }
+      title: 'None',
+      value: ''
+    },
+    {
+      title: 'Some class',
+      value: 'class-name'
+    }
     ],
     importcss_append: true,
     file_picker_callback: (callback, value, meta) => {
@@ -303,20 +303,20 @@
       }
     },
     templates: [{
-        title: 'New Table',
-        description: 'creates a new table',
-        content: '<div class="mceTmpl"><table width="98%%"  border="0" cellspacing="0" cellpadding="0"><tr><th scope="col"> </th><th scope="col"> </th></tr><tr><td> </td><td> </td></tr></table></div>'
-      },
-      {
-        title: 'Starting my story',
-        description: 'A cure for writers block',
-        content: 'Once upon a time...'
-      },
-      {
-        title: 'New list with dates',
-        description: 'New List with dates',
-        content: '<div class="mceTmpl"><span class="cdate">cdate</span><br><span class="mdate">mdate</span><h2>My List</h2><ul><li></li><li></li></ul></div>'
-      }
+      title: 'New Table',
+      description: 'creates a new table',
+      content: '<div class="mceTmpl"><table width="98%%"  border="0" cellspacing="0" cellpadding="0"><tr><th scope="col"> </th><th scope="col"> </th></tr><tr><td> </td><td> </td></tr></table></div>'
+    },
+    {
+      title: 'Starting my story',
+      description: 'A cure for writers block',
+      content: 'Once upon a time...'
+    },
+    {
+      title: 'New list with dates',
+      description: 'New List with dates',
+      content: '<div class="mceTmpl"><span class="cdate">cdate</span><br><span class="mdate">mdate</span><h2>My List</h2><ul><li></li><li></li></ul></div>'
+    }
     ],
     template_cdate_format: '[Date Created (CDATE): %m/%d/%Y : %H:%M:%S]',
     template_mdate_format: '[Date Modified (MDATE): %m/%d/%Y : %H:%M:%S]',
@@ -374,49 +374,64 @@
 })();
 
 function _start() {
-  if (_getLocal('meuRH')) {
+  const meuRH = _getLocal('meuRH');
+  const epm = _getLocal('epm');
+
+  if (meuRH) {
     _meuRH();
   } else {
     _setNotLoaded('meuRH');
+    _hideLogin();
   }
 
-  if (_getLocal('epm')) {
-    _epm(); 
+  if (epm) {
+    _epm();
   } else {
     _setNotLoaded('epm');
   }
+
+  if (meuRH && epm) {
+    _showNavs();
+  } else {
+    _hideNavs();
+  }
+
 }
 
 function _getLocal(localName) {
   let localData = localStorage.getItem(localName);
   if (localData) {
-    return JSON.parse(localData);
+    try {
+      return JSON.parse(localData);
+    } catch (e) {
+      return localData;
+    }
   } else {
     return "";
   }
 }
 
-function _setLoaded(type){
+function _setLoaded(type) {
   let status = document.getElementById(type + "-status");
   let result = _getLocal(type + '-result')
-  if (result && result["keypoints"] && result["keypoints"]["Início"] && result["keypoints"]["Fim"]){
+  if (result && result["keypoints"] && result["keypoints"]["Início"] && result["keypoints"]["Fim"]) {
     status.innerHTML = `<span class="badge rounded-pill bg-success">Carregado</span><br><span class="text-muted small pt-2">Período: ${result["keypoints"]["Início"]} - ${result["keypoints"]["Fim"]}</span>`
   } else {
     status.innerHTML = `<span class="badge rounded-pill bg-danger">Erro</span><br><span class="text-muted small pt-2">O arquivo não foi carregado corretamente. Tente novamente</span>`
   }
 }
 
-function _setNotLoaded(type){
+function _setNotLoaded(type) {
   let status = document.getElementById(type + "-status")
   status.innerHTML = `<span class="badge rounded-pill bg-warning text-dark">Não Carregado</span><br><span class="text-muted small pt-2">Carregue para ter acesso a todos os recursos</span>`;
 }
 
 function _updateKeypoints(result) {
-  if (result && result.system && Object.keys(result.system).length > 1){
-      let systemKeys = Object.keys(result.system);
-      systemKeys.sort((a, b) => a - b);
-      result["keypoints"]["Início"] = systemKeys[0];
-      result["keypoints"]["Fim"] = systemKeys[systemKeys.length-1];
+  if (result && result.system && Object.keys(result.system).length > 1) {
+    let systemKeys = Object.keys(result.system);
+    systemKeys.sort((a, b) => a - b);
+    result["keypoints"]["Início"] = systemKeys[0];
+    result["keypoints"]["Fim"] = systemKeys[systemKeys.length - 1];
   }
 }
 
@@ -425,5 +440,27 @@ function _clearData() {
   localStorage.removeItem('meuRH-result');
   localStorage.removeItem('epm');
   localStorage.removeItem('epm-result');
+  localStorage.removeItem('name');
+  localStorage.removeItem('fullName');
   _start();
+}
+
+function _showLogin() {
+  document.getElementById("name").innerHTML = _getLocal("name");
+  document.getElementById("fullName").innerHTML = _getLocal("fullName");
+  document.getElementById("login").style.display = "block";
+}
+
+function _hideLogin() {
+  document.getElementById("login").style.display = "none";
+}
+
+function _showNavs() {
+  document.getElementById("meuRH-visualizar").style.display = "block";
+  document.getElementById("epm-visualizar").style.display = "block";
+}
+
+function _hideNavs() {
+  document.getElementById("meuRH-visualizar").style.display = "none";
+  document.getElementById("epm-visualizar").style.display = "none";
 }
