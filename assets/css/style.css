@@ -1262,3 +1262,9 @@ h6 {
 #meuRH-tutorial, #epm-tutorial {
   margin-top: 30px;
 }
+
+@media (max-width: 2000px) and (min-width: 1400px) {
+  #meuRH-card, #epm-card {
+    width: 350px;
+  }
+}
