@@ -13,7 +13,7 @@ const ERRO_OBJ = {
     message: `<br><span class="text-muted small pt-2">O arquivo não foi carregado corretamente. Tente novamente</span>`
 }
 
-const DATAS_BADGE = `<span class="badge rounded-pill bg-warning">Datas Não Batem</span>`;
+const DATAS_BADGE = `<span class="badge rounded-pill bg-warning text-dark">Datas Não Batem</span>`;
 
 (function () {
     "use strict";
@@ -73,26 +73,30 @@ const DATAS_BADGE = `<span class="badge rounded-pill bg-warning">Datas Não Bate
             reader.readAsBinaryString(file);
         });
     }
-    window.onload = _start();
+    _startIndex();
 })();
 
-
-function _start() {
-    const meuRH = _getLocal('meuRH');
-    const epm = _getLocal('epm');
+function _startIndex() {
+    // _startLoad();
+    const meuRH = _getLocal('meuRH-result');
+    const epm = _getLocal('epm-result');
 
     if (meuRH) {
-        _meuRH();
+        _setLoaded('meuRH');
     } else {
         _setNotLoaded('meuRH');
-        _hideLogin();
     }
 
     if (epm) {
-        _epm();
+        _setLoaded('epm');
     } else {
         _setNotLoaded('epm');
     }
+
+    if (meuRH && epm) {
+        _checkOverlap();
+    }
+    // _endLoad();
 }
 
 function _setLoaded(type) {
@@ -122,20 +126,14 @@ function _setNoOverlap() {
         epm.innerHTML = DATAS_BADGE;
     }
 
-    _hideNavs();
+    _hideNav("meuRH");
+    _hideNav("epm");
 }
 
 function _setOverlap() {
     document.getElementById("overlaping").style.display = "none";
     _restoreBadge("meuRH");
     _restoreBadge("epm");
-}
-
-function _setNotLoaded(type) {
-    const badge = document.getElementById(type + "-status-badge")
-    const message = document.getElementById(type + "-status-message")
-    badge.innerHTML = `<span class="badge rounded-pill bg-warning text-dark">Não Carregado</span>`;
-    message.innerHTML = `<span class="text-muted small pt-2">Carregue para ter acesso a todos os recursos</span>`
 }
 
 function _updateKeypoints(result) {
@@ -147,24 +145,10 @@ function _updateKeypoints(result) {
     }
 }
 
-function _clearData() {
-    localStorage.removeItem('meuRH');
-    localStorage.removeItem('meuRH-result');
-    localStorage.removeItem('epm');
-    localStorage.removeItem('epm-result');
-    localStorage.removeItem('name');
-    localStorage.removeItem('fullName');
-    _start();
-}
-
 function _showLogin() {
     document.getElementById("name").innerHTML = _getLocal("name");
     document.getElementById("fullName").innerHTML = _getLocal("fullName");
     document.getElementById("login").style.display = "block";
-}
-
-function _hideLogin() {
-    document.getElementById("login").style.display = "none";
 }
 
 function _restoreBadge(type) {

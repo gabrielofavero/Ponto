@@ -30,7 +30,7 @@ function _epm() {
             _showNavs();
             _checkOverlap();
         } else {
-            _hideNavs();
+            _hideNav("epm");
         }
 
     } else {

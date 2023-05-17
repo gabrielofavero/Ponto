@@ -8,6 +8,8 @@
 (function () {
   "use strict";
 
+  // _startLoad();
+
   /**
    * Easy selector helper function
    */
@@ -318,14 +320,33 @@
     }, 200);
   }
 
-  if (_getLocal('meuRH') && _getLocal('epm')) {
-    _showNavs();
+  window.onload = function() {
+    _start();
+    // _endLoad();
+  };
+
+  
+})();
+
+async function _start() {
+  const meuRH = _getLocal('meuRH-result');
+  const epm = _getLocal('epm-result');
+
+  _checkLogin();
+
+  if (meuRH) {
+    _showNavs('meuRH');
   } else {
-    _hideNavs();
+    _hideNav('meuRH');
+    _hideLogin();
   }
 
-  window.onload = _checkLogin();
-})();
+  if (epm) {
+    _showNavs('epm');
+  } else {
+    _hideNav('epm');
+  }
+}
 
 function _checkLogin() {
   const name = _getLocal("name");
@@ -351,12 +372,41 @@ function _getLocal(localName) {
   }
 }
 
-function _showNavs() {
-  document.getElementById("meuRH-visualizar").style.display = "block";
-  document.getElementById("epm-visualizar").style.display = "block";
+function _showNavs(type) {
+  document.getElementById(type + "-visualizar").style.display = "block";
 }
 
-function _hideNavs() {
-  document.getElementById("meuRH-visualizar").style.display = "none";
-  document.getElementById("epm-visualizar").style.display = "none";
+function _hideNav(type) {
+  document.getElementById(type + "-visualizar").style.display = "none";
+}
+
+function _setNotLoaded(type) {
+  const badge = document.getElementById(type + "-status-badge")
+  const message = document.getElementById(type + "-status-message")
+  badge.innerHTML = `<span class="badge rounded-pill bg-warning text-dark">Não Carregado</span>`;
+  message.innerHTML = `<span class="text-muted small pt-2">Carregue para ter acesso a todos os recursos</span>`
+}
+
+function _hideLogin() {
+  document.getElementById("login").style.display = "none";
+}
+
+function _clearData() {
+  localStorage.removeItem('meuRH');
+  localStorage.removeItem('meuRH-result');
+  localStorage.removeItem('epm');
+  localStorage.removeItem('epm-result');
+  localStorage.removeItem('name');
+  localStorage.removeItem('fullName');
+  _start();
+}
+
+function _startLoad(){
+  document.getElementById("loading-container").style.display = "flex";
+  document.getElementById("main-container").style.display = "none";
+}
+
+function _endLoad(){
+  document.getElementById("loading-container").style.display = "none";
+  document.getElementById("main-container").style.display = "block";
 }

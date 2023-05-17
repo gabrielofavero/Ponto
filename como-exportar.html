@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Ponto</title>
+  <title>Ponto - Como Exportar</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -45,12 +45,13 @@
 </head>
 
 <body>
+
   <div id="loading-container">
     <div id="loading-content">
       <img id="dino-load" src="assets/img/dino-skate.gif" alt="Centered Image">
     </div>
   </div>
-  
+
   <div id="main-container">
     <div class="modal fade" id="verticalycentered" tabindex="-1">
       <div class="modal-dialog modal-dialog-centered">
@@ -117,7 +118,7 @@
       <ul class="sidebar-nav" id="sidebar-nav">
   
         <li class="nav-item">
-          <a class="nav-link" href="index.html">
+          <a class="nav-link collapsed" href="index.html">
             <i class="bi bi-upload"></i>
             <span>Carregar Arquivos</span>
           </a>
@@ -161,7 +162,7 @@
   
         <li class="nav-heading">Ajuda</li>
         <li class="nav-item">
-          <a class="nav-link collapsed" href="como-exportar.html">
+          <a class="nav-link" href="como-exportar.html">
             <i class="bi bi-question-circle"></i>
             <span>Como Exportar</span>
           </a>
@@ -178,77 +179,24 @@
     <main id="main" class="main">
   
       <div class="pagetitle">
-        <h1>Carregar Arquivos</h1>
-        <nav>
-          <br>
-          <div id="overlaping">
-            <span class="badge bg-danger"><i class="bi bi-exclamation-octagon me-1"></i> Atenção</span> Os Arquivos do Meu RH e do EPM cobrem períodos diferentes
-            <br><br>
-          </div>
-        </nav>
+        <h1>Como Exportar</h1>
       </div><!-- End Page Title -->
-  
-      <section class="section dashboard">
-        <div class="row">
-  
-          <!-- Left side columns -->
-          <div class="col-lg-8">
-            <div class="row">
-  
-              <!-- Sales Card -->
-              <div class="col-xxl-4 col-md-6" id="meuRH-card">
-                <div class="card info-card customers-card" id="meuRH-load">
-  
-                  <div class="filter" id="meuRH-filter">
-                    <label class="icon" id="meuRH-icon" for="meuRH-input"><i class="bi bi-upload"></i></label>
-                    <input type="file" id="meuRH-input" accept=".pdf">
-                  </div>
-  
-                  <div class="card-body">
-                    <h5 class="card-title">Meu RH <span>| Arquivo PDF</span></h5>
-  
-                    <div class="d-flex align-items-center">
-                      <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                        <i class="bi bi-filetype-pdf"></i>
-                      </div>
-                      <div class="ps-3" id="meuRH-status">
-                        <span id="meuRH-status-badge"></span><br>
-                        <span id="meuRH-status-message"></span><br>
-                      </div>
-                    </div>
-                  </div>
-  
-                </div>
-              </div><!-- End Sales Card -->
-  
-              <!-- Revenue Card -->
-              <div class="col-xxl-4 col-md-6" id="epm-card">
-                <div class="card info-card revenue-card" id="epm-load">
-  
-                  <div class="filter" id="epm-filter">
-                    <label class="icon" id="epm-icon" for="epm-input"><i class="bi bi-upload"></i></label>
-                    <input type="file" id="epm-input" accept=".xlsx">
-                  </div>
-  
-                  <div class="card-body">
-                    <h5 class="card-title">EPM <span>| Arquivo XLSX</span></h5>
-  
-                    <div class="d-flex align-items-center">
-                      <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                        <i class="bi bi-filetype-xlsx"></i>
-                      </div>
-                      <div class="ps-3" id="epm-status">
-                        <span id="epm-status-badge"></span><br>
-                        <span id="epm-status-message"></span><br>
-                      </div>
-                    </div>
-                  </div>
-  
-                </div>
-              </div><!-- End Revenue Card -->
-  
-        </div>
-      </section>
+      <div id="meuRH-tutorial">
+        <span class="badge bg-secondary"><i class="bi bi-info-circle me-1"></i> MeuRH</span> Após logar em sua conta, vá em <b>Espelho de Ponto</b> e selecione <b style="color: #0C9ABE;"><i class="bi bi-download"></i> Download</b>
+        <br><br>
+        <video class="video" controls>
+          <source src="assets/videos/meuRH-tutorial.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+      <div id="epm-tutorial">
+        <span class="badge bg-secondary"><i class="bi bi-info-circle me-1"></i> EPM</span> Após logar em sua conta, vá em <b>Tarefas</b>, clique na aba de <b>TAREFAS</b> e selecione <img src="assets/img/epm-export-excel.png" alt=""> <b>Exportar para Excel</b>
+        <br><br>
+        <video class="video" controls>
+          <source src="assets/videos/epm-tutorial.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </div>
   
     </main><!-- End #main -->
   
@@ -287,7 +235,6 @@
   <script src="assets/js/epm/epm.js"></script>
   <script src="assets/js/epm/compare.js"></script>
   <script src="assets/js/main/main.js"></script>
-  <script src="assets/js/main/index.js"></script>  
 
 </body>
 

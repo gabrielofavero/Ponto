@@ -1215,6 +1215,7 @@ h6 {
 --------------------------------------------------------------*/
 .footer {
   background-color: white;
+  position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
@@ -1223,6 +1224,7 @@ h6 {
   transition: all 0.3s;
   border-top: 1px solid #cddfff;
 }
+
 
 
 .footer .copyright {
@@ -1267,4 +1269,24 @@ h6 {
   #meuRH-card, #epm-card {
     width: 350px;
   }
+}
+
+#loading-container {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Adjust this value as needed */
+  background-color: white;
+}
+
+#loading-content {
+  text-align: center;
+}
+
+#dino-load{
+  height: 100px;
+}
+
+#login{
+  display: none;
 }
