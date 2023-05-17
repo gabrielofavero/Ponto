@@ -193,8 +193,8 @@
             <div class="col-xxl-4 col-md-6">
               <div class="card info-card customers-card" id="meuRH-load">
 
-                <div class="filter">
-                  <label class="icon" for="meuRH-input" style="cursor: pointer;"><i class="bi bi-upload"></i></label>
+                <div class="filter" id="meuRH-filter">
+                  <label class="icon" id="meuRH-icon" for="meuRH-input"><i class="bi bi-upload"></i></label>
                   <input type="file" id="meuRH-input" accept=".pdf">                  
                   <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                     <li class="dropdown-header text-start">
@@ -213,8 +213,8 @@
                       <i class="bi bi-filetype-pdf"></i>
                     </div>
                     <div class="ps-3" id="meuRH-status">
-                      <span> </span><br>
-                      <span class="text-muted small pt-2"> </span>
+                      <span id="meuRH-status-badge"></span><br>
+                      <span id="meuRH-status-message"></span><br>
                     </div>
                   </div>
                 </div>
@@ -226,8 +226,8 @@
             <div class="col-xxl-4 col-md-6">
               <div class="card info-card revenue-card" id="epm-load">
 
-                <div class="filter">
-                  <label class="icon" for="epm-input" style="cursor: pointer;"><i class="bi bi-upload"></i></label>
+                <div class="filter" id="epm-filter">
+                  <label class="icon" id="epm-icon" for="epm-input"><i class="bi bi-upload"></i></label>
                   <input type="file" id="epm-input" accept=".xlsx">     
                   <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                     <li class="dropdown-header text-start">
@@ -246,8 +246,8 @@
                       <i class="bi bi-filetype-xlsx"></i>
                     </div>
                     <div class="ps-3" id="epm-status">
-                      <span> </span><br>
-                      <span class="text-muted small pt-2"> </span>
+                      <span id="epm-status-badge"></span><br>
+                      <span id="epm-status-message"></span><br>
                     </div>
                   </div>
                 </div>

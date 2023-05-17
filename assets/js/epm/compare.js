@@ -45,26 +45,11 @@ function _checkOverlap(){
     
             const isOvelapping = (startDate1 <= endDate2 && endDate1 >= startDate2) || (startDate2 <= endDate1 && endDate2 >= startDate1)
     
-            if (!isOvelapping){
-                document.getElementById("overlaping").style.display = "block";
+            if (isOvelapping){
+                _setOverlap();
+            } else {
+                _setNoOverlap();
             }
         }
     }
 }
-
-function checkOverlap(start1, end1, start2, end2) {
-    const [day1, month1] = start1.split('/').map(Number);
-    const [day2, month2] = end1.split('/').map(Number);
-    const [day3, month3] = start2.split('/').map(Number);
-    const [day4, month4] = end2.split('/').map(Number);
-  
-    const startDate1 = new Date(new Date().getFullYear(), month1 - 1, day1);
-    const endDate1 = new Date(new Date().getFullYear(), month2 - 1, day2);
-    const startDate2 = new Date(new Date().getFullYear(), month3 - 1, day3);
-    const endDate2 = new Date(new Date().getFullYear(), month4 - 1, day4);
-  
-    return (
-      (startDate1 <= endDate2 && endDate1 >= startDate2) ||
-      (startDate2 <= endDate1 && endDate2 >= startDate1)
-    );
-  }

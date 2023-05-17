@@ -5,6 +5,25 @@
  * Author: BootstrapMade.com
  * License: https://bootstrapmade.com/license/
  */
+
+const NAO_CARREGADO_OBJ = {
+  badge: `<span class="badge rounded-pill bg-warning text-dark">Não Carregado</span>`,
+  message: `<span class="text-muted small pt-2">Carregue para ter acesso a todos os recursos</span>`
+}
+
+const CARREGADO_OBJ = {
+  badge: `<span class="badge rounded-pill bg-success">Carregado</span>`,
+  message: `<span class="text-muted small pt-2">Período: #1 - #2</span>`
+}
+
+const ERRO_OBJ = {
+  badge: `<span class="badge rounded-pill bg-danger">Erro</span>`,
+  message: `<br><span class="text-muted small pt-2">O arquivo não foi carregado corretamente. Tente novamente</span>`
+}
+
+const DATAS_BADGE = `<span class="badge rounded-pill bg-warning">Datas Não Batem</span>`;
+
+
 (function () {
   "use strict";
 
@@ -389,13 +408,6 @@ function _start() {
   } else {
     _setNotLoaded('epm');
   }
-
-  if (meuRH && epm) {
-    _showNavs();
-  } else {
-    _hideNavs();
-  }
-
 }
 
 function _getLocal(localName) {
@@ -412,18 +424,46 @@ function _getLocal(localName) {
 }
 
 function _setLoaded(type) {
-  let status = document.getElementById(type + "-status");
+  let badge = document.getElementById(type + "-status-badge");
+  let message = document.getElementById(type + "-status-message");
   let result = _getLocal(type + '-result')
   if (result && result["keypoints"] && result["keypoints"]["Início"] && result["keypoints"]["Fim"]) {
-    status.innerHTML = `<span class="badge rounded-pill bg-success">Carregado</span><br><span class="text-muted small pt-2">Período: ${result["keypoints"]["Início"]} - ${result["keypoints"]["Fim"]}</span>`
+    badge.innerHTML = CARREGADO_OBJ.badge;
+    message.innerHTML = CARREGADO_OBJ.message.replace('#1', result["keypoints"]["Início"]).replace('#2', result["keypoints"]["Fim"]);
   } else {
-    status.innerHTML = `<span class="badge rounded-pill bg-danger">Erro</span><br><span class="text-muted small pt-2">O arquivo não foi carregado corretamente. Tente novamente</span>`
+    badge.innerHTML = ERRO_OBJ.badge;
+    message.innerHTML = ERRO_OBJ.message;
   }
 }
 
+function _setNoOverlap(){
+  document.getElementById("overlaping").style.display = "block";
+
+  const meuRH = document.getElementById("meuRH-status-badge");
+  const epm = document.getElementById("epm-status-badge");
+
+  if (meuRH){
+    meuRH.innerHTML = DATAS_BADGE;
+  }
+
+  if (epm){
+    epm.innerHTML = DATAS_BADGE;
+  }
+
+  _hideNavs();
+}
+
+function _setOverlap(){
+  document.getElementById("overlaping").style.display = "none";
+  _restoreBadge("meuRH");
+  _restoreBadge("epm");
+}
+
 function _setNotLoaded(type) {
-  let status = document.getElementById(type + "-status")
-  status.innerHTML = `<span class="badge rounded-pill bg-warning text-dark">Não Carregado</span><br><span class="text-muted small pt-2">Carregue para ter acesso a todos os recursos</span>`;
+  const badge = document.getElementById(type + "-status-badge")
+  const message = document.getElementById(type + "-status-message")
+  badge.innerHTML = `<span class="badge rounded-pill bg-warning text-dark">Não Carregado</span>`;
+  message.innerHTML = `<span class="text-muted small pt-2">Carregue para ter acesso a todos os recursos</span>`
 }
 
 function _updateKeypoints(result) {
@@ -463,4 +503,20 @@ function _showNavs() {
 function _hideNavs() {
   document.getElementById("meuRH-visualizar").style.display = "none";
   document.getElementById("epm-visualizar").style.display = "none";
+}
+
+function _restoreBadge(type){
+  const badge = document.getElementById(type + "-status-badge");
+  const message = document.getElementById(type + "-status-message");
+  const currentMessage = message.innerHTML;
+
+  if (currentMessage){
+    if (currentMessage == NAO_CARREGADO_OBJ.message){
+      badge.innerHTML = NAO_CARREGADO_OBJ.badge;
+    } else if (currentMessage.includes('Período:')){
+      badge.innerHTML = CARREGADO_OBJ.badge;
+    } else if (currentMessage == ERRO_OBJ.message){
+      badge.innerHTML = ERRO_OBJ.badge;
+    }
+  }
 }
