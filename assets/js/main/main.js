@@ -318,6 +318,12 @@
     }, 200);
   }
 
+  if (_getLocal('meuRH') && _getLocal('epm')) {
+    _showNavs();
+  } else {
+    _hideNavs();
+  }
+
   window.onload = _checkLogin();
 })();
 
@@ -325,7 +331,7 @@ function _checkLogin() {
   const name = _getLocal("name");
   const fullName = _getLocal("fullName");
 
-  if (name && fullName){
+  if (name && fullName) {
     document.getElementById("name").innerHTML = name;
     document.getElementById("fullName").innerHTML = fullName;
     document.getElementById("login").style.display = "block";
@@ -335,12 +341,22 @@ function _checkLogin() {
 function _getLocal(localName) {
   let localData = localStorage.getItem(localName);
   if (localData) {
-      try {
-          return JSON.parse(localData);
-      } catch (e) {
-          return localData;
-      }
+    try {
+      return JSON.parse(localData);
+    } catch (e) {
+      return localData;
+    }
   } else {
-      return "";
+    return "";
   }
+}
+
+function _showNavs() {
+  document.getElementById("meuRH-visualizar").style.display = "block";
+  document.getElementById("epm-visualizar").style.display = "block";
+}
+
+function _hideNavs() {
+  document.getElementById("meuRH-visualizar").style.display = "none";
+  document.getElementById("epm-visualizar").style.display = "none";
 }

@@ -167,16 +167,6 @@ function _hideLogin() {
     document.getElementById("login").style.display = "none";
 }
 
-function _showNavs() {
-    document.getElementById("meuRH-visualizar").style.display = "block";
-    document.getElementById("epm-visualizar").style.display = "block";
-}
-
-function _hideNavs() {
-    document.getElementById("meuRH-visualizar").style.display = "none";
-    document.getElementById("epm-visualizar").style.display = "none";
-}
-
 function _restoreBadge(type) {
     const badge = document.getElementById(type + "-status-badge");
     const message = document.getElementById(type + "-status-message");
