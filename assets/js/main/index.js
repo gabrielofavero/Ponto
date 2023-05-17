@@ -73,7 +73,6 @@ const DATAS_BADGE = `<span class="badge rounded-pill bg-warning text-dark">Datas
             reader.readAsBinaryString(file);
         });
     }
-    _startIndex();
 })();
 
 function _startIndex() {

@@ -23,16 +23,15 @@ function _meuRH(){
         localStorage.setItem('meuRH-result', JSON.stringify(result));
         _setLoaded('meuRH');
         _showLogin();
+        _showNav("meuRH");
 
         if (_getLocal('epm')){
-            _showNavs();
             _checkOverlap();
-        } else {
-            _hideNav('epm');
         }
 
     } else {
         _setNotLoaded('meuRH');
+        _hideNav('meuRH');
     }
 }
 

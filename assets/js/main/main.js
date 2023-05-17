@@ -335,16 +335,20 @@ async function _start() {
   _checkLogin();
 
   if (meuRH) {
-    _showNavs('meuRH');
+    _showNav('meuRH');
   } else {
     _hideNav('meuRH');
     _hideLogin();
   }
 
   if (epm) {
-    _showNavs('epm');
+    _showNav('epm');
   } else {
     _hideNav('epm');
+  }
+
+  if (window.location.pathname == "/index.html") {
+    _startIndex();
   }
 }
 
@@ -372,7 +376,7 @@ function _getLocal(localName) {
   }
 }
 
-function _showNavs(type) {
+function _showNav(type) {
   document.getElementById(type + "-visualizar").style.display = "block";
 }
 
@@ -383,8 +387,10 @@ function _hideNav(type) {
 function _setNotLoaded(type) {
   const badge = document.getElementById(type + "-status-badge")
   const message = document.getElementById(type + "-status-message")
-  badge.innerHTML = `<span class="badge rounded-pill bg-warning text-dark">Não Carregado</span>`;
-  message.innerHTML = `<span class="text-muted small pt-2">Carregue para ter acesso a todos os recursos</span>`
+  if (badge && message) {
+    badge.innerHTML = `<span class="badge rounded-pill bg-warning text-dark">Não Carregado</span>`;
+    message.innerHTML = `<span class="text-muted small pt-2">Carregue para ter acesso a todos os recursos</span>`
+  }
 }
 
 function _hideLogin() {

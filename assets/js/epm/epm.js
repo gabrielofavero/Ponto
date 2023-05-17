@@ -25,15 +25,14 @@ function _epm() {
         console.log(result)
         localStorage.setItem('epm-result', JSON.stringify(result));
         _setLoaded('epm');
+        _showNav("epm");
 
         if (_getLocal('meuRH')){
-            _showNavs();
             _checkOverlap();
-        } else {
-            _hideNav("epm");
         }
 
     } else {
         _setNotLoaded('epm');
+        _hideNav("epm");
     }
 }
