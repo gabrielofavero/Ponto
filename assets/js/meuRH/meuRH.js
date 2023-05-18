@@ -3,6 +3,7 @@ function _meuRH() {
     let meuRH = JSON.parse(localStorage.getItem('meuRH'));
     if (meuRH) {
         let nameFound = false;
+        let funcaoFound = false;
         let result = {};
         let i = 0;
 
@@ -11,6 +12,9 @@ function _meuRH() {
             if (value.includes("Nome: ") && !nameFound) {
                 _updateName(value);
                 nameFound = true;
+            } else if (value.includes("Função: ") && !nameFound) {
+                _updateFuncao(value);
+                funcaoFound = true;
             } else if (_isFullDate(value)) {
                 if (!year) {
                     year = value.split("/")[2];
@@ -37,6 +41,11 @@ function _updateName(value) {
     }
     localStorage.setItem('name', split[0]);
     localStorage.setItem('fullName', split.join(" "));
+}
+
+function _updateFuncao(value) {
+    let funcao = value.split(" - ")[1];
+    localStorage.setItem('funcao', funcao);
 }
 
 function _processDay(meuRH, result, i) {

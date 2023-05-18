@@ -1291,3 +1291,41 @@ h6 {
 #login{
   display: none;
 }
+
+.time-badge{
+  position: absolute;
+  right: 0;
+  margin-right: 50px;
+}
+
+.inner-card-title, .inner-card-value {
+  font-size: 20px;
+  font-family: "Poppins", sans-serif;
+  text-align: center;
+}
+
+.inner-card-title {
+  padding: 20px 0 0 0;
+  font-weight: 500;
+  color: #012970;
+}
+
+.visualizar{
+  display: flex;
+}
+
+.inner-card-body {
+  flex: 1;
+}
+
+.item-horas-trabalhadas, .item-entrada, .item-meuRH, .item-editar, .item-mensagem {
+  margin-top: 20px;
+}
+
+.editado {
+  color: #084298;
+}
+
+.invalido{
+  color: #664D03
+}

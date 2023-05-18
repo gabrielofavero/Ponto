@@ -131,39 +131,21 @@
 
         <li class="nav-item">
           <a class="nav-link" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
-            <i class="bi bi-filetype-pdf"></i><span>Meu RH</span><i class="bi bi-chevron-down ms-auto"></i>
+            <i class="bi bi-archive"></i><span>Ponto</span><i class="bi bi-chevron-down ms-auto"></i>
           </a>
           <ul id="components-nav" class="nav-content" data-bs-parent="#sidebar-nav">
-            <li id="meuRH-visualizar">
-              <a href="meuRH-visualizar.html" class="active">
+            <li id="ponto-visualizar">
+              <a href="ponto-visualizar.html" class="active">
                 <i class="bi bi-circle"></i><span>Visualizar</span>
               </a>
             </li>
             <li>
-              <a href="meuRH-conversores.html">
-                <i class="bi bi-circle" id="meuRH-conversores"></i><span>Conversores</span>
+              <a href="ponto-conversores.html">
+                <i class="bi bi-circle" id="ponto-conversores"></i><span>Conversores</span>
               </a>
             </li>
           </ul>
         </li><!-- End Components Nav -->
-
-        <li class="nav-item">
-          <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
-            <i class="bi bi-filetype-xlsx"></i><span>EPM</span><i class="bi bi-chevron-down ms-auto"></i>
-          </a>
-          <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-            <li id="epm-visualizar">
-              <a href="epm-visualizar.html">
-                <i class="bi bi-circle"></i><span>Visualizar</span>
-              </a>
-            </li>
-            <li>
-              <a href="epm-conversores.html">
-                <i class="bi bi-circle" id="epm-conversores"></i><span>Conversores</span>
-              </a>
-            </li>
-          </ul>
-        </li><!-- End Forms Nav -->
 
         <li class="nav-heading">Ajuda</li>
         <li class="nav-item">
@@ -197,17 +179,17 @@
       <section class="section">
 
         <div class="row">
-          <div class="col-lg-3">
+          <div class="col-lg-6">
             <div class="card">
-              <div class="card-body">
-                <h5 class="card-title">Accordion without outline borders</h5>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3">
-            <div class="card">
-              <div class="card-body">
-                <h5 class="card-title">Accordion without outline borders</h5>
+              <div class="card-body visualizar">
+                <div class="inner-card-body">
+                  <div class="inner-card-title">Regime</div>
+                  <div class="inner-card-value">CLT</div>
+                </div>
+                <div class="inner-card-body">
+                  <div class="inner-card-title">Saldo</div>
+                  <div class="inner-card-value">03:00</div>
+                </div>
               </div>
             </div>
           </div>
@@ -223,59 +205,115 @@
                 <!-- Default Accordion -->
                 <div class="accordion" id="accordionExample">
                   <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingOne">
+                    <h2 class="accordion-header" id="heading0">
                       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                        Accordion Item #1
+                        data-bs-target="#collapse0" aria-expanded="false" aria-controls="collapse0">
+                        21/04 <span class="badge bg-success time-badge"><i class="bi bi-check-circle me-1"></i>
+                          08:00</span>
                       </button>
                     </h2>
-                    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+                    <div id="collapse0" class="accordion-collapse collapse" aria-labelledby="heading0"
                       data-bs-parent="#accordionExample">
                       <div class="accordion-body">
-                        <strong>This is the first item's accordion body.</strong> It is hidden by default, until the
-                        collapse plugin adds the appropriate classes that we use to style each element. These classes
-                        control the overall appearance, as well as the showing and hiding via CSS transitions. You can
-                        modify any of this with custom CSS or overriding our default variables. It's also worth noting
-                        that just about any HTML can go within the <code>.accordion-body</code>, though the transition
-                        does limit overflow.
+                        <div class="item-horas-trabalhadas" id="horasT0"><b>Horas Trabalhadas: </b> 08:00</div>
+
+                        <div class="item-entrada" id="entrada0"><b>Entrada: </b>09:00</div>
+                        <div class="item-saida" id="saida0"><b>Saída: </b>18:00</div>
+                        <div class="item-intervalos" id="invertalos0"><b>Intervalo(s): </b>01:00</div>
+                        <div class="item-batidas" id="Batidas0"><b>Batidas: </b>4</div>
+
+                        <div class="item-meuRH" id="meuRH0"><b>MeuRH: </b> 8,0</div>
+                        <div class="item-epm" id="epm0"><b>EPM: </b> 8,0</div>
+
+                        <div id="message0"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading1">
+                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
+                        22/04 <span class="badge bg-primary time-badge"><i class="bi bi-pencil me-1"></i>
+                          07:00</span>
+                      </button>
+                    </h2>
+                    <div id="collapse1" class="accordion-collapse collapse" aria-labelledby="heading1"
+                      data-bs-parent="#accordionExample">
+                      <div class="accordion-body">
+                        <div class="item-horas-trabalhadas" id="horasT1"><b>Horas Trabalhadas: </b> 08:00</div>
+
+                        <div class="item-entrada editado" id="entrada1"><b>Entrada: </b>09:00</div>
+                        <div class="item-saida" id="saida1"><b>Saída: </b>18:00</div>
+                        <div class="item-intervalos" id="invertalos1"><b>Intervalo(s): </b>01:00</div>
+                        <div class="item-batidas" id="Batidas1"><b>Batidas: </b>4</div>
+
+                        <div class="item-meuRH" id="meuRH1"><b>MeuRH: </b> 8,0</div>
+
+                        <div id="message1">
+                          <div class="alert alert-primary item-mensagem" role="alert">
+                            <i class="bi bi-pencil me-1"></i>
+                            <b>Entrada</b> foi editado. Atualize também no <b>MeuRH / EPM</b>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div> -->
+                  <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading2">
+                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
+                        23/04 <span class="badge bg-secondary time-badge"><i class="bi bi-info-circle me-1"></i>
+                          07:00</span>
+                      </button>
+                    </h2>
+                    <div id="collapse2" class="accordion-collapse collapse" aria-labelledby="heading2"
+                      data-bs-parent="#accordionExample">
+                      <div class="accordion-body">
+                        <div class="item-horas-trabalhadas" id="horasT2"><b>Horas Trabalhadas: </b> 08:00</div>
+
+                        <div class="item-entrada" id="entrada2"><b>Entrada: </b>09:00</div>
+                        <div class="item-saida" id="saida2"><b>Saída: </b>18:00</div>
+                        <div class="item-intervalos" id="invertalos2"><b>Intervalo(s): </b>01:00</div>
+                        <div class="item-batidas" id="Batidas2"><b>Batidas: </b>4</div>
+
+                        <div class="item-meuRH" id="meuRH2"><b>MeuRH: </b> 8,0</div>
+
+                        <div id="message2">
+                          <div class="alert alert-secondary item-mensagem" role="alert">
+                            <i class="bi bi-info-circle me-1"></i>
+                            Não é possível comparar com o <b>EPM</b> pois não existem dados para essa data.
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
                   <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingTwo">
+                    <h2 class="accordion-header" id="heading3">
                       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                        Accordion Item #2
+                        data-bs-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
+                        24/04 <span class="badge bg-warning text-dark time-badge"><i
+                            class="bi bi-exclamation-triangle me-1"></i> 08:00</span>
                       </button>
                     </h2>
-                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                    <div id="collapse3" class="accordion-collapse collapse" aria-labelledby="heading3"
                       data-bs-parent="#accordionExample">
                       <div class="accordion-body">
-                        <strong>This is the second item's accordion body.</strong> It is hidden by default, until the
-                        collapse plugin adds the appropriate classes that we use to style each element. These classes
-                        control the overall appearance, as well as the showing and hiding via CSS transitions. You can
-                        modify any of this with custom CSS or overriding our default variables. It's also worth noting
-                        that just about any HTML can go within the <code>.accordion-body</code>, though the transition
-                        does limit overflow.
-                      </div>
-                    </div>
-                  </div>
-                  <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingThree">
-                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                        Accordion Item #3
-                      </button>
-                    </h2>
-                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
-                      data-bs-parent="#accordionExample">
-                      <div class="accordion-body">
-                        <strong>This is the third item's accordion body.</strong> It is hidden by default, until the
-                        collapse plugin adds the appropriate classes that we use to style each element. These classes
-                        control the overall appearance, as well as the showing and hiding via CSS transitions. You can
-                        modify any of this with custom CSS or overriding our default variables. It's also worth noting
-                        that just about any HTML can go within the <code>.accordion-body</code>, though the transition
-                        does limit overflow.
+                        <div class="item-horas-trabalhadas" id="horasT2"><b>Horas Trabalhadas: </b> 08:00</div>
+
+                        <div class="item-entrada" id="entrada2"><b>Entrada: </b>09:00</div>
+                        <div class="item-saida" id="saida2"><b>Saída: </b>18:00</div>
+                        <div class="item-intervalos" id="invertalos2"><b>Intervalo(s): </b>01:00</div>
+                        <div class="item-batidas" id="Batidas2"><b>Batidas: </b>4</div>
+
+                        <div class="item-meuRH invalido" id="meuRH2"><b>MeuRH: </b> 8,0</div>
+                        <div class="item-epm invalido" id="epm2"><b>EPM: </b> 7,8</div>
+
+                        <div id="message2">
+                          <div class="alert alert-warning item-mensagem" role="alert">
+                            <i class="bi bi-exclamation-triangle me-1"></i>
+                           Os horários do <b>Meu RH</b> e <b>EPM</b> não batem.
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>

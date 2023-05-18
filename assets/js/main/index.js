@@ -76,8 +76,8 @@ const DATAS_BADGE = `<span class="badge rounded-pill bg-warning text-dark">Datas
 })();
 
 function _startIndex() {
-    const meuRH = _getLocal('meuRH-result');
-    const epm = _getLocal('epm-result');
+    const meuRH = _getLocal("meuRH");
+    const epm = _getLocal("epm");
     if (meuRH) {
         _setLoaded('meuRH');
     } else {
@@ -145,8 +145,8 @@ function _showLogin() {
 }
 
 function _restoreBadge(type) {
-    const badge = document.getElementById(type + "-status-badge");
-    const message = document.getElementById(type + "-status-message");
+    let badge = document.getElementById(type + "-status-badge");
+    let message = document.getElementById(type + "-status-message");
     const currentMessage = message.innerHTML;
     if (currentMessage) {
         if (currentMessage == NAO_CARREGADO_OBJ.message) {

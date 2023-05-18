@@ -335,19 +335,20 @@ async function _start() {
   _checkLogin();
 
   if (meuRH) {
-    _showNav('meuRH');
+    _showNav();
   } else {
-    _hideNav('meuRH');
     _hideLogin();
   }
 
   if (epm) {
-    _showNav('epm');
-  } else {
-    _hideNav('epm');
+    _showNav();
   }
 
-  if (window.location.pathname == "/index.html") {
+  if (!meuRH && !epm) {
+    _hideNav();
+  }
+
+  if (window.location.pathname == "/index.html" || window.location.pathname == "/") {
     _startIndex();
   }
 }
@@ -376,12 +377,12 @@ function _getLocal(localName) {
   }
 }
 
-function _showNav(type) {
-  document.getElementById(type + "-visualizar").style.display = "block";
+function _showNav() {
+  document.getElementById("ponto-visualizar").style.display = "block";
 }
 
-function _hideNav(type) {
-  document.getElementById(type + "-visualizar").style.display = "none";
+function _hideNav() {
+  document.getElementById("ponto-visualizar").style.display = "none";
 }
 
 function _setNotLoaded(type) {
