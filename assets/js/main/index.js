@@ -76,10 +76,8 @@ const DATAS_BADGE = `<span class="badge rounded-pill bg-warning text-dark">Datas
 })();
 
 function _startIndex() {
-    // _startLoad();
     const meuRH = _getLocal('meuRH-result');
     const epm = _getLocal('epm-result');
-
     if (meuRH) {
         _setLoaded('meuRH');
     } else {
@@ -92,10 +90,10 @@ function _startIndex() {
         _setNotLoaded('epm');
     }
 
+    _setYear();
     if (meuRH && epm) {
         _checkOverlap();
     }
-    // _endLoad();
 }
 
 function _setLoaded(type) {
@@ -113,18 +111,14 @@ function _setLoaded(type) {
 
 function _setNoOverlap() {
     document.getElementById("overlaping").style.display = "block";
-
     const meuRH = document.getElementById("meuRH-status-badge");
     const epm = document.getElementById("epm-status-badge");
-
     if (meuRH) {
         meuRH.innerHTML = DATAS_BADGE;
     }
-
     if (epm) {
         epm.innerHTML = DATAS_BADGE;
     }
-
     _hideNav("meuRH");
     _hideNav("epm");
 }
@@ -154,7 +148,6 @@ function _restoreBadge(type) {
     const badge = document.getElementById(type + "-status-badge");
     const message = document.getElementById(type + "-status-message");
     const currentMessage = message.innerHTML;
-
     if (currentMessage) {
         if (currentMessage == NAO_CARREGADO_OBJ.message) {
             badge.innerHTML = NAO_CARREGADO_OBJ.badge;
@@ -163,5 +156,12 @@ function _restoreBadge(type) {
         } else if (currentMessage == ERRO_OBJ.message) {
             badge.innerHTML = ERRO_OBJ.badge;
         }
+    }
+}
+
+function _setYear() {
+    const local = _getLocal("year");
+    if (!local) {
+        localStorage.setItem("year", (new Date()).getFullYear());
     }
 }
