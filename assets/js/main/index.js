@@ -13,7 +13,7 @@ const ERRO_OBJ = {
     message: `<br><span class="text-muted small pt-2">O arquivo não foi carregado corretamente. Tente novamente</span>`
 }
 
-const DATAS_BADGE = `<span class="badge rounded-pill bg-warning text-dark">Datas Não Batem</span>`;
+const DATAS_BADGE = `<span class="badge rounded-pill bg-danger">Datas Não Batem</span>`;
 
 (function () {
     "use strict";

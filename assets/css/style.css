@@ -1329,3 +1329,7 @@ h6 {
 .invalido{
   color: #664D03
 }
+
+.item-buttons{
+  text-align: right
+}

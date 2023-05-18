@@ -356,11 +356,16 @@ async function _start() {
 function _checkLogin() {
   const name = _getLocal("name");
   const fullName = _getLocal("fullName");
+  const job = _getLocal("job");
 
   if (name && fullName) {
     document.getElementById("name").innerHTML = name;
     document.getElementById("fullName").innerHTML = fullName;
     document.getElementById("login").style.display = "block";
+  }
+
+  if (job) {
+    document.getElementById("job").innerHTML = job;
   }
 }
 
