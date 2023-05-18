@@ -1,17 +1,21 @@
-function _meuRH(){
+function _meuRH() {
+    let year;
     let meuRH = JSON.parse(localStorage.getItem('meuRH'));
-
-    if (meuRH){
+    if (meuRH) {
         let nameFound = false;
         let result = {};
         let i = 0;
-    
+
         for (i; i < meuRH.length; i++) {
             let value = meuRH[i];
             if (value.includes("Nome: ") && !nameFound) {
                 _updateName(value);
                 nameFound = true;
             } else if (_isFullDate(value)) {
+                if (!year) {
+                    year = value.split("/")[2];
+                    localStorage.setItem('year', year);
+                }
                 _processDay(meuRH, result, i);
             } else if (value == "Banco de Horas") {
                 _processBancoDeHoras(meuRH, result, i);
@@ -21,17 +25,7 @@ function _meuRH(){
         _updateKeypoints(result);
         console.log(result)
         localStorage.setItem('meuRH-result', JSON.stringify(result));
-        _setLoaded('meuRH');
-        _showLogin();
-        _showNav("meuRH");
-
-        if (_getLocal('epm')){
-            _checkOverlap();
-        }
-
-    } else {
-        _setNotLoaded('meuRH');
-        _hideNav('meuRH');
+        _start();
     }
 }
 
@@ -54,16 +48,14 @@ function _processDay(meuRH, result, i) {
         [key]: {}
     };
     i++;
-
     let e = 0;
     let s = 0;
-
     for (i; i < meuRH.length; i++) {
         let value = meuRH[i];
         if (_isFullDate(value) || value == "Banco de Horas") {
             break;
         } else {
-            if (value && value.split(":").length == 2){
+            if (value && value.split(":").length == 2) {
                 if (e == s) {
                     e++;
                     system[key][ENTRADA + e] = value;
@@ -71,13 +63,13 @@ function _processDay(meuRH, result, i) {
                     s++;
                     system[key][SAIDA + s] = value;
                 }
-                }
             }
         }
-        result["system"] = Object.assign({}, result["system"], system);
     }
+    result["system"] = Object.assign({}, result["system"], system);
+}
 
-function _processBancoDeHoras(meuRH, result, i){
+function _processBancoDeHoras(meuRH, result, i) {
     let keys = [];
     let values = [];
     let keysFound = false;
@@ -108,10 +100,10 @@ function _getDayTime(day, dayObj) {
     let timeArray = [];
 
     if (size % 2 == 0) {
-        for (let i = 1; i <= size; i++ ) {
-            let entrada = dayObj["e"+i];
-            let saida = dayObj["s"+i];
-    
+        for (let i = 1; i <= size; i++) {
+            let entrada = dayObj["e" + i];
+            let saida = dayObj["s" + i];
+
             if (entrada && saida) {
                 timeArray.push(_timeDifference(entrada, saida));
             } else {

@@ -5,7 +5,6 @@ function _epm() {
         system: {},
         keypoints: {}
     };
-
     if (epm) {
         for (let i = 0; i < epm[0].length; i++) {
             let split = epm[0][i].split(" ");
@@ -24,15 +23,6 @@ function _epm() {
         _updateKeypoints(result);
         console.log(result)
         localStorage.setItem('epm-result', JSON.stringify(result));
-        _setLoaded('epm');
-        _showNav("epm");
-
-        if (_getLocal('meuRH')){
-            _checkOverlap();
-        }
-
-    } else {
-        _setNotLoaded('epm');
-        _hideNav("epm");
+        _start();
     }
 }
