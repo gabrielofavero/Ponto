@@ -320,12 +320,12 @@
     }, 200);
   }
 
-  window.onload = function() {
+  window.onload = function () {
     _start();
     // _endLoad();
   };
 
-  
+
 })();
 
 async function _start() {
@@ -407,12 +407,12 @@ function _clearData() {
   _start();
 }
 
-function _startLoad(){
+function _startLoad() {
   document.getElementById("loading-container").style.display = "flex";
   document.getElementById("main-container").style.display = "none";
 }
 
-function _endLoad(){
+function _endLoad() {
   document.getElementById("loading-container").style.display = "none";
   document.getElementById("main-container").style.display = "block";
 }

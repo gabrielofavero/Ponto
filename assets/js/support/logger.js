@@ -11,7 +11,7 @@ function _logger(type = "", message = "") {
             e.pop();
             let line = ":" + e.pop();
             let caller;
-            if (message.includes("@at:")){
+            if (message.includes("@at:")) {
                 caller = message.split("@at:")[1];
                 message = message.split("@at:")[0];
             } else {
@@ -43,11 +43,11 @@ function _getCallerFile() {
         while (err.stack.length) {
             callerfile = err.stack.shift().getFileName();
 
-            if(currentfile !== callerfile) break;
+            if (currentfile !== callerfile) break;
         }
-    } catch (e) {}
+    } catch (e) { }
 
-    Error.prepareStackTrace = originalFunc; 
+    Error.prepareStackTrace = originalFunc;
 
     return callerfile;
 }

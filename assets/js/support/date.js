@@ -8,14 +8,14 @@ function _timeToNumber(time) {
 function _numberToTime(number) {
     let before = "";
 
-    if (number < 0){
+    if (number < 0) {
         before = "-"
         number = -number;
     }
 
     let hour = Math.floor(number);
     let minute = Math.round((number - hour) * 60);
-    
+
     if (hour < 10) {
         hour = "0" + hour;
     }
@@ -47,10 +47,10 @@ function _isLater(time1, time2) {
     }
 }
 
-function _sumTime (timeArray){
+function _sumTime(timeArray) {
     let hour = 0;
     let minute = 0;
-    for (let i = 0; i < timeArray.length; i++){
+    for (let i = 0; i < timeArray.length; i++) {
         let split = timeArray[i].split(":");
         hour += parseInt(split[0]);
         minute += parseInt(split[1]);
