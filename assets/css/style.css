@@ -17,6 +17,13 @@ body {
   font-family: "Open Sans", sans-serif;
   background: #f6f9ff;
   color: #444444;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+#main-container {
+  flex: 1;
 }
 
 a {
@@ -1215,17 +1222,11 @@ h6 {
 --------------------------------------------------------------*/
 .footer {
   background-color: white;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
   padding: 20px 0;
   font-size: 14px;
   transition: all 0.3s;
   border-top: 1px solid #cddfff;
 }
-
-
 
 .footer .copyright {
   text-align: center;
