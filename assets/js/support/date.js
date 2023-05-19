@@ -144,8 +144,6 @@ function _getLatest(dateArray){
     return latest;
 }
 
-
-
 function _isTimeStringBiggerThen(timeString, biggerThen) {
     let split1 = timeString.split(":");
     let split2 = biggerThen.split(":");
@@ -157,3 +155,26 @@ function _isTimeStringBiggerThen(timeString, biggerThen) {
         return false;
     }
 }
+
+function _getDayOfTheWeek(key) {
+    const daysOfWeek = [
+      'Domingo',
+      'Segunda-feira',
+      'Terça-feira',
+      'Quarta-feira',
+      'Quinta-feira',
+      'Sexta-feira',
+      'Sábado'
+    ];
+  
+    const dateParts = key.split('/');
+    const day = parseInt(dateParts[0], 10);
+    const month = parseInt(dateParts[1], 10) - 1;
+    const year = parseInt(dateParts[2], 10);
+  
+    const date = new Date(year, month, day);
+    const dayOfWeekIndex = date.getDay();
+  
+    return daysOfWeek[dayOfWeekIndex];
+  }
+  

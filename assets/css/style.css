@@ -1396,6 +1396,10 @@ h6 {
 
 .common {
   font-size: 14px;
-  
   color: rgb(71, 71, 71);
+}
+
+.dayOfTheWeek{
+  color: gray;
+  margin-left: 10px;
 }
