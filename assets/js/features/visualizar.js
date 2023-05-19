@@ -13,7 +13,8 @@ const MESSAGES = {
     noMainInterval: "Apesar de ter feito um intervalo, ele não possui entre 1 a 2 horas.",
     noMainIntervals: "Apesar de ter feito intervalos, nenhum deles possui entre 1 a 2 horas.",
     odd: "Você marcou um número ímpar de batidas. Realize o ajuste manual para incluir o horário ausente.",
-
+    tooLongJourney: "Você trabalhou mais de 10 horas. Só é autorizado trabalhar até 2h extras por dia.",
+    internJourneyMismatch: "Você não trabalhou 6 horas. Estagiários devem trabalhar exatamente 6 horas por dia.",
 }
 
 const BUTTONS = {
@@ -187,24 +188,46 @@ function _loadPontoItem(i, key){
     const epm = _getLocal('epm-result');
     const manual = _getLocal('manual-result');
 
-    let ponto = {
-        i: i,
-        date: _dateStringToDateStringNoYear(key),
-        hours: {
-            badge: "",
-            value: ""  
-        },
-        interval: { class: "", value: "" },
-        tableHTML: "",
-        meuRH: { class: "", value: "" },
-        epm: { class: "", value: "" },
-        messagesHTML: ""
-      };
+    if ((meuRH && meuRH['system'][key]) || (epm && epm['system'][key]) || (manual && manual['system'][key])){
+        let ponto = {
+            i: i,
+            date: _dateStringToDateStringNoYear(key),
+            hours: {
+                badge: "",
+                value: ""
+            },
+            interval: {
+                class: "",
+                value: ""
+            },
+            punchesTableHTML: "",
+            meuRH: {
+                class: BADGES.warning.roundedPill,
+                value: "?"
+            },
+            epm: {
+                class: BADGES.warning.roundedPill,
+                value: "?"
+            },
+            messagesHTML: ""
+        };
 
+        let messages = [];
+    
+    
+        if (meuRH && meuRH['system'][key] && meuRH['system'][key].length > 0){
+            const punches = _calculatePunches(meuRH['system'][key], messages);
+            
+            ponto.punchesTableHTML = _getPunchesTableHTML(meuRH['system'][key], messages);
+            
+            ponto.hours.value = punches.hours.value;
+            ponto.hours.badge = punches.hours.badge;
 
-    if (meuRH && meuRH['system'][key]){
-        const punches = _calculatePunches(meuRH['system'][key]);
-        const punchesTableHTML = _getPunchesTableHTML(meuRH['system'][key]);
+            ponto.interval.value = punches.interval.value;
+            ponto.interval.class = punches.interval.class; 
+
+            ponto.meuRH.value = _timeToEPM(punches.hours.value);
+        }
     }
 }
 
@@ -236,7 +259,7 @@ function _getAccordionItemHTML(ponto){
         </div>
 
         <div class="item-comparison-container">
-        ${ponto.tableHTML}
+        ${ponto.punchesTableHTML}
         </div>
 
         <div class="item-comparison-container">
@@ -261,7 +284,7 @@ function _getAccordionItemHTML(ponto){
   </div>`
 }
 
-function _getPunchesTableHTML(punchesArray){
+function _getPunchesTableHTML(punchesArray, messages){
     if (punchesArray.length % 2 != 0){
         punchesArray.push('?')
     }
@@ -288,6 +311,7 @@ function _getPunchesTableHTML(punchesArray){
     if (punchesArray.length % 2 == 0){
         batidas = `<span class="common">${punchesArray.length}</span>`
     } else {
+        messages.push(MESSAGES.odd);
         batidas = `<span class="${BADGES.warning.roundedPill}">${punchesArray.length}</span>`
     }
 
@@ -306,4 +330,82 @@ function _getPunchesTableHTML(punchesArray){
     <span class="item-comparison-title">Batidas: </span>${batidas}
   </div>
     `
+}
+
+function _calculatePunches(array, messages){
+    let hArray = [];
+    let iArray = [];
+    let result = {
+        hours: {
+            badge: BADGES.warning.roundedPill,
+            value: "0:00"
+        },
+        interval: {
+            badge: BADGES.warning.roundedPill,
+            value: "0:00"
+        },
+    }
+
+    if (array.length > 1) {
+        for (let i = 1; i < array.length; i++) {
+            let time1 = array[i - 1];
+            let time2 = array[i]
+            let difference = _timeDifference(time1, time2);
+
+            if (i % 2 != 0) { 
+                hArray.push(difference);
+            } else {
+                iArray.push(difference);
+            }
+        }
+        result.hours.value = _sumTime(hArray);
+        result.interval = _sumTime(iArray);
+    }
+
+    result.hours.badge = _getHoursBadge(result.hours.value, messages);
+    result.interval.badge = _getIntervalBadge(result.hours.value, iArray, messages);
+
+    return result;
+}
+
+function _getHoursBadge(hours, messages){
+    const regime = _getRegime();
+
+    if (regime == "CLT" && _isTimeStringBiggerThen(hours,"10:00")){
+        messages.push(MESSAGES.tooLongJourney);
+        return BADGES.warning.roundedPill;
+    } else if (regime == "Estagiário" && hours != "06:00"){
+        messages.push(MESSAGES.internJourneyMismatch);
+        return BADGES.warning.roundedPill;
+    } else {
+        return "common";
+    }
+}
+
+function _getIntervalBadge(hours, iArray, messages){
+    result = "common";
+
+    if (_isTimeStringBiggerThen(hours, "06:00")){
+        switch(iArray.length){
+            case 0:
+                result = BADGES.warning.roundedPill;
+                messages.push(MESSAGES.noInterval);
+                break;
+            case 1:
+                if (_isTimeStringBiggerThen(iArray[0], "01:00") && !_isTimeStringBiggerThen(iArray[0], "02:00")){
+                    result = BADGES.warning.roundedPill;
+                    messages.push(MESSAGES.shortInterval);
+                }
+                break;
+            default:
+                for (let i = 0; i < iArray.length; i++){
+                    if (_isTimeStringBiggerThen(iArray[i], "01:00") && !_isTimeStringBiggerThen(iArray[i], "02:00")){
+                        result = BADGES.warning.roundedPill;
+                        messages.push(MESSAGES.shortIntervals);
+                        break;
+                    }
+                }
+        }
+    }
+    return result;
 }

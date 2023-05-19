@@ -18,7 +18,7 @@ function _epm() {
                     }
                 }
                 // round number to 1 decimal place
-                result["system"][key] = Math.round(sum * 10) / 10;
+                result["system"][key] = _numberToEpm(sum);
             }
         }
         _updateYearEPM(result);

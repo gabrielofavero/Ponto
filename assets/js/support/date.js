@@ -82,8 +82,24 @@ function _timeDifference(time1, time2) {
     return hour + ":" + minute;
 }
 
+function _timeToEPM(time) {
+    let split = time.split(":");
+    let hour = parseInt(split[0]);
+    let minute = parseInt(split[1]);
+    return _numberToEpm(hour + minute / 60);
+}
+
+function _stringNumberToEPM(string) {
+    let epm = _epmToNumber(string);
+    return _numberToEpm(epm);
+}
+
 function _epmToNumber(epm) { // "90,4h" -> 90.4
-    return parseFloat(epm.replace(",", "."));
+    return parseFloat(epm.replace(",", ".").toFixed(1));
+}
+
+function _numberToEpm(number) {
+    return number.toFixed(1).replace(".", ",");
 }
 
 function _dateStringToDateStringNoYear(dateString){
@@ -126,4 +142,16 @@ function _getLatest(dateArray){
         }
     }
     return latest;
+}
+
+function _isTimeStringBiggerThen(timeString, biggerThen) {
+    let split1 = timeString.split(":");
+    let split2 = biggerThen.split(":");
+    if (split1[0] > split2[0]) {
+        return true;
+    } else if (split1[0] == split2[0]) {
+        return split1[1] > split2[1];
+    } else {
+        return false;
+    }
 }

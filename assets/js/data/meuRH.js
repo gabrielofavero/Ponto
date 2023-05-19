@@ -139,32 +139,3 @@ function _getDayTime(day, dayObj) {
 
     return _sumTime(timeArray);
 }
-
-function _calculatePunches(array){
-    let hArray = [];
-    let iArray = [];
-    let result = {
-        hours: 0,
-        interval: 0
-    }
-    switch (array.length) {
-        case 0:
-        case 1:
-            return "0:00";
-        default:
-            for (let i = 1; i < array.length; i++) {
-                let time1 = array[i - 1];
-                let time2 = array[i]
-                let difference = _timeDifference(time1, time2);
-
-                if (i % 2 != 0) { 
-                    hArray.push(difference);
-                } else {
-                    iArray.push(difference);
-                }
-            }
-            result.hours = _sumTime(hArray);
-            result.interval = _sumTime(iArray);
-            return result;
-    }
-}
