@@ -1248,6 +1248,10 @@ h6 {
   cursor: pointer;
 }
 
+.video-container{
+  margin-top: 20px;
+}
+
 .video{
   width: 600px;
 }

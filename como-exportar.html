@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Ponto - Como Exportar</title>
+  <title>Ponto</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -99,6 +99,7 @@
             <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
               <li class="dropdown-header">
                 <h6 id="fullName"></h6>
+                <div id="job"></div>
                 <span>Vetta Tecnologia S/A</span>
               </li>
               <li>
@@ -130,40 +131,22 @@
         </li><!-- End Dashboard Nav -->
 
         <li class="nav-item">
-          <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
-            <i class="bi bi-filetype-pdf"></i><span>Meu RH</span><i class="bi bi-chevron-down ms-auto"></i>
+          <a class="nav-link" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+            <i class="bi bi-archive"></i><span>Ponto</span><i class="bi bi-chevron-down ms-auto"></i>
           </a>
-          <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-            <li id="meuRH-visualizar">
-              <a href="meuRH-visualizar.html">
+          <ul id="components-nav" class="nav-content" data-bs-parent="#sidebar-nav">
+            <li id="ponto-visualizar">
+              <a href="ponto-visualizar.html" class="active">
                 <i class="bi bi-circle"></i><span>Visualizar</span>
               </a>
             </li>
             <li>
-              <a href="meuRH-conversores.html">
-                <i class="bi bi-circle" id="meuRH-conversores"></i><span>Conversores</span>
+              <a href="ponto-conversores.html">
+                <i class="bi bi-circle" id="ponto-conversores"></i><span>Conversores</span>
               </a>
             </li>
           </ul>
         </li><!-- End Components Nav -->
-
-        <li class="nav-item">
-          <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
-            <i class="bi bi-filetype-xlsx"></i><span>EPM</span><i class="bi bi-chevron-down ms-auto"></i>
-          </a>
-          <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-            <li id="epm-visualizar">
-              <a href="epm-visualizar.html">
-                <i class="bi bi-circle"></i><span>Visualizar</span>
-              </a>
-            </li>
-            <li>
-              <a href="epm-conversores.html">
-                <i class="bi bi-circle" id="epm-conversores"></i><span>Conversores</span>
-              </a>
-            </li>
-          </ul>
-        </li><!-- End Forms Nav -->
 
         <li class="nav-heading">Ajuda</li>
         <li class="nav-item">
@@ -189,21 +172,25 @@
       <div id="meuRH-tutorial">
         <span class="badge bg-secondary"><i class="bi bi-info-circle me-1"></i> MeuRH</span> Após logar em sua conta, vá
         em <b>Espelho de Ponto</b> e selecione <b style="color: #0C9ABE;"><i class="bi bi-download"></i> Download</b>
-        <br><br>
-        <video class="video" controls>
-          <source src="assets/videos/meuRH-tutorial.mp4" type="video/mp4">
-          Your browser does not support the video tag.
-        </video>
+        <div class="video-container">
+          <video class="video" controls>
+            <source src="assets/videos/meuRH-tutorial.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
       </div>
+
       <div id="epm-tutorial">
         <span class="badge bg-secondary"><i class="bi bi-info-circle me-1"></i> EPM</span> Após logar em sua conta, vá
         em <b>Tarefas</b>, clique na aba de <b>TAREFAS</b> e selecione <img src="assets/img/epm-export-excel.png"
           alt=""> <b>Exportar para Excel</b>
-        <br><br>
-        <video class="video" controls>
-          <source src="assets/videos/epm-tutorial.mp4" type="video/mp4">
-          Your browser does not support the video tag.
-        </video>
+          <div class="video-container">
+            <video class="video" controls>
+              <source src="assets/videos/epm-tutorial.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        </div>
       </div>
 
     </main><!-- End #main -->
