@@ -178,7 +178,8 @@ function _loadPonto() {
         keysManual = Object.keys(manual['system']);
     }
 
-    let keys = keysMeuRH.concat(keysEPM, keysManual);
+    let keys = [...new Set(keysMeuRH.concat(keysEPM, keysManual))];
+    
     keys.sort((a, b) => {
         const dateA = new Date(a.split('/').reverse().join('/'));
         const dateB = new Date(b.split('/').reverse().join('/'));
