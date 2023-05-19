@@ -95,7 +95,7 @@ function _stringNumberToEPM(string) {
 }
 
 function _epmToNumber(epm) { // "90,4h" -> 90.4
-    return parseFloat(epm.replace(",", ".").toFixed(1));
+    return parseFloat(parseFloat(epm.replace(",", ".").replace("h","")).toFixed(1))
 }
 
 function _numberToEpm(number) {
@@ -143,6 +143,8 @@ function _getLatest(dateArray){
     }
     return latest;
 }
+
+
 
 function _isTimeStringBiggerThen(timeString, biggerThen) {
     let split1 = timeString.split(":");

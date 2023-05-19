@@ -89,7 +89,7 @@ function _startVisualizar(){
 
 function _getRegime(){
     let job = _getLocal('job');
-    if(job && (job.toLowerCase().includes('estagiário') || job.toLowerCase().includes('estagio'))){
+    if(job && (job.toLowerCase().includes('estagiario'))){
         job = 'Estagiário';
     } else {
         job = 'CLT';
@@ -136,8 +136,8 @@ function _getPeriodo(){
         endManual = _getDate(manual['keypoints']['Fim']);
     }
 
-    let start = _getEarliest([startMeuRH, startEPM, startManual]);
-    let end = _getLatest([endMeuRH, endEPM, endManual]);
+    let start = _getEarliest(filterDatesArray([startMeuRH, startEPM, startManual]));
+    let end = _getLatest(filterDatesArray([endMeuRH, endEPM, endManual]));
 
     result.start = _dateToDateStringNoYear(start);
     result.end = _dateToDateStringNoYear(end);
@@ -412,4 +412,11 @@ function _getIntervalBadge(hours, iArray, messages){
         }
     }
     return result;
+}
+
+function filterDatesArray(array){
+    var filteredArray = array.filter(function(value) {
+        return value !== undefined;
+      });
+    return filteredArray;
 }

@@ -80,12 +80,6 @@ function _updateKeypoints(result) {
     }
 }
 
-function _showLogin() {
-    document.getElementById("name").innerHTML = _getLocal("name");
-    document.getElementById("fullName").innerHTML = _getLocal("fullName");
-    document.getElementById("login").style.display = "block";
-}
-
 function _restoreBadge(type) {
     let badge = document.getElementById(type + "-status-badge");
     let message = document.getElementById(type + "-status-message");

@@ -392,8 +392,6 @@ async function _start() {
 
   if (meuRH) {
     _showNav();
-  } else {
-    _hideLogin();
   }
 
   if (epm) {
@@ -402,6 +400,9 @@ async function _start() {
 
   if (!meuRH && !epm) {
     _hideNav();
+    _hideLogin();
+  } else {
+    _showLogin();
   }
 
   switch (window.location.pathname) {
@@ -462,17 +463,18 @@ function _setNotLoaded(type) {
   }
 }
 
+function _showLogin() {
+  document.getElementById("name").innerHTML = _getLocal("name");
+  document.getElementById("fullName").innerHTML = _getLocal("fullName");
+  document.getElementById("login").style.display = "block";
+}
+
 function _hideLogin() {
   document.getElementById("login").style.display = "none";
 }
 
 function _clearData() {
-  localStorage.removeItem('meuRH');
-  localStorage.removeItem('meuRH-result');
-  localStorage.removeItem('epm');
-  localStorage.removeItem('epm-result');
-  localStorage.removeItem('name');
-  localStorage.removeItem('fullName');
+  localStorage.clear();
   window.location.href = "index.html";
 }
 

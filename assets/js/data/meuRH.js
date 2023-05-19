@@ -1,34 +1,39 @@
 function _meuRH() {
-    let year;
-    let meuRH = JSON.parse(localStorage.getItem('meuRH'));
-    if (meuRH) {
-        let nameFound = false;
-        let jobFound = false;
-        let result = {};
-        let i = 0;
-
-        for (i; i < meuRH.length; i++) {
-            let value = meuRH[i];
-            if (value.includes("Nome: ") && !nameFound) {
-                _updateName(value);
-                nameFound = true;
-            } else if (value.includes("Função: ") && !jobFound) {
-                _updateJob(value);
-                jobFound = true;
-            } else if (_isFullDate(value)) {
-                if (!year) {
-                    year = value.split("/")[2];
-                    localStorage.setItem('year', year);
+    try{
+        let year;
+        let meuRH = JSON.parse(localStorage.getItem('meuRH'));
+        if (meuRH) {
+            let nameFound = false;
+            let jobFound = false;
+            let result = {};
+            let i = 0;
+    
+            for (i; i < meuRH.length; i++) {
+                let value = meuRH[i];
+                if (value.includes("Nome: ") && !nameFound) {
+                    _updateName(value);
+                    nameFound = true;
+                } else if (value.includes("Função: ") && !jobFound) {
+                    _updateJob(value);
+                    jobFound = true;
+                } else if (_isFullDate(value)) {
+                    if (!year) {
+                        year = value.split("/")[2];
+                        localStorage.setItem('year', year);
+                    }
+                    _processDay(meuRH, result, i);
+                } else if (value == "Banco de Horas") {
+                    _processBancoDeHoras(meuRH, result, i);
+                    break;
                 }
-                _processDay(meuRH, result, i);
-            } else if (value == "Banco de Horas") {
-                _processBancoDeHoras(meuRH, result, i);
-                break;
             }
+            _updateKeypoints(result);
+            localStorage.setItem('meuRH-result', JSON.stringify(result));
+            _start();
         }
-        _updateKeypoints(result);
-        localStorage.setItem('meuRH-result', JSON.stringify(result));
+    } catch (e){
         _start();
+        _logger(ERROR, e.message || e.toString());
     }
 }
 
