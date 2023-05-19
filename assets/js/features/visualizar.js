@@ -228,6 +228,10 @@ function _loadPontoItem(i, key){
 
             ponto.meuRH.value = _timeToEPM(punches.hours.value);
         }
+
+        if (epm && epm['system'][key]){
+            ponto.epm.value = epm['system'][key];
+        }
     }
 }
 
