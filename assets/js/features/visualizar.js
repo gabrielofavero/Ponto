@@ -6,8 +6,8 @@ const MESSAGE_DIVS = {
 
 const MESSAGES = {
     manual: "Alguns dados foram editados manualmente. Atualize também no <b>MeuRH / EPM</b>",
-    noMeuRH: "Não é possível comparar com o <b>Meu RH</b> pois não existem dados para essa data.",
-    noEPM: "Não é possível comparar com o <b>EPM</b> pois não existem dados para essa data.",
+    meuRHMissing: "Não é possível comparar com o <b>Meu RH</b> pois não existem dados para essa data.",
+    epmMissing: "Não é possível comparar com o <b>EPM</b> pois não existem dados para essa data.",
     noMatch: "Os horários do <b>Meu RH</b> e <b>EPM</b> não batem.",
     noInterval: "Você trabalhou mais de 6 horas, mas não regitrou um intervalo de 1 a 2 horas.",
     noMainInterval: "Apesar de ter feito um intervalo, ele não possui entre 1 a 2 horas.",
@@ -65,6 +65,38 @@ const BADGES = {
         icon: ""
     }
 }
+
+const PONTO = {
+    key: "",
+    i: 0,
+    date: "",
+    title: {
+        roundedPill: BADGES.info.roundedPill,
+        badge: BADGES.info.badge,
+        value: "00:00",
+        icon: BADGES.info.icon
+    },
+    hours: {
+        roundedPill: BADGES.info.roundedPill,
+        badge: BADGES.info.badge,
+        value: "",
+        icon: BADGES.info.icon
+    },
+    interval: {
+        roundedPill: "",
+        value: ""
+    },
+    punchesTableHTML: "",
+    meuRH: {
+        roundedPill: BADGES.info.roundedPill,
+        value: "?"
+    },
+    epm: {
+        roundedPill: BADGES.info.roundedPill,
+        value: "?"
+    },
+    messagesHTML: ""
+};
 
 
 function _startVisualizar() {
@@ -197,82 +229,77 @@ function _loadPontoItem(i, key) {
     const manual = _getLocal('manual-result');
 
     if ((meuRH && meuRH['system'][key]) || (epm && epm['system'][key]) || (manual && manual['system'][key])) {
-        let ponto = {
-            i: i,
-            date: `${_dateStringToDateStringNoYear(key)}<div class="dayOfTheWeek"> ${_getDayOfTheWeek(key)}</div>`,
-            title: {
-                roundedPill: BADGES.info.roundedPill,
-                badge: BADGES.info.badge,
-                value: "00:00",
-                icon: BADGES.info.icon
-            },
-            hours: {
-                roundedPill: BADGES.info.roundedPill,
-                badge: BADGES.info.badge,
-                value: "",
-                icon: BADGES.info.icon
-            },
-            interval: {
-                roundedPill: "",
-                value: ""
-            },
-            punchesTableHTML: "",
-            meuRH: {
-                roundedPill: BADGES.info.roundedPill,
-                value: "?"
-            },
-            epm: {
-                roundedPill: BADGES.info.roundedPill,
-                value: "?"
-            },
-            messagesHTML: ""
-        };
-
+        let ponto = PONTO;
+        ponto.key = key;
+        ponto.i = i;
         messages = [];
 
-        if (meuRH && meuRH['system'][key]) {
-            const punches = _calculatePunches(meuRH['system'][key], messages);
+        // Date
+        _loadPontoDate(ponto);
 
-            ponto.punchesTableHTML = _getPunchesTableHTML(meuRH['system'][key], messages, i);
+        // Meu RH
+        _loadPontoItemMeuRH(ponto);
+        _validatePontoValue(ponto, "meuRH");
 
-            ponto.hours.value = punches.hours.value;
-            ponto.hours.roundedPill = punches.hours.roundedPill;
-            ponto.hours.badge = punches.hours.badge;
-            ponto.hours.icon = punches.hours.icon;
+        // EPM
+        _loadPontoItemEPM(ponto);
+        _validatePontoValue(ponto, "epm");
 
-            ponto.interval.value = punches.interval.value;
-            ponto.interval.roundedPill = punches.interval.roundedPill;
-            ponto.interval.icon = punches.interval.icon;
+        // Meu RH and EPM Comparison
+        _validateMeuRHAndEPM(ponto);
+         
+        // Messages HTML
+        _loadMessagesHTML(ponto);
 
-            ponto.meuRH.value = _timeToEPM(punches.hours.value);
-        }
-
-        if (ponto.meuRH.value == "?") {
-            messages.push(MESSAGES.noMeuRH);
-        } else {
-            ponto.meuRH.roundedPill = "common";
-        }
-
-        if (epm && epm['system'][key]) {
-            ponto.epm.value = epm['system'][key];
-        }
-
-        if (ponto.epm.value == "?") {
-            messages.push(MESSAGES.noEPM);
-        } else {
-            ponto.epm.roundedPill ="common";
-        }
-
-        if (ponto.meuRH.value != "?" && ponto.epm.value != "?" && ponto.meuRH.value != ponto.epm.value) {
-            ponto.meuRH.roundedPill = BADGES.warning.roundedPill;
-            ponto.epm.roundedPill = BADGES.warning.roundedPill;
-            messages.push(MESSAGES.noMatch);
-        }
-
-        ponto.messagesHTML = _getmessagesHTML(messages)
+        // Apply to HTML
         _loadAccordionItemHTML(ponto)
+        _updateBadgeColor(i)
         _setAccordionVisibility(i);
     }
+}
+
+function _loadPontoDate(ponto){
+    const dateNoYear = _dateStringToDateStringNoYear(ponto.key);
+    const dayOfTheWeek = _getDayOfTheWeek(ponto.key);
+    ponto.date = `${dateNoYear}<div class="dayOfTheWeek"> ${dayOfTheWeek}</div>`
+}
+
+function _loadPontoItemMeuRH(ponto){
+    const meuRH = _getLocal('meuRH-result');
+    if (meuRH && meuRH['system'][ponto.key]) {
+        const punches = _calculatePunches(meuRH['system'][ponto.key], messages);
+
+        ponto.punchesTableHTML = _getPunchesTableHTML(meuRH['system'][ponto.key], messages, ponto.i);
+    
+        ponto.hours.value = punches.hours.value;
+        ponto.hours.roundedPill = punches.hours.roundedPill;
+        ponto.hours.badge = punches.hours.badge;
+        ponto.hours.icon = punches.hours.icon;
+    
+        ponto.interval.value = punches.interval.value;
+        ponto.interval.roundedPill = punches.interval.roundedPill;
+        ponto.interval.icon = punches.interval.icon;
+    
+        ponto.title.value = punches.hours.value;
+        ponto.meuRH.value = _timeToEPM(punches.hours.value);
+    }
+}
+
+function _loadPontoItemEPM(ponto){
+    const meuRH = _getLocal('meuRH-result');
+    const epm = _getLocal('epm-result');
+    const manual = _getLocal('manual-result');
+    if (epm && epm['system'][ponto.key]) {
+        if ((!meuRH || !meuRH['system'][ponto.key]) && (!manual || !manual['system'][ponto.key])){
+            _loadPontoItemEPMExclusive(ponto);
+        } else {
+            ponto.epm.value = epm['system'][ponto.key];
+        }
+    }
+}
+
+function _loadPontoItemEPMExclusive(ponto){
+
 }
 
 function _loadAccordionItemHTML(ponto) {
@@ -281,7 +308,7 @@ function _loadAccordionItemHTML(ponto) {
     <h2 class="accordion-header" id="heading${ponto.i}">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
         data-bs-target="#collapse${ponto.i}" aria-expanded="false" aria-controls="collapse${ponto.i}">
-        ${ponto.date} <span class="badge bg-${ponto.title.badge} time-badge"><i class="${ponto.title.icon} me-1"></i>
+        ${ponto.date} <span class="badge bg-${ponto.title.badge} time-badge" id="badge${ponto.i}"><i class="${ponto.title.icon} me-1"></i>
           ${ponto.title.value}</span>
       </button>
     </h2>
@@ -289,7 +316,7 @@ function _loadAccordionItemHTML(ponto) {
       data-bs-parent="#ponto-accordion">
       <div class="accordion-body">
 
-        <div class="item-comparison-container">
+        <div class="item-comparison-container" id="comparison-container${ponto.i}">
           <div class="item-comparison-table">
             <div class="item-internal-container">
               <div class="item-comparison-title">Trabalho</div>
@@ -328,6 +355,24 @@ function _loadAccordionItemHTML(ponto) {
   </div>`
 
     document.getElementById("accordion-items").innerHTML += result;
+}
+
+function _validatePontoValue(ponto, value){
+    if (value == "meuRH" || value == "epm") {
+        if (ponto[value].value == "?") {
+            messages.push(MESSAGES[`${value}Missing`]);
+        } else {
+            ponto.meuRH.roundedPill = BADGES.common.roundedPill;
+        }
+    }
+}
+
+function _validateMeuRHAndEPM(ponto){
+    if (ponto.meuRH.value != "?" && ponto.epm.value != "?" && ponto.meuRH.value != ponto.epm.value) {
+        ponto.meuRH.roundedPill = BADGES.warning.roundedPill;
+        ponto.epm.roundedPill = BADGES.warning.roundedPill;
+        messages.push(MESSAGES.noMatch);
+    }
 }
 
 function _getPunchesTableHTML(punchesArray, messages, i) {
@@ -393,12 +438,12 @@ function _calculatePunches(array, messages) {
             badge: BADGES.common.badge,
             roundedPill: BADGES.common.roundedPill,
             icon: BADGES.common.icon,
-            value: "0:00"
+            value: "00:00"
         },
         interval: {
             roundedPill: BADGES.common.roundedPill,
             icon: BADGES.common.icon,
-            value: "0:00"
+            value: "00:00"
         },
     }
 
@@ -424,7 +469,6 @@ function _calculatePunches(array, messages) {
         result.interval.roundedPill = _getIntervalRoundedPill(result.hours.value, iArray, messages);
         result.interval.icon = _getIcon(result.interval.badge);
     }
-
     return result;
 }
 
@@ -526,7 +570,7 @@ function _setAccordionVisibility(i) {
     }
 }
 
-function _getmessagesHTML(messages) {
+function _loadMessagesHTML(ponto) {
     let result = [];
     for (let message of messages){
         let messageDiv;
@@ -534,14 +578,32 @@ function _getmessagesHTML(messages) {
             case MESSAGES.manual:
                 messageDiv = MESSAGE_DIVS.manual;
                 break;
-            case MESSAGES.noMeuRH:
-            case MESSAGES.noEPM:
+            case MESSAGES.meuRHMissing:
+            case MESSAGES.epmMissing:
                 messageDiv = MESSAGE_DIVS.info;
+                break;
+            case "":
+            case undefined:
+            case null:
                 break;
             default:
                 messageDiv = MESSAGE_DIVS.warning;
         }
-        result.push(messageDiv.replace("#1", message));
+        if (messageDiv){
+            result.push(messageDiv.replace("#1", message));
+        }
     }
-    return result.join("");
+    ponto.messagesHTML = result.join("");
+}
+
+function _updateBadgeColor(i){
+    const messageDiv = document.getElementById(`message${i}`)
+    const badge = document.getElementById(`badge${i}`);
+    let message = MESSAGES
+
+
+    if (messageDiv){
+
+    }
+
 }
