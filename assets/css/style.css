@@ -22,10 +22,6 @@ body {
   min-height: 100vh;
 }
 
-#main-container {
-  flex: 1;
-}
-
 a {
   color: #4154f1;
   text-decoration: none;
@@ -1272,8 +1268,13 @@ h6 {
   }
 }
 
-#loading-container {
+#main-container {
   display: none;
+  flex: 1;
+}
+
+#loading-container {
+  display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh; /* Adjust this value as needed */

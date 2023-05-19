@@ -10,7 +10,7 @@ const CARREGADO_OBJ = {
 
 const ERRO_OBJ = {
     badge: `<span class="badge rounded-pill bg-danger">Erro</span>`,
-    message: `<br><span class="text-muted small pt-2">O arquivo não foi carregado corretamente. Tente novamente</span>`
+    message: `<span class="text-muted small pt-2">O arquivo não foi carregado corretamente. Tente novamente</span>`
 }
 
 const DATAS_BADGE = `<span class="badge rounded-pill bg-danger">Datas Não Batem</span>`;
@@ -101,8 +101,10 @@ function _setLoaded(type) {
     let message = document.getElementById(type + "-status-message");
     let result = _getLocal(type + '-result')
     if (result && result["keypoints"] && result["keypoints"]["Início"] && result["keypoints"]["Fim"]) {
+        let start = _dateStringToDateStringNoYear(result["keypoints"]["Início"]);
+        let end = _dateStringToDateStringNoYear(result["keypoints"]["Fim"]);
         badge.innerHTML = CARREGADO_OBJ.badge;
-        message.innerHTML = CARREGADO_OBJ.message.replace('#1', result["keypoints"]["Início"]).replace('#2', result["keypoints"]["Fim"]);
+        message.innerHTML = CARREGADO_OBJ.message.replace('#1', start).replace('#2', end);
     } else {
         badge.innerHTML = ERRO_OBJ.badge;
         message.innerHTML = ERRO_OBJ.message;

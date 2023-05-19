@@ -27,7 +27,6 @@ function _meuRH() {
             }
         }
         _updateKeypoints(result);
-        console.log(result)
         localStorage.setItem('meuRH-result', JSON.stringify(result));
         _start();
     }
@@ -57,7 +56,7 @@ function _processDay(meuRH, result, i) {
     let ENTRADA = "e";
     let SAIDA = "s";
 
-    let key = _removeYear(meuRH[i]);
+    let key = meuRH[i]
     let system = {
         [key]: {}
     };

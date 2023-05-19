@@ -5,10 +5,9 @@
  * Author: BootstrapMade.com
  * License: https://bootstrapmade.com/license/
  */
+
 (function () {
   "use strict";
-
-  // _startLoad();
 
   /**
    * Easy selector helper function
@@ -320,10 +319,11 @@
     }, 200);
   }
 
-  window.onload = function () {
-    _start();
-    // _endLoad();
-  };
+  _start();
+
+  window.onload = function(){
+    _endLoad();
+}
 
 
 })();
@@ -348,9 +348,16 @@ async function _start() {
     _hideNav();
   }
 
-  if (window.location.pathname == "/index.html" || window.location.pathname == "/") {
-    _startIndex();
+  switch (window.location.pathname) {
+    case "/index.html":
+    case "/":
+      _startIndex();
+      break;
+    case "/ponto-visualizar.html":
+      _startVisualizar();
+      break;
   }
+
 }
 
 function _checkLogin() {

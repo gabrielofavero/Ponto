@@ -171,7 +171,7 @@
         <nav>
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-            <li class="breadcrumb-item">Meu RH</li>
+            <li class="breadcrumb-item">Ponto</li>
             <li class="breadcrumb-item active">Visualizar</li>
           </ol>
         </nav>
@@ -185,11 +185,11 @@
               <div class="card-body visualizar">
                 <div class="inner-card-body">
                   <div class="inner-card-title">Regime</div>
-                  <div class="inner-card-value">CLT</div>
+                  <div class="inner-card-value" id="regime"></div>
                 </div>
                 <div class="inner-card-body">
                   <div class="inner-card-title">Saldo</div>
-                  <div class="inner-card-value">03:00</div>
+                  <div class="inner-card-value" id="saldo"></div>
                 </div>
               </div>
             </div>
@@ -201,7 +201,7 @@
 
             <div class="card">
               <div class="card-body">
-                <h5 class="card-title">21/04 - 20/05</h5>
+                <h5 class="card-title" id="periodo"></h5>
 
                 <!-- Default Accordion -->
                 <div class="accordion" id="accordionExample">
@@ -381,10 +381,12 @@
   <!-- Template Main JS File -->
   <script src="assets/js/support/logger.js"></script>
   <script src="assets/js/support/date.js"></script>
-  <script src="assets/js/meuRH/meuRH.js"></script>
-  <script src="assets/js/epm/epm.js"></script>
+  <script src="assets/js/data/meuRH.js"></script>
+  <script src="assets/js/data/epm.js"></script>
+  <script src="assets/js/data/compare.js"></script>
   <script src="assets/js/features/visualizar.js"></script>
-  <script src="assets/js/epm/compare.js"></script>
+  <script src="assets/js/features/conversores.js"></script>
+  <script src="assets/js/features/index.js"></script>
   <script src="assets/js/main/main.js"></script>
 
 </body>

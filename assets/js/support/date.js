@@ -82,3 +82,45 @@ function _timeDifference(time1, time2) {
 function _epmToNumber(epm) { // "90,4h" -> 90.4
     return parseFloat(epm.replace(",", "."));
 }
+
+function _dateStringToDateStringNoYear(dateString){
+    let split = dateString.split("/");
+    return split[0] + "/" + split[1];
+}
+
+function _getDate(dateString) {
+    let split = dateString.split("/");
+    return new Date(split[2], split[1] - 1, split[0]);
+}
+
+function _dateToDateStringNoYear(date){
+    let day = date.getDate();
+    let month = date.getMonth() + 1;
+    if (day < 10){
+        day = "0" + day;
+    }
+    if (month < 10){
+        month = "0" + month;
+    }
+    return day + "/" + month;
+}
+
+function _getEarliest(dateArray){
+    let earliest = dateArray[0];
+    for (let i = 1; i < dateArray.length; i++){
+        if (dateArray[i] && dateArray[i] < earliest){
+            earliest = dateArray[i];
+        }
+    }
+    return earliest;
+}
+
+function _getLatest(dateArray){
+    let latest = dateArray[0];
+    for (let i = 1; i < dateArray.length; i++){
+        if (dateArray[i] && dateArray[i] > latest){
+            latest = dateArray[i];
+        }
+    }
+    return latest;
+}

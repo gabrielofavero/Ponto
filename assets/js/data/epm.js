@@ -20,9 +20,31 @@ function _epm() {
                 result["system"][key] = _numberToTime(sum);
             }
         }
+        _updateYearEPM(result);
         _updateKeypoints(result);
-        console.log(result)
         localStorage.setItem('epm-result', JSON.stringify(result));
         _start();
     }
+}
+
+function _updateYearEPM(epm){
+    let result = {
+        system: {}
+    };
+    let keys = Object.keys(epm["system"]);
+    let year = parseInt(_getLocal('year'));
+    let startMonth = parseInt(keys[0].split("/")[1]);
+
+    for (let key of keys){
+        let month = parseInt(key.split("/")[1]);
+        let newKey;
+        if (month <= startMonth){
+            newKey = key + "/" + year;
+        } else {
+            newKey = key + "/" + (year+1);
+        }
+        result["system"][newKey] = epm["system"][key];
+    }
+
+    epm["system"] = result["system"];
 }
