@@ -36,6 +36,8 @@ const BUTTONS = {
     }
 }
 
+var messages = [];
+
 const BADGES = {
     success: {
         badge: "success",
@@ -225,8 +227,7 @@ function _loadPontoItem(i, key) {
             messagesHTML: ""
         };
 
-        let messages = [];
-
+        messages = [];
 
         if (meuRH && meuRH['system'][key]) {
             const punches = _calculatePunches(meuRH['system'][key], messages);
@@ -242,25 +243,23 @@ function _loadPontoItem(i, key) {
             ponto.interval.roundedPill = punches.interval.roundedPill;
             ponto.interval.icon = punches.interval.icon;
 
-
-
             ponto.meuRH.value = _timeToEPM(punches.hours.value);
+        }
 
-            if (ponto.meuRH.value == "?") {
-                messages.push(MESSAGES.noMeuRH);
-            } else {
-                ponto.meuRH.roundedPill = "common";
-            }
-            
+        if (ponto.meuRH.value == "?") {
+            messages.push(MESSAGES.noMeuRH);
+        } else {
+            ponto.meuRH.roundedPill = "common";
         }
 
         if (epm && epm['system'][key]) {
             ponto.epm.value = epm['system'][key];
-            if (ponto.epm.value == "?") {
-                messages.push(MESSAGES.noEPM);
-            } else {
-                ponto.epm.roundedPill ="common";
-            }
+        }
+
+        if (ponto.epm.value == "?") {
+            messages.push(MESSAGES.noEPM);
+        } else {
+            ponto.epm.roundedPill ="common";
         }
 
         if (ponto.meuRH.value != "?" && ponto.epm.value != "?" && ponto.meuRH.value != ponto.epm.value) {
@@ -268,6 +267,8 @@ function _loadPontoItem(i, key) {
             ponto.epm.roundedPill = BADGES.warning.roundedPill;
             messages.push(MESSAGES.noMatch);
         }
+
+        ponto.messagesHTML = _getmessagesHTML(messages)
         _loadAccordionItemHTML(ponto)
         _setAccordionVisibility(i);
     }
@@ -522,4 +523,24 @@ function _setAccordionVisibility(i) {
     if (!eSize && !sSize) {
         document.getElementById(`punchesTable${i}`).style.display = "none";
     }
+}
+
+function _getmessagesHTML(messages) {
+    let result = [];
+    for (let message of messages){
+        let messageDiv;
+        switch (message) {
+            case MESSAGES.manual:
+                messageDiv = MESSAGE_DIVS.manual;
+                break;
+            case MESSAGES.noMeuRH:
+            case MESSAGES.noEPM:
+                messageDiv = MESSAGE_DIVS.info;
+                break;
+            default:
+                messageDiv = MESSAGE_DIVS.warning;
+        }
+        result.push(messageDiv.replace("#1", message));
+    }
+    return result.join("");
 }
