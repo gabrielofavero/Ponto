@@ -185,11 +185,11 @@
               <div class="card-body visualizar">
                 <div class="inner-card-body">
                   <div class="inner-card-title">Regime</div>
-                  <div class="inner-card-value" id="regime"></div>
+                  <div class="inner-card-value" id="regime">CLT</div>
                 </div>
                 <div class="inner-card-body">
                   <div class="inner-card-title">Saldo</div>
-                  <div class="inner-card-value" id="saldo"></div>
+                  <div class="inner-card-value" id="saldo">03:00</div>
                 </div>
               </div>
             </div>
@@ -201,11 +201,80 @@
 
             <div class="card">
               <div class="card-body">
-                <h5 class="card-title" id="periodo"></h5>
+                <h5 class="card-title" id="periodo">01/01 - 31/01</h5>
 
                 <!-- Default Accordion -->
                 <div class="accordion" id="ponto-accordion">
-                  <div id="accordion-items"></div>
+                  <div id="accordion-items">
+                    <div class="accordion-item">
+                      <h2 class="accordion-header" id="heading0">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                          data-bs-target="#collapse0" aria-expanded="false" aria-controls="collapse0">
+                          21/04 <span class="badge bg-success time-badge"><i class="bi bi-check-circle me-1"></i>
+                            08:00</span>
+                        </button>
+                      </h2>
+                      <div id="collapse0" class="accordion-collapse collapse" aria-labelledby="heading0"
+                        data-bs-parent="#ponto-accordion">
+                        <div class="accordion-body">
+
+                          <div class="item-comparison-container">
+                            <div class="item-comparison-table">
+                              <div class="item-internal-container">
+                                <div class="item-comparison-title">Trabalho</div>
+                                <div><span class="common">08:00</span></div>
+                              </div>
+                              <div class="item-internal-container">
+                                <div class="item-comparison-title">Intervalo</div>
+                                <div><span class="common">01:00</span></div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="item-comparison-container">
+                            <div class="item-comparison-table">
+                              <div class="item-internal-container">
+                                <div class="item-comparison-title">Entrada</div>
+                                <div><span class="common">09:00</span></div>
+                                <div><span class="common">13:00</span></div>
+                              </div>
+                              <div class="item-internal-container">
+                                <div class="item-comparison-title">Saída</div>
+                                <div><span class="common">12:00</span></div>
+                                <div><span class="common">18:00</span></div>
+                              </div>
+                              </div>
+                            <div class="item-internal-footer">
+                              <span class="item-comparison-title">Batidas: </span><span class="common">4</span>
+                            </div>
+                          </div>
+
+                          <div class="item-comparison-container">
+                            <div class="item-comparison-table">
+                              <div class="item-internal-container">
+                                <div class="item-comparison-title">Meu RH</div>
+                                <div><span class="badge rounded-pill bg-success">8,0</span></div>
+                              </div>
+                              <div class="item-internal-container">
+                                <div class="item-comparison-title">EPM</div>
+                                <div><span class="badge rounded-pill bg-success">8,0</span></div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="item-internal-messages" id="message0"></div>
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div id="buttons1" class="ponto-buttons">
+                    <button id="excluir" type="button" class="btn btn-warning first-button" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Excluir"><i class="bi bi-trash"></i></button>
+                    <button id="editar" type="button" class="btn btn-primary first-button" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Editar"><i class="bi bi-pencil"></i></button>
+                    <button id="cancelar" type="button" class="btn btn-danger first-button" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Cancelar"><i class="bi bi-x-circle"></i></button>
+                    <button id="novo" type="button" class="btn btn-success" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Novo Dia"><i class="bi bi-plus-circle"></i></button>
+                  </div>
                 </div>
               </div>
 

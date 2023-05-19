@@ -1335,6 +1335,67 @@ h6 {
   color: #664D03
 }
 
-.item-buttons{
-  text-align: right
+.valido{
+  color: #0B6623
+}
+
+.ponto-buttons{
+  text-align: right;
+  margin-top: 20px;
+}
+
+.first-button {
+  margin-right: 5px;
+}
+
+.value-meuRH{
+  margin-left: 5px;
+}
+
+.item-comparison-container {
+  background-color: #F6F9FF;
+  color: #012970;
+  width: 200px;
+  border-radius: 4px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+  border: 1px solid #EBEEF4;
+}
+
+.item-comparison-table {
+  display: flex;
+}
+
+.item-internal-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  margin: 0 10px;
+  padding-bottom: 5px;
+}
+
+.item-internal-footer {
+  border-top: 1px solid #EBEEF4;
+  padding: 1px;
+  font-size: small;
+  text-align: center;
+  display: inline-block;
+  width: 100%;
+  background-color: #EFF4FF;
+}
+
+.negativo {
+  color: #706940;
+}
+
+.item-internal-messages {
+  margin-bottom: 20px;
+}
+
+.common {
+  font-size: 14px;
+  
+  color: rgb(71, 71, 71);
 }

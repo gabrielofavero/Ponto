@@ -9,6 +9,62 @@
 (function () {
   "use strict";
 
+  const pdfInput = document.getElementById('meuRH-input');
+  if (pdfInput) {
+    pdfInput.addEventListener('change', async (event) => {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const pdf = await pdfjsLib.getDocument({
+        url: URL.createObjectURL(file)
+      }).promise;
+      const numPages = pdf.numPages;
+      const pdfTextContent = [];
+
+      for (let pageIndex = 1; pageIndex <= numPages; pageIndex++) {
+        const page = await pdf.getPage(pageIndex);
+        const
+          content = await page.getTextContent();
+        const strings = content.items.map(item => item.str.trim());
+        const lines = strings.join('\n').split('\n');
+
+        for (const line of lines) {
+          pdfTextContent.push(line);
+        }
+      }
+      localStorage.setItem('meuRH', JSON.stringify(pdfTextContent));
+      _meuRH();
+    });
+  }
+  const xlsxInput = document.getElementById('epm-input');
+  if (xlsxInput) {
+    xlsxInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const data = event.target.result;
+        const workbook = XLSX.read(data, {
+          type: 'binary'
+        });
+
+        const sheetName = workbook.SheetNames[0];
+        const sheet = workbook.Sheets[sheetName];
+        const rows = XLSX.utils.sheet_to_json(sheet, {
+          header: 1
+        });
+        const xlsxContent = [];
+
+        for (const row of rows) {
+          xlsxContent.push(row.map(cell => cell.toString()));
+        }
+        localStorage.setItem('epm', JSON.stringify(xlsxContent));
+        _epm();
+      };
+      reader.readAsBinaryString(file);
+    });
+  }
+
   /**
    * Easy selector helper function
    */
@@ -143,31 +199,31 @@
           }],
           ["bold", "italic", "underline", "strike"],
           [{
-            color: []
-          },
-          {
-            background: []
-          }
+              color: []
+            },
+            {
+              background: []
+            }
           ],
           [{
-            script: "super"
-          },
-          {
-            script: "sub"
-          }
+              script: "super"
+            },
+            {
+              script: "sub"
+            }
           ],
           [{
-            list: "ordered"
-          },
-          {
-            list: "bullet"
-          },
-          {
-            indent: "-1"
-          },
-          {
-            indent: "+1"
-          }
+              list: "ordered"
+            },
+            {
+              list: "bullet"
+            },
+            {
+              indent: "-1"
+            },
+            {
+              indent: "+1"
+            }
           ],
           ["direction", {
             align: []
@@ -201,31 +257,31 @@
     autosave_retention: '2m',
     image_advtab: true,
     link_list: [{
-      title: 'My page 1',
-      value: 'https://www.tiny.cloud'
-    },
-    {
-      title: 'My page 2',
-      value: 'http://www.moxiecode.com'
-    }
+        title: 'My page 1',
+        value: 'https://www.tiny.cloud'
+      },
+      {
+        title: 'My page 2',
+        value: 'http://www.moxiecode.com'
+      }
     ],
     image_list: [{
-      title: 'My page 1',
-      value: 'https://www.tiny.cloud'
-    },
-    {
-      title: 'My page 2',
-      value: 'http://www.moxiecode.com'
-    }
+        title: 'My page 1',
+        value: 'https://www.tiny.cloud'
+      },
+      {
+        title: 'My page 2',
+        value: 'http://www.moxiecode.com'
+      }
     ],
     image_class_list: [{
-      title: 'None',
-      value: ''
-    },
-    {
-      title: 'Some class',
-      value: 'class-name'
-    }
+        title: 'None',
+        value: ''
+      },
+      {
+        title: 'Some class',
+        value: 'class-name'
+      }
     ],
     importcss_append: true,
     file_picker_callback: (callback, value, meta) => {
@@ -252,20 +308,20 @@
       }
     },
     templates: [{
-      title: 'New Table',
-      description: 'creates a new table',
-      content: '<div class="mceTmpl"><table width="98%%"  border="0" cellspacing="0" cellpadding="0"><tr><th scope="col"> </th><th scope="col"> </th></tr><tr><td> </td><td> </td></tr></table></div>'
-    },
-    {
-      title: 'Starting my story',
-      description: 'A cure for writers block',
-      content: 'Once upon a time...'
-    },
-    {
-      title: 'New list with dates',
-      description: 'New List with dates',
-      content: '<div class="mceTmpl"><span class="cdate">cdate</span><br><span class="mdate">mdate</span><h2>My List</h2><ul><li></li><li></li></ul></div>'
-    }
+        title: 'New Table',
+        description: 'creates a new table',
+        content: '<div class="mceTmpl"><table width="98%%"  border="0" cellspacing="0" cellpadding="0"><tr><th scope="col"> </th><th scope="col"> </th></tr><tr><td> </td><td> </td></tr></table></div>'
+      },
+      {
+        title: 'Starting my story',
+        description: 'A cure for writers block',
+        content: 'Once upon a time...'
+      },
+      {
+        title: 'New list with dates',
+        description: 'New List with dates',
+        content: '<div class="mceTmpl"><span class="cdate">cdate</span><br><span class="mdate">mdate</span><h2>My List</h2><ul><li></li><li></li></ul></div>'
+      }
     ],
     template_cdate_format: '[Date Created (CDATE): %m/%d/%Y : %H:%M:%S]',
     template_mdate_format: '[Date Modified (MDATE): %m/%d/%Y : %H:%M:%S]',
@@ -321,9 +377,9 @@
 
   _start();
 
-  window.onload = function(){
+  window.onload = function () {
     _endLoad();
-}
+  }
 
 
 })();
@@ -417,7 +473,7 @@ function _clearData() {
   localStorage.removeItem('epm-result');
   localStorage.removeItem('name');
   localStorage.removeItem('fullName');
-  _start();
+  window.location.href = "index.html";
 }
 
 function _startLoad() {

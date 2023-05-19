@@ -53,28 +53,36 @@ function _updateJob(value) {
 }
 
 function _processDay(meuRH, result, i) {
-    let ENTRADA = "e";
-    let SAIDA = "s";
-
-    let key = meuRH[i]
+    const key = meuRH[i];
     let system = {
-        [key]: {}
+        [key]: []
     };
     i++;
-    let e = 0;
-    let s = 0;
     for (i; i < meuRH.length; i++) {
         let value = meuRH[i];
         if (_isFullDate(value) || value == "Banco de Horas") {
             break;
         } else {
             if (value && value.split(":").length == 2) {
-                if (e == s) {
-                    e++;
-                    system[key][ENTRADA + e] = value;
+                let valid = true;
+                if (system[key].length > 0){
+                    let time1 = system[key][system[key].length - 1].split(":");
+                    let hour1 = parseInt(time1[0]);
+                    let minute1 = parseInt(time1[1]);
+
+                    let time2 = value.split(":");
+                    let hour2 = parseInt(time2[0]);
+                    let minute2 = parseInt(time2[1]);
+
+                    if (hour2 < hour1 || (hour2 == hour1 && minute2 < minute1)){
+                        valid = false;
+                    }
+                }
+
+                if (valid){
+                    system[key].push(value.replace(" *", ""));
                 } else {
-                    s++;
-                    system[key][SAIDA + s] = value;
+                    break;
                 }
             }
         }
@@ -130,4 +138,33 @@ function _getDayTime(day, dayObj) {
     }
 
     return _sumTime(timeArray);
+}
+
+function _calculatePunches(array){
+    let hArray = [];
+    let iArray = [];
+    let result = {
+        hours: 0,
+        interval: 0
+    }
+    switch (array.length) {
+        case 0:
+        case 1:
+            return "0:00";
+        default:
+            for (let i = 1; i < array.length; i++) {
+                let time1 = array[i - 1];
+                let time2 = array[i]
+                let difference = _timeDifference(time1, time2);
+
+                if (i % 2 != 0) { 
+                    hArray.push(difference);
+                } else {
+                    iArray.push(difference);
+                }
+            }
+            result.hours = _sumTime(hArray);
+            result.interval = _sumTime(iArray);
+            return result;
+    }
 }

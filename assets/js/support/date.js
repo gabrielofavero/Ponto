@@ -15,14 +15,17 @@ function _numberToTime(number) {
 
     let hour = Math.floor(number);
     let minute = Math.round((number - hour) * 60);
+    return before + _hourMinuteToTime(hour, minute);
+}
 
+function _hourMinuteToTime(hour, minute) {
     if (hour < 10) {
         hour = "0" + hour;
     }
     if (minute < 10) {
         minute = "0" + minute;
     }
-    return before + hour + ":" + minute;
+    return hour + ":" + minute;
 }
 
 function _removeYear(date) {
