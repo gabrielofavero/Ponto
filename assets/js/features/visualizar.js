@@ -1,7 +1,8 @@
+// ==== Static Variables ====
 const MESSAGE_DIVS = {
     manual: `<div class="alert alert-primary item-mensagem" role="alert"><i class="bi bi-pencil me-1"></i> #1</div>`,
     info: `<div class="alert alert-secondary item-mensagem" role="alert"><i class="bi bi-info-circle me-1"></i> #1</div>`,
-    warning: `<div class="alert alert-warning item-mensagem" role="alert"><i class="bi bi-exclamation-triangle me-1"> #1</i></div>`
+    warning: `<div class="alert alert-warning item-mensagem" role="alert"><i class="bi bi-exclamation-triangle me-1"></i> #1</div>`
 }
 
 const MESSAGES = {
@@ -36,8 +37,6 @@ const BUTTONS = {
     }
 }
 
-var messages = [];
-
 const BADGES = {
     success: {
         badge: "success",
@@ -48,7 +47,6 @@ const BADGES = {
         badge: "warning",
         roundedPill: "badge rounded-pill bg-warning text-dark",
         icon: "bi bi-exclamation-triangle"
-        
     },
     danger: {
         badge: "danger",
@@ -67,7 +65,7 @@ const BADGES = {
     },
     common: {
         badge: "common",
-        roundedPill:"common",
+        roundedPill: "common",
         icon: ""
     }
 }
@@ -105,7 +103,10 @@ const PONTO = {
     messagesHTML: ""
 };
 
+// ==== Dynamic Variables ====
+var messages = [];
 
+// ==== Main ====
 function _startVisualizar() {
     let regime = _getRegime();
     let saldo = _getSaldo();
@@ -133,69 +134,7 @@ function _startVisualizar() {
 
 }
 
-function _getRegime() {
-    let job = _getLocal('job');
-    if (job && (job.toLowerCase().includes('estagiario'))) {
-        job = 'Estagiário';
-    } else {
-        job = 'CLT';
-    }
-    return job;
-}
-
-function _getSaldo() {
-    const meuRH = _getLocal('meuRH-result');
-    if (meuRH && meuRH['keypoints'] && meuRH['keypoints']['Saldo Atual']) {
-        return meuRH['keypoints']['Saldo Atual'];
-    } else return "";
-}
-
-function _getPeriodo() {
-    let result = {
-        start: "",
-        end: ""
-    }
-
-    const meuRH = _getLocal('meuRH-result');
-    const epm = _getLocal('epm-result');
-    const manual = _getLocal('manual-result');
-
-    let startMeuRH;
-    let endMeuRH;
-    let startEPM;
-    let endEPM;
-    let startManual;
-    let endManual;
-
-    if (meuRH && meuRH['keypoints'] && meuRH['keypoints']['Início'] && meuRH['keypoints']['Fim']) {
-        startMeuRH = _getDate(meuRH['keypoints']['Início']);
-        endMeuRH = _getDate(meuRH['keypoints']['Fim']);
-    }
-
-    if (epm && epm['keypoints'] && epm['keypoints']['Início'] && epm['keypoints']['Fim']) {
-        startEPM = _getDate(epm['keypoints']['Início']);
-        endEPM = _getDate(epm['keypoints']['Fim']);
-    }
-
-    if (manual && manual['keypoints'] && manual['keypoints']['Início'] && manual['keypoints']['Fim']) {
-        startManual = _getDate(manual['keypoints']['Início']);
-        endManual = _getDate(manual['keypoints']['Fim']);
-    }
-
-    let start = _getEarliest(_filterDatesArray([startMeuRH, startEPM, startManual]));
-    let end = _getLatest(_filterDatesArray([endMeuRH, endEPM, endManual]));
-
-    result.start = _dateToDateStringNoYear(start);
-    result.end = _dateToDateStringNoYear(end);
-
-    return result;
-}
-
-function _getPeriodoString() {
-    let periodo = _getPeriodo();
-    return periodo.start + " - " + periodo.end;
-}
-
+// ==== Loaders ====
 function _loadPonto() {
     const meuRH = _getLocal('meuRH-result');
     const epm = _getLocal('epm-result');
@@ -218,7 +157,7 @@ function _loadPonto() {
     }
 
     let keys = [...new Set(keysMeuRH.concat(keysEPM, keysManual))];
-    
+
     keys.sort((a, b) => {
         const dateA = new Date(a.split('/').reverse().join('/'));
         const dateB = new Date(b.split('/').reverse().join('/'));
@@ -254,7 +193,7 @@ function _loadPontoItem(i, key) {
 
         // Meu RH and EPM Comparison
         _validateMeuRHAndEPM(ponto);
-         
+
         // Messages HTML
         _loadMessagesHTML(ponto);
 
@@ -264,39 +203,39 @@ function _loadPontoItem(i, key) {
     }
 }
 
-function _loadPontoDate(ponto){
+function _loadPontoDate(ponto) {
     const dateNoYear = _dateStringToDateStringNoYear(ponto.key);
     const dayOfTheWeek = _getDayOfTheWeek(ponto.key);
     ponto.date = `${dateNoYear}<div class="dayOfTheWeek"> ${dayOfTheWeek}</div>`
 }
 
-function _loadPontoItemMeuRH(ponto){
+function _loadPontoItemMeuRH(ponto) {
     const meuRH = _getLocal('meuRH-result');
     if (meuRH && meuRH['system'][ponto.key]) {
-        const punches = _calculatePunches(meuRH['system'][ponto.key], messages);
+        const punches = _getPunches(meuRH['system'][ponto.key], messages);
 
         ponto.punchesTableHTML = _getPunchesTableHTML(meuRH['system'][ponto.key], messages, ponto.i);
-    
+
         ponto.hours.value = punches.hours.value;
         ponto.hours.roundedPill = punches.hours.roundedPill;
         ponto.hours.badge = punches.hours.badge;
         ponto.hours.icon = punches.hours.icon;
-    
+
         ponto.interval.value = punches.interval.value;
         ponto.interval.roundedPill = punches.interval.roundedPill;
         ponto.interval.icon = punches.interval.icon;
-    
+
         ponto.title.value = punches.hours.value;
         ponto.meuRH.value = _timeToEPM(punches.hours.value);
     }
 }
 
-function _loadPontoItemEPM(ponto){
+function _loadPontoItemEPM(ponto) {
     const meuRH = _getLocal('meuRH-result');
     const epm = _getLocal('epm-result');
     const manual = _getLocal('manual-result');
     if (epm && epm['system'][ponto.key]) {
-        if ((!meuRH || !meuRH['system'][ponto.key]) && (!manual || !manual['system'][ponto.key])){
+        if ((!meuRH || !meuRH['system'][ponto.key]) && (!manual || !manual['system'][ponto.key])) {
             _loadPontoItemEPMExclusive(ponto);
         } else {
             ponto.epm.value = epm['system'][ponto.key];
@@ -304,7 +243,7 @@ function _loadPontoItemEPM(ponto){
     }
 }
 
-function _loadPontoItemEPMExclusive(ponto){
+function _loadPontoItemEPMExclusive(ponto) {
 
 }
 
@@ -363,22 +302,110 @@ function _loadAccordionItemHTML(ponto) {
     document.getElementById("accordion-items").innerHTML += result;
 }
 
-function _validatePontoValue(ponto, value){
-    if (value == "meuRH" || value == "epm") {
-        if (ponto[value].value == "?") {
-            messages.push(MESSAGES[`${value}Missing`]);
-        } else {
-            ponto.meuRH.roundedPill = BADGES.common.roundedPill;
+function _loadMessagesHTML(ponto) {
+    let result = [];
+    let types = [];
+    for (let message of messages) {
+        let messageDiv;
+        switch (message) {
+            case MESSAGES.manual:
+                messageDiv = MESSAGE_DIVS.manual;
+                types.push(BADGES.manual.badge);
+                break;
+            case MESSAGES.meuRHMissing:
+            case MESSAGES.epmMissing:
+                messageDiv = MESSAGE_DIVS.info;
+                types.push(BADGES.info.badge);
+                break;
+            case "":
+            case undefined:
+            case null:
+                break;
+            default:
+                messageDiv = MESSAGE_DIVS.warning;
+                types.push(BADGES.warning.badge);
         }
+        if (messageDiv) {
+            result.push(messageDiv.replace("#1", message));
+        }
+    }
+    ponto.messagesHTML = result.join("");
+    let typesS = types.toString();
+
+    if (typesS.includes(BADGES.danger.badge)) {
+        ponto.title.badge = BADGES.danger.badge;
+        ponto.title.icon = BADGES.danger.icon;
+    } else if (typesS.includes(BADGES.warning.badge)) {
+        ponto.title.badge = BADGES.warning.badge;
+        ponto.title.icon = BADGES.warning.icon;
+        ponto.title.textType = "text-dark";
+    } else if (typesS.includes(BADGES.info.badge)) {
+        ponto.title.badge = BADGES.info.badge;
+        ponto.title.icon = BADGES.info.icon;
     }
 }
 
-function _validateMeuRHAndEPM(ponto){
-    if (ponto.meuRH.value != "?" && ponto.epm.value != "?" && ponto.meuRH.value != ponto.epm.value) {
-        ponto.meuRH.roundedPill = BADGES.warning.roundedPill;
-        ponto.epm.roundedPill = BADGES.warning.roundedPill;
-        messages.push(MESSAGES.noMatch);
+// ==== Getters ====
+function _getRegime() {
+    let job = _getLocal('job');
+    if (job && (job.toLowerCase().includes('estagiario'))) {
+        job = 'Estagiário';
+    } else {
+        job = 'CLT';
     }
+    return job;
+}
+
+function _getSaldo() {
+    const meuRH = _getLocal('meuRH-result');
+    if (meuRH && meuRH['keypoints'] && meuRH['keypoints']['Saldo Atual']) {
+        return meuRH['keypoints']['Saldo Atual'];
+    } else return "";
+}
+
+function _getPeriodo() {
+    let result = {
+        start: "",
+        end: ""
+    }
+    const meuRH = _getLocal('meuRH-result');
+    const epm = _getLocal('epm-result');
+    const manual = _getLocal('manual-result');
+
+    let startMeuRH;
+    let endMeuRH;
+    let startEPM;
+    let endEPM;
+    let startManual;
+    let endManual;
+
+    if (meuRH && meuRH['keypoints'] && meuRH['keypoints']['Início'] && meuRH['keypoints']['Fim']) {
+        startMeuRH = _getDate(meuRH['keypoints']['Início']);
+        endMeuRH = _getDate(meuRH['keypoints']['Fim']);
+    }
+
+    if (epm && epm['keypoints'] && epm['keypoints']['Início'] && epm['keypoints']['Fim']) {
+        startEPM = _getDate(epm['keypoints']['Início']);
+        endEPM = _getDate(epm['keypoints']['Fim']);
+    }
+
+    if (manual && manual['keypoints'] && manual['keypoints']['Início'] && manual['keypoints']['Fim']) {
+        startManual = _getDate(manual['keypoints']['Início']);
+        endManual = _getDate(manual['keypoints']['Fim']);
+    }
+
+    let start = _getEarliest(_getFilteredDateArray([startMeuRH, startEPM, startManual]));
+    let end = _getLatest(_getFilteredDateArray([endMeuRH, endEPM, endManual]));
+
+    result.start = _dateToDateStringNoYear(start);
+    result.end = _dateToDateStringNoYear(end);
+
+    return result;
+}
+
+function _getPeriodoString() {
+    let periodo = _getPeriodo();
+    return periodo.start + " - " + periodo.end;
 }
 
 function _getPunchesTableHTML(punchesArray, messages, i) {
@@ -436,7 +463,7 @@ function _getPunchesTableHTML(punchesArray, messages, i) {
     `
 }
 
-function _calculatePunches(array, messages) {
+function _getPunches(array, messages) {
     let hArray = [];
     let iArray = [];
     let result = {
@@ -491,14 +518,14 @@ function _getHoursBadge(hours, messages) {
     }
 }
 
-function _getHoursRoundedPill(badge){
-    switch (badge){
+function _getHoursRoundedPill(badge) {
+    switch (badge) {
         case BADGES.warning.badge:
             return BADGES.warning.roundedPill;
         case BADGES.danger.badge:
             return BADGES.danger.roundedPill;
         case BADGES.success.badge:
-            return BADGES.success.roundedPill;  
+            return BADGES.success.roundedPill;
         case BADGES.info.badge:
             return BADGES.info.roundedPill;
         default:
@@ -506,14 +533,14 @@ function _getHoursRoundedPill(badge){
     }
 }
 
-function _getIcon(badge){
-    switch (badge){
+function _getIcon(badge) {
+    switch (badge) {
         case BADGES.warning.badge:
             return BADGES.warning.icon;
         case BADGES.danger.badge:
             return BADGES.danger.icon;
         case BADGES.success.badge:
-            return BADGES.success.icon;  
+            return BADGES.success.icon;
         case BADGES.info.badge:
             return BADGES.info.icon;
         default:
@@ -542,7 +569,7 @@ function _getIntervalRoundedPill(hours, iArray, messages) {
                         hasMainInterval = true;
                         break;
                     }
-                    if (!hasMainInterval){
+                    if (!hasMainInterval) {
                         result = BADGES.warning.roundedPill;
                         messages.push(MESSAGES.noMainIntervals);
                     }
@@ -552,12 +579,34 @@ function _getIntervalRoundedPill(hours, iArray, messages) {
     return result;
 }
 
-function _filterDatesArray(array) {
+function _getFilteredDateArray(array) {
     var filteredArray = array.filter(function (value) {
         return value !== undefined;
     });
     return filteredArray;
 }
+
+// ==== Validators ====
+function _validatePontoValue(ponto, value) {
+    if (value == "meuRH" || value == "epm") {
+        if (ponto[value].value == "?") {
+            messages.push(MESSAGES[`${value}Missing`]);
+        } else {
+            ponto.meuRH.roundedPill = BADGES.common.roundedPill;
+        }
+    }
+}
+
+function _validateMeuRHAndEPM(ponto) {
+    if (ponto.meuRH.value != "?" && ponto.epm.value != "?" && ponto.meuRH.value != ponto.epm.value) {
+        ponto.meuRH.roundedPill = BADGES.warning.roundedPill;
+        ponto.epm.roundedPill = BADGES.warning.roundedPill;
+        messages.push(MESSAGES.noMatch);
+    }
+}
+
+
+// ==== Setters ====
 
 function _setAccordionVisibility(i) {
     let eSize = 0;
@@ -576,45 +625,3 @@ function _setAccordionVisibility(i) {
     }
 }
 
-function _loadMessagesHTML(ponto) {
-    let result = [];
-    let types = [];
-    for (let message of messages){
-        let messageDiv;
-        switch (message) {
-            case MESSAGES.manual:
-                messageDiv = MESSAGE_DIVS.manual;
-                types.push(BADGES.manual.badge);
-                break;
-            case MESSAGES.meuRHMissing:
-            case MESSAGES.epmMissing:
-                messageDiv = MESSAGE_DIVS.info;
-                types.push(BADGES.info.badge);
-                break;
-            case "":
-            case undefined:
-            case null:
-                break;
-            default:
-                messageDiv = MESSAGE_DIVS.warning;
-                types.push(BADGES.warning.badge);
-        }
-        if (messageDiv){
-            result.push(messageDiv.replace("#1", message));
-        }
-    }
-    ponto.messagesHTML = result.join("");
-    let typesS = types.toString();
-
-    if (typesS.includes(BADGES.danger.badge)){
-        ponto.title.badge = BADGES.danger.badge;
-        ponto.title.icon = BADGES.danger.icon;
-    } else if (typesS.includes(BADGES.warning.badge)){
-        ponto.title.badge = BADGES.warning.badge;
-        ponto.title.icon = BADGES.warning.icon;
-        ponto.title.textType = "text-dark";
-    } else if (typesS.includes(BADGES.info.badge)){
-        ponto.title.badge = BADGES.info.badge;
-        ponto.title.icon = BADGES.info.icon;
-    }
-}
