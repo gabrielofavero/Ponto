@@ -1,7 +1,7 @@
 const MESSAGE_DIVS = {
-    manual: `<div class="alert alert-primary item-mensagem" role="alert"><i class="bi bi-pencil me-1"></i>#1</div>`,
-    info: `<div class="alert alert-secondary item-mensagem" role="alert"><i class="bi bi-info-circle me-1"></i>#1</div>`,
-    warning: `<div class="alert alert-warning item-mensagem" role="alert"><i class="bi bi-exclamation-triangle me-1"></i></div>`
+    manual: `<div class="alert alert-primary item-mensagem" role="alert"><i class="bi bi-pencil me-1"></i> #1</div>`,
+    info: `<div class="alert alert-secondary item-mensagem" role="alert"><i class="bi bi-info-circle me-1"></i> #1</div>`,
+    warning: `<div class="alert alert-warning item-mensagem" role="alert"><i class="bi bi-exclamation-triangle me-1"> #1</i></div>`
 }
 
 const MESSAGES = {
@@ -10,8 +10,8 @@ const MESSAGES = {
     epmMissing: "Não é possível comparar com o <b>EPM</b> pois não existem dados para essa data.",
     noMatch: "Os horários do <b>Meu RH</b> e <b>EPM</b> não batem.",
     noInterval: "Você trabalhou mais de 6 horas, mas não regitrou um intervalo de 1 a 2 horas.",
-    noMainInterval: "Apesar de ter feito um intervalo, ele não possui entre 1 a 2 horas.",
-    noMainIntervals: "Apesar de ter feito intervalos, nenhum deles possui entre 1 a 2 horas.",
+    noMainInterval: "Apesar de você ter feito um intervalo, ele não está entre <b>01:00 a 02:00</b>.",
+    noMainIntervals: "Apesar de ter feito intervalos, nenhum deles está entre <b>01:00 a 02:00</b>.",
     odd: "Você marcou um número ímpar de batidas. Realize o ajuste manual para incluir o horário ausente.",
     tooLongJourney: "Você trabalhou mais de 10 horas. Só é autorizado trabalhar até 2h extras por dia.",
     internJourneyMismatch: "Você não trabalhou 6 horas. Estagiários devem trabalhar exatamente 6 horas por dia.",
@@ -46,8 +46,9 @@ const BADGES = {
     },
     warning: {
         badge: "warning",
-        roundedPill: "badge rounded-pill bg-warning",
+        roundedPill: "badge rounded-pill bg-warning text-dark",
         icon: "bi bi-exclamation-triangle"
+        
     },
     danger: {
         badge: "danger",
@@ -58,6 +59,11 @@ const BADGES = {
         badge: "secondary",
         roundedPill: "badge rounded-pill bg-secondary",
         icon: "bi bi-info-circle"
+    },
+    manual: {
+        badge: "primary",
+        roundedPill: "badge rounded-pill bg-primary",
+        icon: "bi bi-pencil"
     },
     common: {
         badge: "common",
@@ -71,10 +77,11 @@ const PONTO = {
     i: 0,
     date: "",
     title: {
-        roundedPill: BADGES.info.roundedPill,
-        badge: BADGES.info.badge,
+        roundedPill: BADGES.success.roundedPill,
+        badge: BADGES.success.badge,
         value: "00:00",
-        icon: BADGES.info.icon
+        icon: BADGES.success.icon,
+        textType: ""
     },
     hours: {
         roundedPill: BADGES.info.roundedPill,
@@ -229,7 +236,7 @@ function _loadPontoItem(i, key) {
     const manual = _getLocal('manual-result');
 
     if ((meuRH && meuRH['system'][key]) || (epm && epm['system'][key]) || (manual && manual['system'][key])) {
-        let ponto = PONTO;
+        let ponto = JSON.parse(JSON.stringify(PONTO));
         ponto.key = key;
         ponto.i = i;
         messages = [];
@@ -253,7 +260,6 @@ function _loadPontoItem(i, key) {
 
         // Apply to HTML
         _loadAccordionItemHTML(ponto)
-        _updateBadgeColor(i)
         _setAccordionVisibility(i);
     }
 }
@@ -308,7 +314,7 @@ function _loadAccordionItemHTML(ponto) {
     <h2 class="accordion-header" id="heading${ponto.i}">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
         data-bs-target="#collapse${ponto.i}" aria-expanded="false" aria-controls="collapse${ponto.i}">
-        ${ponto.date} <span class="badge bg-${ponto.title.badge} time-badge" id="badge${ponto.i}"><i class="${ponto.title.icon} me-1"></i>
+        ${ponto.date} <span class="badge bg-${ponto.title.badge} time-badge ${ponto.title.textType}" id="badge${ponto.i}"><i class="${ponto.title.icon} me-1"></i>
           ${ponto.title.value}</span>
       </button>
     </h2>
@@ -460,7 +466,7 @@ function _calculatePunches(array, messages) {
             }
         }
         result.hours.value = _sumTime(hArray);
-        result.interval = _sumTime(iArray);
+        result.interval.value = _sumTime(iArray);
 
         result.hours.badge = _getHoursBadge(result.hours.value, messages);
         result.hours.roundedPill = _getHoursRoundedPill(result.hours.badge);
@@ -572,15 +578,18 @@ function _setAccordionVisibility(i) {
 
 function _loadMessagesHTML(ponto) {
     let result = [];
+    let types = [];
     for (let message of messages){
         let messageDiv;
         switch (message) {
             case MESSAGES.manual:
                 messageDiv = MESSAGE_DIVS.manual;
+                types.push(BADGES.manual.badge);
                 break;
             case MESSAGES.meuRHMissing:
             case MESSAGES.epmMissing:
                 messageDiv = MESSAGE_DIVS.info;
+                types.push(BADGES.info.badge);
                 break;
             case "":
             case undefined:
@@ -588,22 +597,24 @@ function _loadMessagesHTML(ponto) {
                 break;
             default:
                 messageDiv = MESSAGE_DIVS.warning;
+                types.push(BADGES.warning.badge);
         }
         if (messageDiv){
             result.push(messageDiv.replace("#1", message));
         }
     }
     ponto.messagesHTML = result.join("");
-}
+    let typesS = types.toString();
 
-function _updateBadgeColor(i){
-    const messageDiv = document.getElementById(`message${i}`)
-    const badge = document.getElementById(`badge${i}`);
-    let message = MESSAGES
-
-
-    if (messageDiv){
-
+    if (typesS.includes(BADGES.danger.badge)){
+        ponto.title.badge = BADGES.danger.badge;
+        ponto.title.icon = BADGES.danger.icon;
+    } else if (typesS.includes(BADGES.warning.badge)){
+        ponto.title.badge = BADGES.warning.badge;
+        ponto.title.icon = BADGES.warning.icon;
+        ponto.title.textType = "text-dark";
+    } else if (typesS.includes(BADGES.info.badge)){
+        ponto.title.badge = BADGES.info.badge;
+        ponto.title.icon = BADGES.info.icon;
     }
-
 }
