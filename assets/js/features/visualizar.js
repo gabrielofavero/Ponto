@@ -417,7 +417,7 @@ function _getPunchesTableHTML(punchesArray, messages, i) {
     let batidas;
 
     for (let j = 0; j < punchesArray.length; j++) {
-        let value = `<span class="#1" id="#2">${punchesArray[i]}</span>`
+        let value = `<span class="#1" id="#2">${punchesArray[j]}</span>`
 
         if (punchesArray[j] == "?") {
             value = value.replace('#1', BADGES.warning.roundedPill);
@@ -447,13 +447,13 @@ function _getPunchesTableHTML(punchesArray, messages, i) {
     <div class="item-internal-container">
       <div class="item-comparison-title">Entrada</div>
         <div id="entradas${i}">
-            ${entradas.join('')}
+            ${entradas.join('<br>')}
         </div>
     </div>
     <div class="item-internal-container">
       <div class="item-comparison-title">Saída</div>
         <div id="saidas${i}">
-            ${saidas.join('')}
+            ${saidas.join('<br>')}
         </div>
     </div>
   </div>
