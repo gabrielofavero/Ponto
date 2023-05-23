@@ -61,13 +61,7 @@ function _sumTime(timeArray) {
     hour += Math.floor(minute / 60);
     minute = minute % 60;
 
-    if (hour < 10) {
-        hour = "0" + hour;
-    }
-    if (minute < 10) {
-        minute = "0" + minute;
-    }
-    return hour + ":" + minute;
+    return _hourMinuteToTime(hour, minute);
 }
 
 function _timeDifference(time1, time2) {
@@ -79,7 +73,7 @@ function _timeDifference(time1, time2) {
         hour--;
         minute += 60;
     }
-    return hour + ":" + minute;
+    return _hourMinuteToTime(hour, minute);
 }
 
 function _timeToEPM(time) {
@@ -89,13 +83,21 @@ function _timeToEPM(time) {
     return _numberToEpm(hour + minute / 60);
 }
 
+function _epmToTime(epm){
+    let number = _epmToNumber(epm);
+    let hour = Math.floor(number);
+    let minute = (number - hour) * 60;
+    minute = Math.round(minute)
+    return _hourMinuteToTime(hour, minute)
+}
+
 function _stringNumberToEPM(string) {
     let epm = _epmToNumber(string);
     return _numberToEpm(epm);
 }
 
-function _epmToNumber(epm) { // "90,4h" -> 90.4
-    return parseFloat(parseFloat(epm.replace(",", ".").replace("h","")).toFixed(1))
+function _epmToNumber(epm) { // "90,4123h" -> 90.4
+    return parseFloat(parseFloat(epm.replace(",", ".").replace("h","")))
 }
 
 function _numberToEpm(number) {

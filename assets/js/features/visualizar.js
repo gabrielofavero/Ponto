@@ -10,9 +10,9 @@ const MESSAGES = {
     meuRHMissing: "Não é possível comparar com o <b>Meu RH</b> pois não existem dados para essa data.",
     epmMissing: "Não é possível comparar com o <b>EPM</b> pois não existem dados para essa data.",
     noMatch: "Os horários do <b>Meu RH</b> e <b>EPM</b> não batem.",
-    noInterval: "Você trabalhou mais de 6 horas, mas não regitrou um intervalo de 1 a 2 horas.",
-    noMainInterval: "Apesar de você ter feito um intervalo, ele não está entre <b>01:00 a 02:00</b>.",
-    noMainIntervals: "Apesar de ter feito intervalos, nenhum deles está entre <b>01:00 a 02:00</b>.",
+    noInterval: "Você trabalhou mais de 6 horas, mas não teve um intervalo que durou entre <b>1 a 2 horas</b>.",
+    noMainInterval: "Apesar de você ter feito um intervalo, ele não durou entre <b>1 a 2 horas</b>.",
+    noMainIntervals: "Apesar de ter feito mais de um intervalo, nenhum deles durou entre <b>1 a 2 horas</b>.",
     odd: "Você marcou um número ímpar de batidas. Realize o ajuste manual para incluir o horário ausente.",
     tooLongJourney: "Você trabalhou mais de 10 horas. Só é autorizado trabalhar até 2h extras por dia.",
     internJourneyMismatch: "Você não trabalhou 6 horas. Estagiários devem trabalhar exatamente 6 horas por dia.",
@@ -91,7 +91,10 @@ const PONTO = {
         roundedPill: "",
         value: ""
     },
-    punchesTableHTML: "",
+    punchesTable:{
+        visibility: "",
+        innerHTML: ""
+    },
     meuRH: {
         roundedPill: BADGES.info.roundedPill,
         value: "?"
@@ -180,6 +183,10 @@ function _loadPontoItem(i, key) {
         ponto.i = i;
         messages = [];
 
+        if (i == 30){
+            console.log("test")
+        }
+
         // Date
         _loadPontoDate(ponto);
 
@@ -199,7 +206,7 @@ function _loadPontoItem(i, key) {
 
         // Apply to HTML
         _loadAccordionItemHTML(ponto)
-        _setAccordionVisibility(i);
+        _setVisibilityAfterLoad(i);
     }
 }
 
@@ -214,7 +221,7 @@ function _loadPontoItemMeuRH(ponto) {
     if (meuRH && meuRH['system'][ponto.key]) {
         const punches = _getPunches(meuRH['system'][ponto.key], messages);
 
-        ponto.punchesTableHTML = _getPunchesTableHTML(meuRH['system'][ponto.key], messages, ponto.i);
+        ponto.punchesTable.innerHTML = _getPunchesTableHTML(meuRH['system'][ponto.key], messages, ponto.i);
 
         ponto.hours.value = punches.hours.value;
         ponto.hours.roundedPill = punches.hours.roundedPill;
@@ -239,12 +246,20 @@ function _loadPontoItemEPM(ponto) {
             _loadPontoItemEPMExclusive(ponto);
         } else {
             ponto.epm.value = epm['system'][ponto.key];
+            ponto.epm.roundedPill = BADGES.common.roundedPill;
         }
     }
 }
 
 function _loadPontoItemEPMExclusive(ponto) {
+    const epm = _getLocal('epm-result');
 
+    ponto.epm.value = epm['system'][ponto.key];
+    ponto.epm.roundedPill = BADGES.common.roundedPill;
+
+    ponto.punchesTable.visibility = `style="display:none;"`
+
+    ponto.title.value = _epmToTime(ponto.epm.value);
 }
 
 function _loadAccordionItemHTML(ponto) {
@@ -261,7 +276,7 @@ function _loadAccordionItemHTML(ponto) {
       data-bs-parent="#ponto-accordion">
       <div class="accordion-body">
 
-        <div class="item-comparison-container" id="comparison-container${ponto.i}">
+        <div class="item-comparison-container" id="comparison-container${ponto.i}" ${ponto.punchesTable.visibility}>
           <div class="item-comparison-table">
             <div class="item-internal-container">
               <div class="item-comparison-title">Trabalho</div>
@@ -275,7 +290,7 @@ function _loadAccordionItemHTML(ponto) {
         </div>
 
         <div class="item-comparison-container" id="punchesTable${ponto.i}">
-        ${ponto.punchesTableHTML}
+        ${ponto.punchesTable.innerHTML}
         </div>
 
         <div class="item-comparison-container">
@@ -312,8 +327,8 @@ function _loadMessagesHTML(ponto) {
                 messageDiv = MESSAGE_DIVS.manual;
                 types.push(BADGES.manual.badge);
                 break;
-            case MESSAGES.meuRHMissing:
             case MESSAGES.epmMissing:
+            case MESSAGES.meuRHMissing:
                 messageDiv = MESSAGE_DIVS.info;
                 types.push(BADGES.info.badge);
                 break;
@@ -443,7 +458,7 @@ function _getPunchesTableHTML(punchesArray, messages, i) {
     }
 
     return `
-    <div class="item-comparison-table">
+    <div class="item-comparison-table" id="item-comparison-table${i}"">
     <div class="item-internal-container">
       <div class="item-comparison-title">Entrada</div>
         <div id="entradas${i}">
@@ -524,7 +539,7 @@ function _getHoursRoundedPill(badge) {
             return BADGES.warning.roundedPill;
         case BADGES.danger.badge:
             return BADGES.danger.roundedPill;
-        case BADGES.success.badge:
+        case BADGES.danger.badge:
             return BADGES.success.roundedPill;
         case BADGES.info.badge:
             return BADGES.info.roundedPill;
@@ -557,7 +572,7 @@ function _getIntervalRoundedPill(hours, iArray, messages) {
                 messages.push(MESSAGES.noInterval);
                 break;
             case 1:
-                if (!_isTimeStringBiggerThen(iArray[0], "01:00") || _isTimeStringBiggerThen(iArray[0], "02:00")) {
+                if (iArray[0] != "01:00" && (!_isTimeStringBiggerThen(iArray[0], "01:00") || _isTimeStringBiggerThen(iArray[0], "02:00"))) {
                     result = BADGES.warning.roundedPill;
                     messages.push(MESSAGES.noMainInterval);
                 }
@@ -587,12 +602,12 @@ function _getFilteredDateArray(array) {
 }
 
 // ==== Validators ====
-function _validatePontoValue(ponto, value) {
+function _validatePontoValue(ponto, value, i) {
     if (value == "meuRH" || value == "epm") {
         if (ponto[value].value == "?") {
             messages.push(MESSAGES[`${value}Missing`]);
         } else {
-            ponto.meuRH.roundedPill = BADGES.common.roundedPill;
+            ponto[value].roundedPill = BADGES.common.roundedPill;
         }
     }
 }
@@ -607,21 +622,18 @@ function _validateMeuRHAndEPM(ponto) {
 
 
 // ==== Setters ====
-
-function _setAccordionVisibility(i) {
+function _setVisibilityAfterLoad(i) {
     let eSize = 0;
     let sSize = 0;
 
     while (document.getElementById(`e-${i}-${eSize}`)) {
         eSize++;
     }
-
     while (document.getElementById(`s-${i}-${sSize}`)) {
         sSize++;
     }
-
     if (!eSize && !sSize) {
         document.getElementById(`punchesTable${i}`).style.display = "none";
     }
-}
 
+}

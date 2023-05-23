@@ -448,10 +448,12 @@ function _getLocal(localName) {
 
 function _showNav() {
   document.getElementById("ponto-visualizar").style.display = "block";
+  document.getElementById("ponto-simular").style.display = "block";
 }
 
 function _hideNav() {
   document.getElementById("ponto-visualizar").style.display = "none";
+  document.getElementById("ponto-simular").style.display = "none";
 }
 
 function _setNotLoaded(type) {
