@@ -6,7 +6,6 @@ const PONTO_ITEM_JSON = _loadJSON('Ponto Item');
 
 // ==== Main ====
 function _startVisualizar() {
-    //_loadJsons();
     let regime = _getRegime();
     let saldo = _getSaldo();
     let periodo = _getPeriodo();

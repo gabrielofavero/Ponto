@@ -9,10 +9,8 @@ function _loadPontoItem(i, key) {
     const manual = _getLocal('manual-result');
 
     if ((meuRH && meuRH['system'][key]) || (epm && epm['system'][key]) || (manual && manual['system'][key])) {
-        let ponto = JSON.parse(JSON.stringify(PONTO_ITEM_JSON));
+        let ponto = _getInitialPontoItem(i, key);
         messages = [];
-        
-        _loadInitialPonto(ponto, i, key)
 
         // Date
         _loadPontoDate(ponto);
@@ -37,7 +35,8 @@ function _loadPontoItem(i, key) {
     }
 }
 
-function _loadInitialPonto(ponto, i, key){
+function _getInitialPontoItem (i, key){
+    let ponto = JSON.parse(JSON.stringify(PONTO_ITEM_JSON))
     ponto.i = i;
     ponto.key = key;
     
@@ -51,6 +50,8 @@ function _loadInitialPonto(ponto, i, key){
 
     ponto.meuRH.roundedPill = BADGES_JSON.info.roundedPill;
     ponto.epm.roundedPill = BADGES_JSON.info.roundedPill
+
+    return ponto;
 }
 
 function _loadPontoItemMeuRH(ponto) {

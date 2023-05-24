@@ -1403,3 +1403,28 @@ h6 {
   color: gray;
   margin-left: 10px;
 }
+
+.checkboxes-visualizar {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-bottom: 20px;
+  font-family: "Poppins", sans-serif;
+}
+
+.checkboxes-visualizar .checkbox-label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.checkboxes-visualizar .right-checkbox {
+  margin-left: 10px;
+}
+
+.checkboxes-visualizar .checkbox-text {
+  margin-right: 10px;
+}
+
+
+
