@@ -96,20 +96,10 @@ function _setYear() {
 
 function _loadedButtons(type){
     const deleteDiv = document.getElementById(type + "-delete");
-    const iconDiv = document.getElementById(type + "-inner-icon");
-  
     deleteDiv.style.display = "";
-  
-    iconDiv.classList.remove("bi-upload");
-    iconDiv.classList.add("bi-plus-lg");
   }
   
   function _unloadedButtons(type){
     const deleteDiv = document.getElementById(type + "-delete");
-    const iconDiv = document.getElementById(type + "-inner-icon");
-  
-    deleteDiv.style.display = "none";
-  
-    iconDiv.classList.remove("bi-plus-lg");
-    iconDiv.classList.add("bi-upload");
+    deleteDiv.style.display = "none"
   }
