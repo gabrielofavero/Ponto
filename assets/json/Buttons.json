@@ -1,0 +1,18 @@
+{
+    "edit": {
+        "type": "primary",
+        "text": "<button type=\"button\" class=\"btn btn-primary first-button\" data-bs-toggle=\"tooltip\" data-bs-placement=\"bottom\" data-bs-original-title=\"Editar\"><i class=\"bi bi-pencil\"></i></button>"
+    },
+    "delete": {
+        "type": "warning",
+        "text": "<button type=\"button\" class=\"btn btn-warning first-button\" data-bs-toggle=\"tooltip\" data-bs-placement=\"bottom\" data-bs-original-title=\"Excluir\"><i class=\"bi bi-trash\"></i></button>"
+    },
+    "add": {
+        "type": "success",
+        "text": "<button type=\"button\" class=\"btn btn-success first-button\" data-bs-toggle=\"tooltip\" data-bs-placement=\"bottom\" data-bs-original-title=\"Novo Dia\"><i class=\"bi bi-plus-circle\"></i></button>"
+    },
+    "cancel": {
+        "type": "danger",
+        "text": "<button type=\"button\" class=\"btn btn-danger first-button\" data-bs-toggle=\"tooltip\" data-bs-placement=\"bottom\" data-bs-original-title=\"Cancelar\"><i class=\"bi bi-x-circle\"></i></button>"
+    }
+}

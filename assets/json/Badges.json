@@ -1,0 +1,32 @@
+{
+    "success": {
+        "badge": "success",
+        "roundedPill": "badge rounded-pill bg-success",
+        "icon": "bi bi-check-circle"
+    },
+    "warning": {
+        "badge": "warning",
+        "roundedPill": "badge rounded-pill bg-warning text-dark",
+        "icon": "bi bi-exclamation-triangle"
+    },
+    "danger": {
+        "badge": "danger",
+        "roundedPill": "badge rounded-pill bg-danger",
+        "icon": "bi bi-exclamation-octagon"
+    },
+    "info": {
+        "badge": "secondary",
+        "roundedPill": "badge rounded-pill bg-secondary",
+        "icon": "bi bi-info-circle"
+    },
+    "manual": {
+        "badge": "primary",
+        "roundedPill": "badge rounded-pill bg-primary",
+        "icon": "bi bi-pencil"
+    },
+    "common": {
+        "badge": "common",
+        "roundedPill": "common",
+        "icon": ""
+    }
+}
