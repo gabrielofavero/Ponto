@@ -1,19 +1,18 @@
-function _epm() {
+function _epm(rawData="") {
     try {
-        let epm = _getLocal('epm');
         let week = ["seg", "ter", "qua", "qui", "sex", "sáb", "dom"];
         let result = {
             system: {},
             keypoints: {}
         };
-        if (epm) {
-            for (let i = 0; i < epm[0].length; i++) {
-                let split = epm[0][i].split(" ");
+        if (rawData) {
+            for (let i = 0; i < rawData[0].length; i++) {
+                let split = rawData[0][i].split(" ");
                 if (split.length == 2 && week.includes(split[0])) {
                     let key = split[1];
                     let sum = 0;
-                    for (let j = 1; j < epm.length; j++) {
-                        let value = epm[j][i];
+                    for (let j = 1; j < rawData.length; j++) {
+                        let value = rawData[j][i];
                         if (value) {
                             sum += _epmToNumber(value);
                         }
@@ -25,7 +24,6 @@ function _epm() {
             _updateYearEPM(result);
             _updateKeypoints(result);
             localStorage.setItem('epm-result', JSON.stringify(result));
-            _start();
         }
     } catch (e){
         _start();
@@ -53,4 +51,9 @@ function _updateYearEPM(epm){
     }
 
     epm["system"] = result["system"];
+}
+
+function _deleteEPM(){
+    localStorage.removeItem('epm-result');
+    _start();
 }

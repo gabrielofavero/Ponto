@@ -32,8 +32,7 @@
           pdfTextContent.push(line);
         }
       }
-      localStorage.setItem('meuRH', JSON.stringify(pdfTextContent));
-      _meuRH();
+      _meuRH(pdfTextContent);
     });
   }
   const xlsxInput = document.getElementById('epm-input');
@@ -58,8 +57,7 @@
         for (const row of rows) {
           xlsxContent.push(row.map(cell => cell.toString()));
         }
-        localStorage.setItem('epm', JSON.stringify(xlsxContent));
-        _epm();
+        _epm(xlsxContent);
       };
       reader.readAsBinaryString(file);
     });
@@ -430,19 +428,6 @@ function _checkLogin() {
 
   if (job) {
     document.getElementById("job").innerHTML = job;
-  }
-}
-
-function _getLocal(localName) {
-  let localData = localStorage.getItem(localName);
-  if (localData) {
-    try {
-      return JSON.parse(localData);
-    } catch (e) {
-      return localData;
-    }
-  } else {
-    return "";
   }
 }
 

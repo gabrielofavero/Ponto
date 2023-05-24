@@ -1,33 +1,25 @@
-const NAO_CARREGADO_OBJ = {
-    badge: `<span class="badge rounded-pill bg-warning text-dark">Não Carregado</span>`,
-    message: `<span class="text-muted small pt-2">Carregue para ter acesso a todos os recursos</span>`
-}
-
-const CARREGADO_OBJ = {
-    badge: `<span class="badge rounded-pill bg-success">Carregado</span>`,
-    message: `<span class="text-muted small pt-2">Período: #1 - #2</span>`
-}
-
-const ERRO_OBJ = {
-    badge: `<span class="badge rounded-pill bg-danger">Erro</span>`,
-    message: `<span class="text-muted small pt-2">O arquivo não foi carregado corretamente. Tente novamente</span>`
-}
-
-const DATAS_BADGE = `<span class="badge rounded-pill bg-danger">Datas Não Batem</span>`;
+const NAO_CARREGADO_JSON = _getJSON('assets/json/index/Não Carregado.json');
+const CARREGADO_JSON = _getJSON('assets/json/index/Carregado.json');
+const ERRO_JSON = _getJSON('assets/json/index/Erro.json');
+const DATAS_JSON = _getJSON('assets/json/index/Datas.json');
 
 function _startIndex() {
-    const meuRH = _getLocal("meuRH");
-    const epm = _getLocal("epm");
+    const meuRH = _getLocal("meuRH-result");
+    const epm = _getLocal("epm-result");
     if (meuRH) {
         _setLoaded('meuRH');
+        _loadedButtons('meuRH');
     } else {
         _setNotLoaded('meuRH');
+        _unloadedButtons('meuRH')
     }
 
     if (epm) {
         _setLoaded('epm');
+        _loadedButtons('epm');
     } else {
         _setNotLoaded('epm');
+        _unloadedButtons('epm')
     }
 
     _setYear();
@@ -43,11 +35,11 @@ function _setLoaded(type) {
     if (result && result["keypoints"] && result["keypoints"]["Início"] && result["keypoints"]["Fim"]) {
         let start = _dateStringToDateStringNoYear(result["keypoints"]["Início"]);
         let end = _dateStringToDateStringNoYear(result["keypoints"]["Fim"]);
-        badge.innerHTML = CARREGADO_OBJ.badge;
-        message.innerHTML = CARREGADO_OBJ.message.replace('#1', start).replace('#2', end);
+        badge.innerHTML = CARREGADO_JSON.badge;
+        message.innerHTML = CARREGADO_JSON.message.replace('#1', start).replace('#2', end);
     } else {
-        badge.innerHTML = ERRO_OBJ.badge;
-        message.innerHTML = ERRO_OBJ.message;
+        badge.innerHTML = ERRO_JSON.badge;
+        message.innerHTML = ERRO_JSON.message;
     }
 }
 
@@ -56,10 +48,10 @@ function _setNoOverlap() {
     const meuRH = document.getElementById("meuRH-status-badge");
     const epm = document.getElementById("epm-status-badge");
     if (meuRH) {
-        meuRH.innerHTML = DATAS_BADGE;
+        meuRH.innerHTML = DATAS_JSON.badge;
     }
     if (epm) {
-        epm.innerHTML = DATAS_BADGE;
+        epm.innerHTML = DATAS_JSON.badge;
     }
     _hideNav("meuRH");
     _hideNav("epm");
@@ -85,12 +77,12 @@ function _restoreBadge(type) {
     let message = document.getElementById(type + "-status-message");
     const currentMessage = message.innerHTML;
     if (currentMessage) {
-        if (currentMessage == NAO_CARREGADO_OBJ.message) {
-            badge.innerHTML = NAO_CARREGADO_OBJ.badge;
+        if (currentMessage == NAO_CARREGADO_JSON.message) {
+            badge.innerHTML = NAO_CARREGADO_JSON.badge;
         } else if (currentMessage.includes('Período:')) {
-            badge.innerHTML = CARREGADO_OBJ.badge;
-        } else if (currentMessage == ERRO_OBJ.message) {
-            badge.innerHTML = ERRO_OBJ.badge;
+            badge.innerHTML = CARREGADO_JSON.badge;
+        } else if (currentMessage == ERRO_JSON.message) {
+            badge.innerHTML = ERRO_JSON.badge;
         }
     }
 }
@@ -101,3 +93,23 @@ function _setYear() {
         localStorage.setItem("year", (new Date()).getFullYear());
     }
 }
+
+function _loadedButtons(type){
+    const deleteDiv = document.getElementById(type + "-delete");
+    const iconDiv = document.getElementById(type + "-inner-icon");
+  
+    deleteDiv.style.display = "";
+  
+    iconDiv.classList.remove("bi-upload");
+    iconDiv.classList.add("bi-plus-lg");
+  }
+  
+  function _unloadedButtons(type){
+    const deleteDiv = document.getElementById(type + "-delete");
+    const iconDiv = document.getElementById(type + "-inner-icon");
+  
+    deleteDiv.style.display = "none";
+  
+    iconDiv.classList.remove("bi-plus-lg");
+    iconDiv.classList.add("bi-upload");
+  }

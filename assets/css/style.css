@@ -1244,7 +1244,7 @@ h6 {
   display: none;
 }
 
-#meuRH-filter, #meuRH-icon, #meuRH-input, #epm-filter, #epm-icon, #epm-input {
+#meuRH-filter, #meuRH-icon, #meuRH-input, #epm-filter, #epm-icon, #epm-input, #meuRH-delete, #epm-delete {
   cursor: pointer;
 }
 

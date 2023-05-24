@@ -1,8 +1,8 @@
-const MESSAGE_DIVS_JSON = _loadJSON('Message Divs');
-const MESSAGES_JSON = _loadJSON('Messages');
-const BUTTONS_JSON = _loadJSON('Messages');
-const BADGES_JSON = _loadJSON('Badges');
-const PONTO_ITEM_JSON = _loadJSON('Ponto Item');
+const MESSAGE_DIVS_JSON = _getJSON('assets/json/visualizar/Message Divs.json');
+const MESSAGES_JSON = _getJSON('assets/json/visualizar/Messages.json');
+const BUTTONS_JSON = _getJSON('assets/json/visualizar/Messages.json');
+const BADGES_JSON = _getJSON('assets/json/visualizar/Badges.json');
+const PONTO_ITEM_JSON = _getJSON('assets/json/visualizar/Ponto Item.json');
 
 // ==== Main ====
 function _startVisualizar() {
@@ -32,18 +32,6 @@ function _startVisualizar() {
 }
 
 // ==== Loaders ====
-function _loadJSON(file) {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', `assets/json/${file}.json`, false);
-    xhr.send();
-  
-    if (xhr.status === 200) {
-      return JSON.parse(xhr.responseText);
-    } else {
-      throw new Error('Failed to load JSON file');
-    }
-  }
-
 function _loadPonto() {
     const meuRH = _getLocal('meuRH-result');
     const epm = _getLocal('epm-result');

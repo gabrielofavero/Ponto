@@ -194,7 +194,8 @@
                 <div class="card info-card customers-card" id="meuRH-load">
 
                   <div class="filter" id="meuRH-filter">
-                    <label class="icon" id="meuRH-icon" for="meuRH-input"><i class="bi bi-upload"></i></label>
+                    <label class="icon" id="meuRH-delete" style="display:none" onclick="_deleteMeuRH()"><i class="bi bi-trash"></i></label>
+                    <label class="icon" id="meuRH-icon" for="meuRH-input"><i id="meuRH-inner-icon" class="bi bi-upload"></i></label>
                     <input type="file" id="meuRH-input" accept=".pdf">
                   </div>
 
@@ -220,7 +221,8 @@
                 <div class="card info-card revenue-card" id="epm-load">
 
                   <div class="filter" id="epm-filter">
-                    <label class="icon" id="epm-icon" for="epm-input"><i class="bi bi-upload"></i></label>
+                    <label class="icon" id="epm-delete" style="display:none" onclick="_deleteEPM()"><i class="bi bi-trash"></i></label>
+                    <label class="icon" id="epm-icon" for="epm-input"><i id="epm-inner-icon"  class="bi bi-upload"></i></label>
                     <input type="file" id="epm-input" accept=".xlsx">
                   </div>
 
@@ -276,13 +278,14 @@
 
   <!-- Template Main JS File -->
   <script src="assets/js/support/logger.js"></script>
+  <script src="assets/js/data/data.js"></script>
   <script src="assets/js/support/date.js"></script>
   <script src="assets/js/data/meuRH.js"></script>
   <script src="assets/js/data/epm.js"></script>
   <script src="assets/js/data/compare.js"></script>
-    <script src="assets/js/features/visualizar/innerHTML.js"></script>
+  <script src="assets/js/features/visualizar/innerHTML.js"></script>
   <script src="assets/js/features/visualizar/pontoItem.js"></script>
-  <script src="assets/js/features/visualizar/main.js"></script>
+  <script src="assets/js/features/visualizar/visualizar.js"></script>
   <script src="assets/js/features/conversores.js"></script>
   <script src="assets/js/features/index.js"></script>
   <script src="assets/js/main/main.js"></script>

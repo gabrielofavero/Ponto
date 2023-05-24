@@ -1,15 +1,14 @@
-function _meuRH() {
+function _meuRH(rawData="") {
     try{
         let year;
-        let meuRH = JSON.parse(localStorage.getItem('meuRH'));
-        if (meuRH) {
+        if (rawData) {
             let nameFound = false;
             let jobFound = false;
             let result = {};
             let i = 0;
     
-            for (i; i < meuRH.length; i++) {
-                let value = meuRH[i];
+            for (i; i < rawData.length; i++) {
+                let value = rawData[i];
                 if (value.includes("Nome: ") && !nameFound) {
                     _updateName(value);
                     nameFound = true;
@@ -21,9 +20,9 @@ function _meuRH() {
                         year = value.split("/")[2];
                         localStorage.setItem('year', year);
                     }
-                    _processDay(meuRH, result, i);
+                    _processDay(rawData, result, i);
                 } else if (value == "Banco de Horas") {
-                    _processBancoDeHoras(meuRH, result, i);
+                    _processBancoDeHoras(rawData, result, i);
                     break;
                 }
             }
@@ -143,4 +142,9 @@ function _getDayTime(day, dayObj) {
     }
 
     return _sumTime(timeArray);
+}
+
+function _deleteMeuRH(){
+    localStorage.removeItem('meuRH-result');
+    _start();
 }
