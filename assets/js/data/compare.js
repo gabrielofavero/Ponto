@@ -3,9 +3,10 @@ function _compareData() {
     const resultMeuRH = _getLocal('meuRH')["system"];
     const resultEPM = _getLocal('epm')["system"];
 
+
     for (let sysKey of Object.keys(resultMeuRH)) {
-        let valMeuRH = resultMeuRH[sysKey];
-        let valEPM = resultEPM[sysKey];
+        let valMeuRH = resultMeuRH[sysKey]["punches"];
+        let valEPM = resultEPM[sysKey]["punches"];
         if (valEPM && valMeuRH) {
             result[sysKey] = _timeDifference(valMeuRH, valEPM)
         }

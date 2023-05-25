@@ -159,6 +159,17 @@ function _getLatest(dateArray){
     return latest;
 }
 
+function _isTimeString(string){
+    let result = false;
+    if (string) {
+        const split = string.split(":");
+        if (split.length == 2 && !isNaN(split[0]) && !isNaN(split[1])) {
+            result = true;
+        }
+    }
+    return result;
+}
+
 function _isTimeStringBiggerThen(timeString, biggerThen) {
     let split1 = timeString.split(":");
     let split2 = biggerThen.split(":");

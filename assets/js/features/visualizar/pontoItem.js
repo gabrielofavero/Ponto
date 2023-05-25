@@ -63,10 +63,12 @@ function _getInitialPontoItem(i, key) {
 
 function _loadPontoItemMeuRH(ponto) {
     const meuRH = _getLocal('meuRH');
-    if (meuRH && meuRH['system'][ponto.key]) {
-        const PUNCHES = _getPunches(meuRH['system'][ponto.key], messages);
-
-        ponto.punchesTable.innerHTML = _getPunchesTableHTML(meuRH['system'][ponto.key], messages, ponto.i);
+    if (meuRH && meuRH['system'] && meuRH['system'][ponto.key]) {
+        ponto.observation.value = meuRH['system'][ponto.key]["observation"];
+        ponto.observation.innerHTML = _getPontoObservationInnerHTML(ponto.observation.value, ponto.i);
+        
+        const PUNCHES = _getPunches(meuRH['system'][ponto.key]["punches"], messages);
+        ponto.punchesTable.innerHTML = _getPunchesTableHTML(meuRH['system'][ponto.key]["punches"], messages, ponto.i);
 
         ponto.hours.value = PUNCHES.hours.value;
         ponto.hours.roundedPill = PUNCHES.hours.roundedPill;
@@ -265,4 +267,10 @@ function _setVisibilityAfterLoad(i) {
         document.getElementById(`punchesTable${i}`).style.display = "none";
     }
 
+    const observation = document.getElementById(`observation${i}`);
+    const comparisonContainer = document.getElementById(`comparison-container${i}`);
+
+    if (observation && comparisonContainer){
+        comparisonContainer.style.marginTop = "35px"
+    }
 }

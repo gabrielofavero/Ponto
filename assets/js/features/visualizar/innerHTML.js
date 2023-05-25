@@ -12,6 +12,7 @@ function _loadAccordionItemHTML(ponto) {
       data-bs-parent="#ponto-accordion">
       <div class="accordion-body">
 
+        ${ponto.observation.innerHTML}
         <div class="item-comparison-container" id="comparison-container${ponto.i}" ${ponto.punchesTable.visibility}>
           <div class="item-comparison-table">
             <div class="item-internal-container">
@@ -167,4 +168,12 @@ function _getPunchesTableHTML(punchesArray, messages, i) {
     <span class="item-comparison-title">Batidas: </span>${batidas}
   </div>
     `
+}
+
+function _getPontoObservationInnerHTML(value, i) {
+  let result = "";
+  if (value){
+    result = `<div class="badge bg-light observation" id="observation${i}"></i>${value}</div>`;
+  }
+  return result;
 }

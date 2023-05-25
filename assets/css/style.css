@@ -1378,9 +1378,9 @@ h6 {
   color: #012970;
   width: 225px;
   border-radius: 4px;
+  margin-top: 20px;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 20px;
   border: 1px solid #EBEEF4;
   text-align: center;
 }
@@ -1486,4 +1486,10 @@ h6 {
 
 #filter-apply{
   margin-top: 10px;
+}
+
+.observation{
+  margin-right: 10px;
+  color: rgb(71, 71, 71);
+  float: right;
 }

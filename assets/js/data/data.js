@@ -23,3 +23,19 @@ function _getLocal(localName, forceUndefined=false) {
       _logger(ERROR, "Failed to load JSON file in path: '" + path, "'")
     }
   }
+
+  function _getFirstCharUpperCase(text){
+    text = text.toLowerCase();
+    var words = text.split(' ');
+    for (var i = 0; i < words.length; i++) {
+      var word = words[i];
+      words[i] = word.charAt(0).toUpperCase() + word.slice(1);
+    }
+    let result = words.join(' ').trim();
+
+    if (!result.includes(" ") && result.includes(".")){
+      return result.toUpperCase();
+    }
+
+    return result;
+  }

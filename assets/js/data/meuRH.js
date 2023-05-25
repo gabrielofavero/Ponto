@@ -6,6 +6,7 @@ function _meuRH(rawData = "") {
             let jobFound = false;
             let result = {};
             let i = 0;
+            let lastKey;
 
             for (i; i < rawData.length; i++) {
                 let value = rawData[i];
@@ -16,11 +17,20 @@ function _meuRH(rawData = "") {
                     _updateJob(value);
                     jobFound = true;
                 } else if (_isFullDate(value)) {
+
+                    if (lastKey){
+                        let lastObservation = _getObservation(rawData[i-1]);
+                        if (lastObservation){
+                            result["system"][lastKey]["observation"] = lastObservation
+                        } 
+                    }
+
                     if (!year) {
                         year = value.split("/")[2];
                         localStorage.setItem('year', year);
                     }
                     _processDay(rawData, result, i);
+                    lastKey = rawData[i];
                 } else if (value == "Banco de Horas") {
                     _processBancoDeHoras(rawData, result, i);
                     break;
@@ -59,7 +69,10 @@ function _updateJob(value) {
 function _processDay(meuRH, result, i) {
     const key = meuRH[i];
     let system = {
-        [key]: []
+        [key]: {
+            punches: [],
+            observation: ""
+        }
     };
     i++;
     for (i; i < meuRH.length; i++) {
@@ -69,8 +82,10 @@ function _processDay(meuRH, result, i) {
         } else {
             if (value && value.split(":").length == 2) {
                 let valid = true;
-                if (system[key].length > 0) {
-                    let time1 = system[key][system[key].length - 1].split(":");
+                let punches = system[key]["punches"];
+                
+                if (punches.length > 0) {
+                    let time1 =punches[punches.length - 1].split(":");
                     let hour1 = parseInt(time1[0]);
                     let minute1 = parseInt(time1[1]);
 
@@ -84,7 +99,7 @@ function _processDay(meuRH, result, i) {
                 }
 
                 if (valid) {
-                    system[key].push(value.replace(" *", ""));
+                    punches.push(value.replace(" *", ""));
                 } else {
                     break;
                 }
@@ -142,4 +157,10 @@ function _getDayTime(day, dayObj) {
     }
 
     return _sumTime(timeArray);
+}
+
+function _getObservation(rawData) {
+    if (rawData && !_isTimeString(rawData)) {      
+        return _getFirstCharUpperCase(rawData.replace(/\*/g, ""));
+    } else return "";
 }

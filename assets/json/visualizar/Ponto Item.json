@@ -9,6 +9,10 @@
         "icon": "",
         "textType": ""
     },
+    "observation":{
+        "value": "",
+        "innerHTML": ""
+    },
     "hours": {
         "roundedPill": "",
         "badge": "",
