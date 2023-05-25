@@ -410,12 +410,6 @@ async function _start() {
     _hideNav('epm');
   }
 
-  if (!meuRH && !epm) { 
-    _hideLogin();
-  } else {
-    _showLogin();
-  }
-
   switch (window.location.pathname) {
     case "/index.html":
     case "/":
@@ -459,16 +453,6 @@ function _setNotLoaded(type) {
     badge.innerHTML = `<span class="badge rounded-pill bg-warning text-dark">Não Carregado</span>`;
     message.innerHTML = `<span class="text-muted small pt-2">Carregue para ter acesso a todos os recursos</span>`
   }
-}
-
-function _showLogin() {
-  document.getElementById("name").innerHTML = _getLocal("name");
-  document.getElementById("fullName").innerHTML = _getLocal("fullName");
-  document.getElementById("login").style.display = "block";
-}
-
-function _hideLogin() {
-  document.getElementById("login").style.display = "none";
 }
 
 function _clearData() {

@@ -143,8 +143,3 @@ function _getDayTime(day, dayObj) {
 
     return _sumTime(timeArray);
 }
-
-function _deleteMeuRH() {
-    localStorage.removeItem('meuRH');
-    _start();
-}
