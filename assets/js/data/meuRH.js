@@ -27,7 +27,7 @@ function _meuRH(rawData = "") {
                 }
             }
             _updateKeypoints(result);
-            localStorage.setItem('meuRH-result', JSON.stringify(result));
+            localStorage.setItem('meuRH', JSON.stringify(result));
             _start();
         }
     } catch (e) {
@@ -145,6 +145,6 @@ function _getDayTime(day, dayObj) {
 }
 
 function _deleteMeuRH() {
-    localStorage.removeItem('meuRH-result');
+    localStorage.removeItem('meuRH');
     _start();
 }

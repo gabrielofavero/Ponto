@@ -27,8 +27,8 @@ function _startVisualizar() {
         document.getElementById('periodo').innerHTML = _getPeriodoString(periodo);
     }
 
-    const meuRH = _getLocal('meuRH-result');
-    const epm = _getLocal('epm-result');
+    const meuRH = _getLocal('meuRH');
+    const epm = _getLocal('epm');
     const manual = _getLocal('manual-result');
 
     if (meuRH || epm || manual) {
@@ -39,8 +39,8 @@ function _startVisualizar() {
 
 // ==== Loaders ====
 function _loadPonto() {
-    const meuRH = _getLocal('meuRH-result');
-    const epm = _getLocal('epm-result');
+    const meuRH = _getLocal('meuRH');
+    const epm = _getLocal('epm');
     const manual = _getLocal('manual-result');
 
     let keysMeuRH = [];
@@ -84,7 +84,7 @@ function _getRegime() {
 }
 
 function _getSaldo() {
-    const meuRH = _getLocal('meuRH-result');
+    const meuRH = _getLocal('meuRH');
     if (meuRH && meuRH['keypoints'] && meuRH['keypoints']['Saldo Atual']) {
         return meuRH['keypoints']['Saldo Atual'];
     } else return "";

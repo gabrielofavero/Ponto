@@ -4,8 +4,8 @@ var messages = [];
 
 // ==== Loaders ====
 function _loadPontoItem(i, key) {
-    const meuRH = _getLocal('meuRH-result');
-    const epm = _getLocal('epm-result');
+    const meuRH = _getLocal('meuRH');
+    const epm = _getLocal('epm');
     const manual = _getLocal('manual-result');
 
     if ((meuRH && meuRH['system'][key]) || (epm && epm['system'][key]) || (manual && manual['system'][key])) {
@@ -55,7 +55,7 @@ function _getInitialPontoItem (i, key){
 }
 
 function _loadPontoItemMeuRH(ponto) {
-    const meuRH = _getLocal('meuRH-result');
+    const meuRH = _getLocal('meuRH');
     if (meuRH && meuRH['system'][ponto.key]) {
         const PUNCHES = _getPunches(meuRH['system'][ponto.key], messages);
 
@@ -76,8 +76,8 @@ function _loadPontoItemMeuRH(ponto) {
 }
 
 function _loadPontoItemEPM(ponto) {
-    const meuRH = _getLocal('meuRH-result');
-    const epm = _getLocal('epm-result');
+    const meuRH = _getLocal('meuRH');
+    const epm = _getLocal('epm');
     const manual = _getLocal('manual-result');
     if (epm && epm['system'][ponto.key]) {
         if ((!meuRH || !meuRH['system'][ponto.key]) && (!manual || !manual['system'][ponto.key])) {
@@ -90,7 +90,7 @@ function _loadPontoItemEPM(ponto) {
 }
 
 function _loadPontoItemEPMExclusive(ponto) {
-    const epm = _getLocal('epm-result');
+    const epm = _getLocal('epm');
 
     ponto.epm.value = epm['system'][ponto.key];
     ponto.epm.roundedPill = BADGES_JSON.common.roundedPill;

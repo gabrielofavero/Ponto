@@ -4,8 +4,8 @@ const ERRO_JSON = _getJSON('assets/json/index/Erro.json');
 const DATAS_JSON = _getJSON('assets/json/index/Datas.json');
 
 function _startIndex() {
-    const meuRH = _getLocal("meuRH-result");
-    const epm = _getLocal("epm-result");
+    const meuRH = _getLocal("meuRH");
+    const epm = _getLocal("epm");
     if (meuRH) {
         _setLoaded('meuRH');
         _loadedButtons('meuRH');
@@ -31,7 +31,7 @@ function _startIndex() {
 function _setLoaded(type) {
     let badge = document.getElementById(type + "-status-badge");
     let message = document.getElementById(type + "-status-message");
-    let result = _getLocal(type + '-result')
+    let result = _getLocal(type)
     if (result && result["keypoints"] && result["keypoints"]["Início"] && result["keypoints"]["Fim"]) {
         let start = _dateStringToDateStringNoYear(result["keypoints"]["Início"]);
         let end = _dateStringToDateStringNoYear(result["keypoints"]["Fim"]);
@@ -53,8 +53,8 @@ function _setNoOverlap() {
     if (epm) {
         epm.innerHTML = DATAS_JSON.badge;
     }
-    _hideNav("meuRH");
-    _hideNav("epm");
+    _hideMeuRH();
+    _hideEPM();
 }
 
 function _setOverlap() {

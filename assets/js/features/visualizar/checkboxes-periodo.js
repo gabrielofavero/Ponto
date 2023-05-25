@@ -73,7 +73,7 @@ function _getPeriodo(checkboxResult) {
         end: "",
     }
 
-    const meuRH = _getLocal('meuRH-result');
+    const meuRH = _getLocal('meuRH');
     var epm;
     var manual;
     var today;
@@ -87,7 +87,7 @@ function _getPeriodo(checkboxResult) {
     }
 
     if (checkboxResult.epm) {
-        epm = _getLocal('epm-result');
+        epm = _getLocal('epm');
     }
 
     let startMeuRH;

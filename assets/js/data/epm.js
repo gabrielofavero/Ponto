@@ -23,7 +23,7 @@ function _epm(rawData="") {
             }
             _updateYearEPM(result);
             _updateKeypoints(result);
-            localStorage.setItem('epm-result', JSON.stringify(result));
+            localStorage.setItem('epm', JSON.stringify(result));
             _start();
         }
     } catch (e){
@@ -55,6 +55,6 @@ function _updateYearEPM(epm){
 }
 
 function _deleteEPM(){
-    localStorage.removeItem('epm-result');
+    localStorage.removeItem('epm');
     _start();
 }

@@ -15,6 +15,8 @@
       const file = event.target.files[0];
       if (!file) return;
 
+      pdfInput.value = '';
+
       const pdf = await pdfjsLib.getDocument({
         url: URL.createObjectURL(file)
       }).promise;
@@ -40,6 +42,9 @@
     xlsxInput.addEventListener('change', (event) => {
       const file = event.target.files[0];
       if (!file) return;
+
+      xlsxInput.value = '';
+
       const reader = new FileReader();
       reader.onload = (event) => {
         const data = event.target.result;
@@ -64,7 +69,7 @@
   }
 
   const clearData = document.getElementById('clearData');
-  clearData.addEventListener('click', function() {
+  clearData.addEventListener('click', function () {
     _clearData();
   });
 
@@ -388,21 +393,22 @@
 })();
 
 async function _start() {
-  const meuRH = _getLocal('meuRH-result');
-  const epm = _getLocal('epm-result');
+  const meuRH = _getLocal('meuRH');
+  const epm = _getLocal('epm');
 
   _checkLogin();
 
   if (meuRH) {
-    _showNav();
+    _showNav('meuRH');
   }
 
   if (epm) {
-    _showNav();
+    _showNav('epm');
   }
 
   if (!meuRH && !epm) {
-    _hideNav();
+    _hideNav('meuRH');
+    _hideNav('epm');
     _hideLogin();
   } else {
     _showLogin();
@@ -436,14 +442,12 @@ function _checkLogin() {
   }
 }
 
-function _showNav() {
-  document.getElementById("ponto-visualizar").style.display = "block";
-  document.getElementById("ponto-simular").style.display = "block";
+function _showNav(type) {
+  document.getElementById(type + "-visualizar").style.display = "block";
 }
 
-function _hideNav() {
-  document.getElementById("ponto-visualizar").style.display = "none";
-  document.getElementById("ponto-simular").style.display = "none";
+function _hideNav(type) {
+  document.getElementById(type + "-visualizar").style.display = "none";
 }
 
 function _setNotLoaded(type) {

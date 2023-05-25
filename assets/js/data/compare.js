@@ -1,7 +1,7 @@
 function _compareData() {
     let result = {};
-    const resultMeuRH = _getLocal('meuRH-result')["system"];
-    const resultEPM = _getLocal('epm-result')["system"];
+    const resultMeuRH = _getLocal('meuRH')["system"];
+    const resultEPM = _getLocal('epm')["system"];
 
     for (let sysKey of Object.keys(resultMeuRH)) {
         let valMeuRH = resultMeuRH[sysKey];
@@ -14,8 +14,8 @@ function _compareData() {
 }
 
 function _checkOverlap() {
-    const keypointsMeuRH = _getLocal('meuRH-result')["keypoints"];
-    const keypointsEPM = _getLocal('epm-result')["keypoints"];
+    const keypointsMeuRH = _getLocal('meuRH')["keypoints"];
+    const keypointsEPM = _getLocal('epm')["keypoints"];
 
     if (keypointsMeuRH && keypointsEPM) {
         const currentYear = parseInt(_getLocal('year'));
