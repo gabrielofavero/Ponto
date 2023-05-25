@@ -59,7 +59,7 @@
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Sair</h5>
+            <h5 class="modal-title">Sair e Apagar Dados</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
@@ -68,7 +68,8 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="clearData">Confirmar</button>
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+              id="clearData">Confirmar</button>
           </div>
         </div>
       </div>
@@ -105,7 +106,7 @@
                 <a class="dropdown-item d-flex align-items-center" href="#" data-bs-toggle="modal"
                   data-bs-target="#verticalycentered">
                   <i class="bi bi-box-arrow-right"></i>
-                  <span>Sair</span>
+                  <span>Sair e Apagar Dados</span>
                 </a>
               </li>
 
@@ -133,9 +134,27 @@
           <a class="nav-link" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
             <i class="bi bi-archive"></i><span>Meu RH</span><i class="bi bi-chevron-down ms-auto"></i>
           </a>
-          <ul id="components-nav" class="nav-content" data-bs-parent="#sidebar-nav">
+          <ul id="components-nav" class="nav-content " data-bs-parent="#sidebar-nav">
             <li id="ponto-visualizar">
-              <a href="meuRH-visualizar.html" class="active">
+              <a href="meuRH-visualizar.html">
+                <i class="bi bi-circle"></i><span>Visualizar</span>
+              </a>
+            </li>
+            <li id="ponto-simular">
+              <a href="epm-simular.html" class="active">
+                <i class="bi bi-circle"></i><span>Simular</span>
+              </a>
+            </li>
+          </ul>
+        </li><!-- End Components Nav -->
+
+        <li class="nav-item">
+          <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
+            <i class="bi bi-person"></i><span>EPM</span><i class="bi bi-chevron-down ms-auto"></i>
+          </a>
+          <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+            <li id="ponto-visualizar">
+              <a href="epm-visualizar.html">
                 <i class="bi bi-circle"></i><span>Visualizar</span>
               </a>
             </li>
@@ -145,7 +164,7 @@
               </a>
             </li>
           </ul>
-        </li><!-- End Components Nav -->
+        </li><!-- End Forms Nav -->
 
         <li class="nav-heading">Ajuda</li>
         <li class="nav-item">
@@ -166,126 +185,15 @@
     <main id="main" class="main">
 
       <div class="pagetitle">
-        <h1>Visualizar Meu RH</h1>
+        <h1>Simular Ponto</h1>
         <nav>
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="index.html">Home</a></li>
             <li class="breadcrumb-item">Ponto</li>
-            <li class="breadcrumb-item active">Visualizar</li>
+            <li class="breadcrumb-item active">Simular</li>
           </ol>
         </nav>
       </div><!-- End Page Title -->
-
-      <section class="section">
-
-        <div class="row">
-          <div class="col-lg-6">
-            <div class="card">
-              <div class="card-body visualizar">
-                <div class="inner-card-body">
-                  <div class="inner-card-title">Regime</div>
-                  <div class="inner-card-value" id="regime">CLT</div>
-                </div>
-                <div class="inner-card-body">
-                  <div class="inner-card-title">Saldo</div>
-                  <div class="inner-card-value" id="saldo">03:00</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-lg-6">
-
-            <div class="card">
-              <div class="card-body">
-                <h5 class="card-title" id="periodo">01/01 - 31/01</h5>
-
-                <!-- Default Accordion -->
-                <div class="accordion" id="ponto-accordion">
-                  <div id="accordion-items">
-                    <div class="accordion-item">
-                      <h2 class="accordion-header" id="heading0">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                          data-bs-target="#collapse0" aria-expanded="false" aria-controls="collapse0">
-                          21/04 <span class="badge bg-success time-badge"><i class="bi bi-check-circle me-1"></i>
-                            08:00</span>
-                        </button>
-                      </h2>
-                      <div id="collapse0" class="accordion-collapse collapse" aria-labelledby="heading0"
-                        data-bs-parent="#ponto-accordion">
-                        <div class="accordion-body">
-
-                          <div class="item-comparison-container">
-                            <div class="item-comparison-table">
-                              <div class="item-internal-container">
-                                <div class="item-comparison-title">Trabalho</div>
-                                <div><span class="common">08:00</span></div>
-                              </div>
-                              <div class="item-internal-container">
-                                <div class="item-comparison-title">Intervalo</div>
-                                <div><span class="common">01:00</span></div>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div class="item-comparison-container">
-                            <div class="item-comparison-table">
-                              <div class="item-internal-container">
-                                <div class="item-comparison-title">Entrada</div>
-                                <div><span class="common">09:00</span></div>
-                                <div><span class="common">13:00</span></div>
-                              </div>
-                              <div class="item-internal-container">
-                                <div class="item-comparison-title">Saída</div>
-                                <div><span class="common">12:00</span></div>
-                                <div><span class="common">18:00</span></div>
-                              </div>
-                            </div>
-                            <div class="item-internal-footer">
-                              <span class="item-comparison-title">Batidas: </span><span class="common">4</span>
-                            </div>
-                          </div>
-
-                          <div class="item-comparison-container">
-                            <div class="item-comparison-table">
-                              <div class="item-internal-container">
-                                <div class="item-comparison-title">Meu RH</div>
-                                <div><span class="badge rounded-pill bg-success">8,0</span></div>
-                              </div>
-                              <div class="item-internal-container">
-                                <div class="item-comparison-title">EPM</div>
-                                <div><span class="badge rounded-pill bg-success">8,0</span></div>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div class="item-internal-messages" id="message0"></div>
-
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div id="buttons1" class="ponto-buttons">
-                    <button id="excluir" type="button" class="btn btn-warning first-button" data-bs-toggle="tooltip"
-                      data-bs-placement="bottom" data-bs-original-title="Excluir"><i class="bi bi-trash"></i></button>
-                    <button id="editar" type="button" class="btn btn-primary first-button" data-bs-toggle="tooltip"
-                      data-bs-placement="bottom" data-bs-original-title="Editar"><i class="bi bi-pencil"></i></button>
-                    <button id="cancelar" type="button" class="btn btn-danger first-button" data-bs-toggle="tooltip"
-                      data-bs-placement="bottom" data-bs-original-title="Cancelar"><i
-                        class="bi bi-x-circle"></i></button>
-                    <button id="novo" type="button" class="btn btn-success" data-bs-toggle="tooltip"
-                      data-bs-placement="bottom" data-bs-original-title="Novo Dia"><i
-                        class="bi bi-plus-circle"></i></button>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-          </div>
-      </section>
 
     </main><!-- End #main -->
 
@@ -325,9 +233,8 @@
   <script src="assets/js/support/date.js"></script>
   <script src="assets/js/data/meuRH.js"></script>
   <script src="assets/js/data/epm.js"></script>
+  <script src="assets/js/features/conversores.js"></script>
   <script src="assets/js/data/compare.js"></script>
-  <script src="assets/js/features/visualizar/innerHTML.js"></script>
-  <script src="assets/js/features/visualizar/pontoItem.js"></script>
   <script src="assets/js/features/visualizar/visualizar.js"></script>
   <script src="assets/js/features/conversores.js"></script>
   <script src="assets/js/features/index.js"></script>

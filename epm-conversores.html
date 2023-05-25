@@ -59,7 +59,7 @@
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Sair</h5>
+            <h5 class="modal-title">Sair e Apagar Dados</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
@@ -68,8 +68,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
-              id="clearData">Confirmar</button>
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="clearData">Confirmar</button>
           </div>
         </div>
       </div>
@@ -106,7 +105,7 @@
                 <a class="dropdown-item d-flex align-items-center" href="#" data-bs-toggle="modal"
                   data-bs-target="#verticalycentered">
                   <i class="bi bi-box-arrow-right"></i>
-                  <span>Sair</span>
+                  <span>Sair e Apagar Dados</span>
                 </a>
               </li>
 
@@ -134,24 +133,37 @@
           <a class="nav-link" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
             <i class="bi bi-archive"></i><span>Meu RH</span><i class="bi bi-chevron-down ms-auto"></i>
           </a>
-          <ul id="components-nav" class="nav-content" data-bs-parent="#sidebar-nav">
+          <ul id="components-nav" class="nav-content " data-bs-parent="#sidebar-nav">
             <li id="ponto-visualizar">
-              <a href="ponto-visualizar.html" class="active">
+              <a href="meuRH-visualizar.html">
                 <i class="bi bi-circle"></i><span>Visualizar</span>
               </a>
             </li>
             <li id="ponto-simular">
-              <a href="ponto-simular.html">
+              <a href="meuRH-simular.html">
                 <i class="bi bi-circle"></i><span>Simular</span>
-              </a>
-            </li>
-            <li>
-              <a href="ponto-conversores.html">
-                <i class="bi bi-circle" id="ponto-conversores"></i><span>Conversores</span>
               </a>
             </li>
           </ul>
         </li><!-- End Components Nav -->
+
+        <li class="nav-item">
+          <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
+            <i class="bi bi-person"></i><span>EPM</span><i class="bi bi-chevron-down ms-auto"></i>
+          </a>
+          <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+            <li id="ponto-visualizar">
+              <a href="epm-visualizar.html">
+                <i class="bi bi-circle"></i><span>Visualizar</span>
+              </a>
+            </li>
+            <li>
+              <a href="epm-conversores.html">
+                <i class="bi bi-circle" id="epm-conversores"></i><span>Conversores</span>
+              </a>
+            </li>
+          </ul>
+        </li><!-- End Forms Nav -->
 
         <li class="nav-heading">Ajuda</li>
         <li class="nav-item">
@@ -172,101 +184,15 @@
     <main id="main" class="main">
 
       <div class="pagetitle">
-        <h1>Visualizar Meu RH</h1>
+        <h1>Conversores</h1>
         <nav>
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-            <li class="breadcrumb-item">Meu RH</li>
-            <li class="breadcrumb-item active">Visualizar Meu RH</li>
+            <li class="breadcrumb-item">Ponto</li>
+            <li class="breadcrumb-item active">Convesores</li>
           </ol>
         </nav>
       </div><!-- End Page Title -->
-
-      <section class="section">
-
-        <div class="row">
-          <div class="col-lg-6">
-            <div class="card">
-              <div class="card-body visualizar">
-                <div class="inner-card-body">
-                  <div class="inner-card-title">Regime</div>
-                  <div class="inner-card-value" id="regime"></div>
-                </div>
-                <div class="inner-card-body">
-                  <div class="inner-card-title">Saldo</div>
-                  <div class="inner-card-value" id="saldo"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-lg-6">
-
-            <div class="card">
-              <div class="card-body">
-                <div class="title-filter">
-                  <h5 class="card-title" id="periodo"></h5>
-                  <div class="accordion accordion-flush" id="filtro">
-                    <div class="accordion-item">
-                      <h2 class="accordion-header" id="flush-headingOne">
-                        <button id="accordion-filter" class="accordion-filter bi bi-filter-circle collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                        </button>
-                      </h2>
-                      <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-                        <div class="accordion-body">
-                          <div class="checkboxes-visualizar">
-
-                            <li class="list-group-item">
-                              <label class="checkbox-label">
-                                <span class="checkbox-text">Comparar com EPM</span>
-                                <input id="checkbox-compare-epm" class="form-check-input me-1 right-checkbox" type="checkbox"
-                                  value="" aria-label="..." checked>
-                              </label>
-                            </li>
-
-                            <li class="list-group-item">
-                              <label class="checkbox-label">
-                                <span class="checkbox-text">Ver dados manuais</span>
-                                <input id="checkbox-manual" class="form-check-input me-1 right-checkbox" type="checkbox"
-                                  value="" aria-label="..." checked>
-                              </label>
-                            </li>
-        
-                            <li class="list-group-item">
-                              <label class="checkbox-label">
-                                <span class="checkbox-text">Ver dados no futuro</span>
-                                <input id="checkbox-futuro" class="form-check-input me-1 right-checkbox" type="checkbox"
-                                  value="" aria-label="...">
-                              </label>
-                            </li>
-        
-                            <li class="list-group-item">
-                              <label class="checkbox-label">
-                                <span class="checkbox-text">Ignorar dados vazios</span>
-                                <input id="ignorar-dados-vazios" class="form-check-input me-1 right-checkbox" type="checkbox"
-                                  value="" aria-label="...">
-                              </label>
-                            </li>
-                            <button type="button" id="filter-apply" class="btn btn-primary rounded-pill">Aplicar</button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  
-
-                </div>
-                <!-- Default Accordion -->
-                <div class="accordion" id="ponto-accordion">
-                  <div id="accordion-items"></div>
-                </div>
-              </div>
-
-            </div>
-          </div>
-      </section>
 
     </main><!-- End #main -->
 
@@ -306,10 +232,8 @@
   <script src="assets/js/support/date.js"></script>
   <script src="assets/js/data/meuRH.js"></script>
   <script src="assets/js/data/epm.js"></script>
+  <script src="assets/js/features/conversores.js"></script>
   <script src="assets/js/data/compare.js"></script>
-  <script src="assets/js/features/visualizar/innerHTML.js"></script>
-  <script src="assets/js/features/visualizar/pontoItem.js"></script>
-  <script src="assets/js/features/visualizar/checkboxes-periodo.js"></script>
   <script src="assets/js/features/visualizar/visualizar.js"></script>
   <script src="assets/js/features/conversores.js"></script>
   <script src="assets/js/features/index.js"></script>

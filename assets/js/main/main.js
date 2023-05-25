@@ -413,7 +413,7 @@ async function _start() {
     case "/":
       _startIndex();
       break;
-    case "/ponto-visualizar.html":
+    case "/meuRH-visualizar.html":
       _startVisualizar();
       break;
   }
