@@ -29,7 +29,7 @@ function _loadAccordionItemHTML(ponto) {
         ${ponto.punchesTable.innerHTML}
         </div>
 
-        <div class="item-comparison-container">
+        <div class="item-comparison-container" ${ponto.comparisonTable.visibility}>
           <div class="item-comparison-table">
             <div class="item-internal-container">
               <div class="item-comparison-title">Meu RH</div>
@@ -64,8 +64,8 @@ function _loadMessagesHTML(ponto) {
         types.push(BADGES_JSON.manual.badge);
         break;
       case MESSAGES_JSON.epmMissing:
-        // messageDiv = MESSAGE_DIVS_JSON.info;
-        // break;
+        messageDiv = MESSAGE_DIVS_JSON.info;
+        break;
       case MESSAGES_JSON.meuRHMissing:
         messageDiv = MESSAGE_DIVS_JSON.info;
         types.push(BADGES_JSON.info.badge);
@@ -104,6 +104,7 @@ function _getPunchesTableHTML(punchesArray, messages, i) {
   }
   let entradas = [];
   let saidas = [];
+  let intervalos = ["-"];
   let batidas;
 
   for (let j = 0; j < punchesArray.length; j++) {
@@ -118,6 +119,10 @@ function _getPunchesTableHTML(punchesArray, messages, i) {
     if (j % 2 == 0) {
       value = value.replace('#2', `e-${i}-${j}`);
       entradas.push(value);
+      if (j > 0) {
+        let intervaloValue = `<span class="${BADGES_JSON.common.badge}" id="i-${i}-${j}">${_timeDifference(punchesArray[j - 1], punchesArray[j])}</span>`;
+        intervalos.push(intervaloValue);
+      }
     } else {
       value = value.replace('#2', `s-${i}-${j}`);
       saidas.push(value);
@@ -134,19 +139,25 @@ function _getPunchesTableHTML(punchesArray, messages, i) {
 
   return `
     <div class="item-comparison-table" id="item-comparison-table${i}"">
-    <div class="item-internal-container">
-      <div class="item-comparison-title">Entrada</div>
+      <div class="item-internal-container">
+        <div class="item-comparison-title">Entrada</div>
         <div id="entradas${i}">
             ${entradas.join('<br>')}
         </div>
-    </div>
-    <div class="item-internal-container">
-      <div class="item-comparison-title">Saída</div>
+      </div>
+      <div class="item-internal-container">
+        <div class="item-comparison-title">Saída</div>
         <div id="saidas${i}">
             ${saidas.join('<br>')}
         </div>
+      </div>
+      <div class="item-internal-container">
+      <div class="item-comparison-title">Intervalo</div>
+      <div id="intervalo${i}">
+          ${intervalos.join('<br>')}
+      </div>
     </div>
-  </div>
+    </div>
   <div class="item-internal-footer">
     <span class="item-comparison-title">Batidas: </span>${batidas}
   </div>

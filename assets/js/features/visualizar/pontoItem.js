@@ -3,10 +3,10 @@ var messages = [];
 
 
 // ==== Loaders ====
-function _loadPontoItem(i, key) {
+function _loadPontoItem(i, key, checkBoxes={}) {
     const meuRH = _getLocal('meuRH');
     const epm = _getLocal('epm');
-    const manual = _getLocal('manual-result');
+    const manual = _getLocal('manual');
 
     if ((meuRH && meuRH['system'][key]) || (epm && epm['system'][key]) || (manual && manual['system'][key])) {
         let ponto = _getInitialPontoItem(i, key);
@@ -20,8 +20,12 @@ function _loadPontoItem(i, key) {
         _validatePontoValue(ponto, "meuRH");
 
         // EPM
-        _loadPontoItemEPM(ponto);
-        _validatePontoValue(ponto, "epm");
+        if (checkBoxes.checkboxEPM == true) {
+            _loadPontoItemEPM(ponto);
+            _validatePontoValue(ponto, "epm");
+        } else {
+            ponto.comparisonTable.visibility = "style='display: none;'"
+        }
 
         // Meu RH and EPM Comparison
         _validateMeuRHAndEPM(ponto);
@@ -78,7 +82,7 @@ function _loadPontoItemMeuRH(ponto) {
 function _loadPontoItemEPM(ponto) {
     const meuRH = _getLocal('meuRH');
     const epm = _getLocal('epm');
-    const manual = _getLocal('manual-result');
+    const manual = _getLocal('manual');
     if (epm && epm['system'][ponto.key]) {
         if ((!meuRH || !meuRH['system'][ponto.key]) && (!manual || !manual['system'][ponto.key])) {
             _loadPontoItemEPMExclusive(ponto);

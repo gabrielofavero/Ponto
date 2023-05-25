@@ -1376,12 +1376,13 @@ h6 {
 .item-comparison-container {
   background-color: #F6F9FF;
   color: #012970;
-  width: 200px;
+  width: 225px;
   border-radius: 4px;
   margin-left: auto;
   margin-right: auto;
   margin-top: 20px;
   border: 1px solid #EBEEF4;
+  text-align: center;
 }
 
 .item-comparison-table {

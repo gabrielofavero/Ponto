@@ -31,5 +31,8 @@
         "roundedPill": "",
         "value": "?"
     },
-    "messagesHTML": ""
+    "messagesHTML": "",
+    "comparisonTable": {
+        "visibility": ""
+    }
 }

@@ -7,13 +7,13 @@ var PERIODO;
 
 // ==== Main ====
 function _startVisualizar() {
-    
-    _loadCheckboxes();
-    let checkboxResult = _getCheckboxResult();
+    let checkBoxes = {};
+
+    _loadCheckboxes(checkBoxes);
 
     let regime = _getRegime();
     let saldo = _getSaldo();
-    let periodo = _getPeriodo(checkboxResult);
+    let periodo = _getPeriodo(checkBoxes);
 
     if (regime) {
         document.getElementById('regime').innerHTML = regime;
@@ -29,19 +29,19 @@ function _startVisualizar() {
 
     const meuRH = _getLocal('meuRH');
     const epm = _getLocal('epm');
-    const manual = _getLocal('manual-result');
+    const manual = _getLocal('manual');
 
     if (meuRH || epm || manual) {
-        _loadPonto();
+        _loadPonto(checkBoxes);
     }
     _endLoad();
 }
 
 // ==== Loaders ====
-function _loadPonto() {
+function _loadPonto(checkBoxes) {
     const meuRH = _getLocal('meuRH');
     const epm = _getLocal('epm');
-    const manual = _getLocal('manual-result');
+    const manual = _getLocal('manual');
 
     let keysMeuRH = [];
     let keysEPM = [];
@@ -68,7 +68,7 @@ function _loadPonto() {
     });
 
     for (let i = 0; i < keys.length; i++) {
-        _loadPontoItem(i, keys[i]);
+        _loadPontoItem(i, keys[i], checkBoxes);
     }
 }
 
