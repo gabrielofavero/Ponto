@@ -6,6 +6,9 @@ const DATAS_JSON = _getJSON('assets/json/index/Datas.json');
 function _startIndex() {
     const meuRH = _getLocal("meuRH");
     const epm = _getLocal("epm");
+
+    _loadIndexEventListeners();
+
     if (meuRH) {
         _setLoaded('meuRH');
         _loadedButtons('meuRH');
@@ -26,6 +29,20 @@ function _startIndex() {
     if (meuRH && epm) {
         _checkOverlap();
     }
+}
+
+function _loadIndexEventListeners(){
+    const deleteMeuRH = document.getElementById('meuRH-delete');
+    deleteMeuRH.addEventListener('click', function () {
+        localStorage.removeItem('meuRH');
+        _start();
+      });
+
+    const deleteEPM = document.getElementById('epm-delete');
+    deleteEPM.addEventListener('click', function () {
+        localStorage.removeItem('epm');
+        _start();
+      });
 }
 
 function _setLoaded(type) {

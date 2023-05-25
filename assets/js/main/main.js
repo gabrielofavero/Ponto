@@ -400,15 +400,17 @@ async function _start() {
 
   if (meuRH) {
     _showNav('meuRH');
+  } else {
+    _hideNav('meuRH');
   }
 
   if (epm) {
     _showNav('epm');
+  } else {
+    _hideNav('epm');
   }
 
-  if (!meuRH && !epm) {
-    _hideNav('meuRH');
-    _hideNav('epm');
+  if (!meuRH && !epm) { 
     _hideLogin();
   } else {
     _showLogin();
@@ -472,16 +474,6 @@ function _hideLogin() {
 function _clearData() {
   localStorage.clear();
   window.location.href = "index.html";
-}
-
-function _startLoad() {
-  document.getElementById("loading-container").style.display = "flex";
-  document.getElementById("main-container").style.display = "none";
-}
-
-function _endLoad() {
-  document.getElementById("loading-container").style.display = "none";
-  document.getElementById("main-container").style.display = "block";
 }
 
 function _filterVisibility() {
