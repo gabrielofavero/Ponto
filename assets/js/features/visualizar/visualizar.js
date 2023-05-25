@@ -6,6 +6,7 @@ const PONTO_ITEM_JSON = _getJSON('assets/json/visualizar/Ponto Item.json');
 
 // ==== Main ====
 function _startVisualizar() {
+    _loadCheckboxEventListeners();
     let regime = _getRegime();
     let saldo = _getSaldo();
     let periodo = _getPeriodo();

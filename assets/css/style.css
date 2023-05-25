@@ -1429,14 +1429,13 @@ h6 {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  margin-bottom: 20px;
   font-family: "Poppins", sans-serif;
+  margin-right: 5px;
 }
 
 .checkboxes-visualizar .checkbox-label {
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
 }
 
 .checkboxes-visualizar .right-checkbox {
@@ -1461,6 +1460,8 @@ h6 {
   background: none;
   border: 0;
   float: right;
+  margin-right: 5px;
+  color: rgb(71, 71, 71);
 }
 
 .accordion-filter:not(.collapsed) {
@@ -1471,11 +1472,11 @@ h6 {
 .title-filter {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start; /* Align items on top */
+  align-items: flex-start;
 }
 
 .card-title {
-  margin-top: 0; /* Reset the default margin */
+  margin-top: 0;
 }
 
 .accordion-collapse {

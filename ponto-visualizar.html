@@ -69,7 +69,7 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
             <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
-              onclick="_clearData()">Confirmar</button>
+              id="clearData">Confirmar</button>
           </div>
         </div>
       </div>
@@ -211,10 +211,10 @@
                   <div class="accordion accordion-flush" id="filtro">
                     <div class="accordion-item">
                       <h2 class="accordion-header" id="flush-headingOne">
-                        <button id="accordion-filter" class="accordion-filter bi bi-filter-circle collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne" onClick="_filterVisibility()">
+                        <button id="accordion-filter" class="accordion-filter bi bi-filter-circle collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
                         </button>
                       </h2>
-                      <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample" style="">
+                      <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
                         <div class="accordion-body">
                           <div class="checkboxes-visualizar">
                             <li class="list-group-item">
@@ -298,6 +298,7 @@
   <script src="assets/js/data/compare.js"></script>
   <script src="assets/js/features/visualizar/innerHTML.js"></script>
   <script src="assets/js/features/visualizar/pontoItem.js"></script>
+  <script src="assets/js/features/visualizar/checkboxes.js"></script>
   <script src="assets/js/features/visualizar/visualizar.js"></script>
   <script src="assets/js/features/conversores.js"></script>
   <script src="assets/js/features/index.js"></script>

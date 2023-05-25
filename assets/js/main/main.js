@@ -63,6 +63,11 @@
     });
   }
 
+  const clearData = document.getElementById('clearData');
+  clearData.addEventListener('click', function() {
+    _clearData();
+  });
+
   /**
    * Easy selector helper function
    */
