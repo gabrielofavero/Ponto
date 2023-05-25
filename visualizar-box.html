@@ -68,8 +68,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
-              id="clearData">Confirmar</button>
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="clearData">Confirmar</button>
           </div>
         </div>
       </div>
@@ -132,7 +131,7 @@
 
         <li class="nav-item">
           <a class="nav-link" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
-            <i class="bi bi-archive"></i><span>Ponto</span><i class="bi bi-chevron-down ms-auto"></i>
+            <i class="bi bi-archive"></i><span>Meu RH</span><i class="bi bi-chevron-down ms-auto"></i>
           </a>
           <ul id="components-nav" class="nav-content" data-bs-parent="#sidebar-nav">
             <li id="ponto-visualizar">
@@ -243,7 +242,7 @@
                                 <div><span class="common">12:00</span></div>
                                 <div><span class="common">18:00</span></div>
                               </div>
-                              </div>
+                            </div>
                             <div class="item-internal-footer">
                               <span class="item-comparison-title">Batidas: </span><span class="common">4</span>
                             </div>
@@ -270,10 +269,16 @@
                   </div>
 
                   <div id="buttons1" class="ponto-buttons">
-                    <button id="excluir" type="button" class="btn btn-warning first-button" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Excluir"><i class="bi bi-trash"></i></button>
-                    <button id="editar" type="button" class="btn btn-primary first-button" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Editar"><i class="bi bi-pencil"></i></button>
-                    <button id="cancelar" type="button" class="btn btn-danger first-button" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Cancelar"><i class="bi bi-x-circle"></i></button>
-                    <button id="novo" type="button" class="btn btn-success" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Novo Dia"><i class="bi bi-plus-circle"></i></button>
+                    <button id="excluir" type="button" class="btn btn-warning first-button" data-bs-toggle="tooltip"
+                      data-bs-placement="bottom" data-bs-original-title="Excluir"><i class="bi bi-trash"></i></button>
+                    <button id="editar" type="button" class="btn btn-primary first-button" data-bs-toggle="tooltip"
+                      data-bs-placement="bottom" data-bs-original-title="Editar"><i class="bi bi-pencil"></i></button>
+                    <button id="cancelar" type="button" class="btn btn-danger first-button" data-bs-toggle="tooltip"
+                      data-bs-placement="bottom" data-bs-original-title="Cancelar"><i
+                        class="bi bi-x-circle"></i></button>
+                    <button id="novo" type="button" class="btn btn-success" data-bs-toggle="tooltip"
+                      data-bs-placement="bottom" data-bs-original-title="Novo Dia"><i
+                        class="bi bi-plus-circle"></i></button>
                   </div>
                 </div>
               </div>
@@ -314,13 +319,14 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.2/xlsx.full.min.js"></script>
 
   <!-- Template Main JS File -->
+  <script src="assets/js/support/loading.js"></script>
   <script src="assets/js/support/logger.js"></script>
   <script src="assets/js/data/data.js"></script>
   <script src="assets/js/support/date.js"></script>
   <script src="assets/js/data/meuRH.js"></script>
   <script src="assets/js/data/epm.js"></script>
   <script src="assets/js/data/compare.js"></script>
-    <script src="assets/js/features/visualizar/innerHTML.js"></script>
+  <script src="assets/js/features/visualizar/innerHTML.js"></script>
   <script src="assets/js/features/visualizar/pontoItem.js"></script>
   <script src="assets/js/features/visualizar/visualizar.js"></script>
   <script src="assets/js/features/conversores.js"></script>

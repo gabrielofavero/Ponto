@@ -132,7 +132,7 @@
 
         <li class="nav-item">
           <a class="nav-link" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
-            <i class="bi bi-archive"></i><span>Ponto</span><i class="bi bi-chevron-down ms-auto"></i>
+            <i class="bi bi-archive"></i><span>Meu RH</span><i class="bi bi-chevron-down ms-auto"></i>
           </a>
           <ul id="components-nav" class="nav-content" data-bs-parent="#sidebar-nav">
             <li id="ponto-visualizar">
@@ -172,12 +172,12 @@
     <main id="main" class="main">
 
       <div class="pagetitle">
-        <h1>Visualizar Ponto</h1>
+        <h1>Visualizar Meu RH</h1>
         <nav>
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-            <li class="breadcrumb-item">Ponto</li>
-            <li class="breadcrumb-item active">Visualizar</li>
+            <li class="breadcrumb-item">Meu RH</li>
+            <li class="breadcrumb-item active">Visualizar Meu RH</li>
           </ol>
         </nav>
       </div><!-- End Page Title -->
@@ -217,9 +217,18 @@
                       <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
                         <div class="accordion-body">
                           <div class="checkboxes-visualizar">
+
                             <li class="list-group-item">
                               <label class="checkbox-label">
-                                <span class="checkbox-text">Dados manuais</span>
+                                <span class="checkbox-text">Comparar com EPM</span>
+                                <input id="checkbox-compare-epm" class="form-check-input me-1 right-checkbox" type="checkbox"
+                                  value="" aria-label="..." checked>
+                              </label>
+                            </li>
+
+                            <li class="list-group-item">
+                              <label class="checkbox-label">
+                                <span class="checkbox-text">Ver dados manuais</span>
                                 <input id="checkbox-manual" class="form-check-input me-1 right-checkbox" type="checkbox"
                                   value="" aria-label="..." checked>
                               </label>
@@ -227,7 +236,7 @@
         
                             <li class="list-group-item">
                               <label class="checkbox-label">
-                                <span class="checkbox-text">Dados no futuro</span>
+                                <span class="checkbox-text">Ver dados no futuro</span>
                                 <input id="checkbox-futuro" class="form-check-input me-1 right-checkbox" type="checkbox"
                                   value="" aria-label="...">
                               </label>
@@ -235,11 +244,12 @@
         
                             <li class="list-group-item">
                               <label class="checkbox-label">
-                                <span class="checkbox-text">Dados só com EPM</span>
-                                <input id="checkbox-apenas-epm" class="form-check-input me-1 right-checkbox" type="checkbox"
+                                <span class="checkbox-text">Ignorar dados vazios</span>
+                                <input id="ignorar-dados-vazios" class="form-check-input me-1 right-checkbox" type="checkbox"
                                   value="" aria-label="...">
                               </label>
                             </li>
+                            <button type="button" id="filter-apply" class="btn btn-primary rounded-pill">Aplicar</button>
                           </div>
                         </div>
                       </div>
@@ -290,6 +300,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.2/xlsx.full.min.js"></script>
 
   <!-- Template Main JS File -->
+  <script src="assets/js/support/loading.js"></script>
   <script src="assets/js/support/logger.js"></script>
   <script src="assets/js/data/data.js"></script>
   <script src="assets/js/support/date.js"></script>
@@ -298,7 +309,7 @@
   <script src="assets/js/data/compare.js"></script>
   <script src="assets/js/features/visualizar/innerHTML.js"></script>
   <script src="assets/js/features/visualizar/pontoItem.js"></script>
-  <script src="assets/js/features/visualizar/checkboxes.js"></script>
+  <script src="assets/js/features/visualizar/checkboxes-periodo.js"></script>
   <script src="assets/js/features/visualizar/visualizar.js"></script>
   <script src="assets/js/features/conversores.js"></script>
   <script src="assets/js/features/index.js"></script>

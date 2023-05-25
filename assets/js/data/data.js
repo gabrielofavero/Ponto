@@ -1,5 +1,6 @@
-function _getLocal(localName) {
-    let localData = localStorage.getItem(localName);
+function _getLocal(localName, forceUndefined=false) {
+  const noResult = forceUndefined ? undefined : "";  
+  let localData = localStorage.getItem(localName);
     if (localData) {
       try {
         return JSON.parse(localData);
@@ -7,7 +8,7 @@ function _getLocal(localName) {
         return localData;
       }
     } else {
-      return "";
+      return noResult;
     }
   }
   

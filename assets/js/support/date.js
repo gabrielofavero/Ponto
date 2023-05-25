@@ -28,7 +28,7 @@ function _hourMinuteToTime(hour, minute) {
     return hour + ":" + minute;
 }
 
-function _removeYear(date) {
+function _dateToDateStringNoYear(date) {
     let split = date.split("/");
     return split[0] + "/" + split[1];
 }
@@ -112,6 +112,19 @@ function _dateStringToDateStringNoYear(dateString){
 function _getDate(dateString) {
     let split = dateString.split("/");
     return new Date(split[2], split[1] - 1, split[0]);
+}
+
+function _getDateString(date){
+    let day = date.getDate();
+    let month = date.getMonth() + 1;
+    let year = date.getFullYear();
+    if (day < 10){
+        day = "0" + day;
+    }
+    if (month < 10){
+        month = "0" + month;
+    }
+    return day + "/" + month + "/" + year;
 }
 
 function _dateToDateStringNoYear(date){

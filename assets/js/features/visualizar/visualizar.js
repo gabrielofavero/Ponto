@@ -3,13 +3,17 @@ const MESSAGES_JSON = _getJSON('assets/json/visualizar/Messages.json');
 const BUTTONS_JSON = _getJSON('assets/json/visualizar/Messages.json');
 const BADGES_JSON = _getJSON('assets/json/visualizar/Badges.json');
 const PONTO_ITEM_JSON = _getJSON('assets/json/visualizar/Ponto Item.json');
+var PERIODO;
 
 // ==== Main ====
 function _startVisualizar() {
-    _loadCheckboxEventListeners();
+    
+    _loadCheckboxes();
+    let checkboxResult = _getCheckboxResult();
+
     let regime = _getRegime();
     let saldo = _getSaldo();
-    let periodo = _getPeriodo();
+    let periodo = _getPeriodo(checkboxResult);
 
     if (regime) {
         document.getElementById('regime').innerHTML = regime;
@@ -20,7 +24,7 @@ function _startVisualizar() {
     }
 
     if (periodo) {
-        document.getElementById('periodo').innerHTML = _getPeriodoString();
+        document.getElementById('periodo').innerHTML = _getPeriodoString(periodo);
     }
 
     const meuRH = _getLocal('meuRH-result');
@@ -30,6 +34,7 @@ function _startVisualizar() {
     if (meuRH || epm || manual) {
         _loadPonto();
     }
+    _endLoad();
 }
 
 // ==== Loaders ====
@@ -83,51 +88,6 @@ function _getSaldo() {
     if (meuRH && meuRH['keypoints'] && meuRH['keypoints']['Saldo Atual']) {
         return meuRH['keypoints']['Saldo Atual'];
     } else return "";
-}
-
-function _getPeriodo() {
-    let result = {
-        start: "",
-        end: ""
-    }
-    const meuRH = _getLocal('meuRH-result');
-    const epm = _getLocal('epm-result');
-    const manual = _getLocal('manual-result');
-
-    let startMeuRH;
-    let endMeuRH;
-    let startEPM;
-    let endEPM;
-    let startManual;
-    let endManual;
-
-    if (meuRH && meuRH['keypoints'] && meuRH['keypoints']['Início'] && meuRH['keypoints']['Fim']) {
-        startMeuRH = _getDate(meuRH['keypoints']['Início']);
-        endMeuRH = _getDate(meuRH['keypoints']['Fim']);
-    }
-
-    if (epm && epm['keypoints'] && epm['keypoints']['Início'] && epm['keypoints']['Fim']) {
-        startEPM = _getDate(epm['keypoints']['Início']);
-        endEPM = _getDate(epm['keypoints']['Fim']);
-    }
-
-    if (manual && manual['keypoints'] && manual['keypoints']['Início'] && manual['keypoints']['Fim']) {
-        startManual = _getDate(manual['keypoints']['Início']);
-        endManual = _getDate(manual['keypoints']['Fim']);
-    }
-
-    let start = _getEarliest(_getFilteredDateArray([startMeuRH, startEPM, startManual]));
-    let end = _getLatest(_getFilteredDateArray([endMeuRH, endEPM, endManual]));
-
-    result.start = _dateToDateStringNoYear(start);
-    result.end = _dateToDateStringNoYear(end);
-
-    return result;
-}
-
-function _getPeriodoString() {
-    let periodo = _getPeriodo();
-    return periodo.start + " - " + periodo.end;
 }
 
 function _getFilteredDateArray(array) {

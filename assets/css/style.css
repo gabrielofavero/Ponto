@@ -1482,3 +1482,7 @@ h6 {
 .accordion-collapse {
   clear: both;
 }
+
+#filter-apply{
+  margin-top: 10px;
+}
