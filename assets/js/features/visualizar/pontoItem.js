@@ -70,7 +70,9 @@ function _loadPontoItemMeuRH(ponto) {
         ponto.observation.innerHTML = _getPontoObservationInnerHTML(ponto.observation.value, ponto.i);
         
         const PUNCHES = _getPunches(meuRH['system'][ponto.key]["punches"], messages);
-        ponto.punchesTable.innerHTML = _getPunchesTableHTML(meuRH['system'][ponto.key]["punches"], messages, ponto.i, PUNCHES.interval.internalRoundedPill);
+        
+        ponto.interval.internalRoundedPill = PUNCHES.interval.internalRoundedPill
+        ponto.punchesTable.innerHTML = _getPunchesTableHTML(meuRH['system'][ponto.key]["punches"], messages, ponto.i, ponto.interval.internalRoundedPill);
 
         ponto.hours.value = PUNCHES.hours.value;
         ponto.hours.roundedPill = PUNCHES.hours.roundedPill;
