@@ -160,7 +160,12 @@ function _getDayTime(day, dayObj) {
 }
 
 function _getObservation(rawData) {
-    if (rawData && !_isTimeString(rawData)) {      
-        return _getFirstCharUpperCase(rawData.replace(/\*/g, ""));
-    } else return "";
+    let result = "";
+    if (rawData) { 
+        const treatedData = rawData.replace(/\*/g, "").trim();
+        if (!_isTimeString(treatedData)){
+            result = _getFirstCharUpperCase(treatedData);
+        }
+    }
+    return result;
 }
