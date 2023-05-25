@@ -69,6 +69,9 @@ function _loadMessagesHTML(ponto) {
       case MESSAGES_JSON.meuRHMissing:
         messageDiv = MESSAGE_DIVS_JSON.info;
         types.push(BADGES_JSON.info.badge);
+        if (!ponto.epm.visibility) {
+          ponto.comparisonTable.visibility = "style='display: none;'";
+        }
         break;
       case "":
       case undefined:

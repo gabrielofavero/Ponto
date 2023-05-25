@@ -29,7 +29,8 @@
     },
     "epm": {
         "roundedPill": "",
-        "value": "?"
+        "value": "?",
+        "visibility": ""
     },
     "messagesHTML": "",
     "comparisonTable": {

@@ -25,6 +25,7 @@ function _loadPontoItem(i, key, checkBoxes={}) {
             _validatePontoValue(ponto, "epm");
         } else {
             ponto.comparisonTable.visibility = "style='display: none;'"
+            ponto.epm.visibility = "style='display: none;'"
         }
 
         // Meu RH and EPM Comparison
@@ -34,8 +35,10 @@ function _loadPontoItem(i, key, checkBoxes={}) {
         _loadMessagesHTML(ponto);
 
         // Apply to HTML
+        if (!(checkBoxes.checkboxVazio == true && ponto.title.value == "00:00")) {
         _loadAccordionItemHTML(ponto)
         _setVisibilityAfterLoad(i);
+        }
     }
 }
 
