@@ -55,6 +55,8 @@ function _getInitialPontoItem(i, key) {
     ponto.hours.badge = BADGES_JSON.info.badge;
     ponto.hours.icon = BADGES_JSON.info.icon;
 
+    ponto.interval.internalRoundedPill = BADGES_JSON.common.roundedPill;
+
     ponto.meuRH.roundedPill = BADGES_JSON.info.roundedPill;
     ponto.epm.roundedPill = BADGES_JSON.info.roundedPill
 
@@ -68,7 +70,7 @@ function _loadPontoItemMeuRH(ponto) {
         ponto.observation.innerHTML = _getPontoObservationInnerHTML(ponto.observation.value, ponto.i);
         
         const PUNCHES = _getPunches(meuRH['system'][ponto.key]["punches"], messages);
-        ponto.punchesTable.innerHTML = _getPunchesTableHTML(meuRH['system'][ponto.key]["punches"], messages, ponto.i);
+        ponto.punchesTable.innerHTML = _getPunchesTableHTML(meuRH['system'][ponto.key]["punches"], messages, ponto.i, PUNCHES.interval.internalRoundedPill);
 
         ponto.hours.value = PUNCHES.hours.value;
         ponto.hours.roundedPill = PUNCHES.hours.roundedPill;
@@ -153,7 +155,8 @@ function _getPunches(array, messages) {
         result.hours.roundedPill = _getHoursRoundedPill(result.hours.badge);
         result.hours.icon = _getIcon(result.hours.badge);
 
-        result.interval.roundedPill = _getIntervalRoundedPill(result.hours.value, iArray, messages);
+        _loadIntervalRules(result, iArray, messages);
+        
         result.interval.icon = _getIcon(result.interval.badge);
     }
     return result;
@@ -202,35 +205,35 @@ function _getIcon(badge) {
     }
 }
 
-function _getIntervalRoundedPill(hours, iArray, messages) {
-    result = BADGES_JSON.common.roundedPill;
+function _loadIntervalRules(result, iArray, messages) {
+    let hours = result.hours.value;
+    
     if (_isTimeStringBiggerThen(hours, "06:00")) {
         switch (iArray.length) {
             case 0:
-                result = BADGES_JSON.warning.roundedPill;
+                result.interval.roundedPill = BADGES_JSON.warning.roundedPill;
                 messages.push(MESSAGES_JSON.noInterval);
                 break;
             case 1:
                 if (iArray[0] != "01:00" && (!_isTimeStringBiggerThen(iArray[0], "01:00") || _isTimeStringBiggerThen(iArray[0], "02:00"))) {
-                    result = BADGES_JSON.warning.roundedPill;
+                    result.interval.roundedPill = BADGES_JSON.warning.roundedPill;
                     messages.push(MESSAGES_JSON.noMainInterval);
                 }
                 break;
             default:
                 let mainInterval = false;
                 for (let interval of iArray) {
-                    if (interval == "01:00" || (_isTimeStringBiggerThen(interval, "01:00") || !_isTimeStringBiggerThen(interval, "02:00"))) {
+                    if (interval == "01:00" || (_isTimeStringBiggerThen(interval, "01:00") && !_isTimeStringBiggerThen(interval, "02:00"))) {
                         mainInterval = true;
                         break;
                     }
                 }
                 if (!mainInterval) {
-                    result = BADGES_JSON.warning.roundedPill;
+                    result.interval.internalRoundedPill = BADGES_JSON.warning.roundedPill;
                     messages.push(MESSAGES_JSON.noMainIntervals);
                 }
         }
     }
-    return result;
 }
 
 // ==== Validators ====

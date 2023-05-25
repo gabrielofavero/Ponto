@@ -21,6 +21,7 @@
     },
     "interval": {
         "roundedPill": "",
+        "internalRoundedPill": "",
         "value": ""
     },
     "punchesTable":{

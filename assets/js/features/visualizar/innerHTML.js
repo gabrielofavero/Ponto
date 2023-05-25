@@ -102,7 +102,7 @@ function _loadMessagesHTML(ponto) {
   }
 }
 
-function _getPunchesTableHTML(punchesArray, messages, i) {
+function _getPunchesTableHTML(punchesArray, messages, i, internalIntervalBadge) {
   if (punchesArray.length % 2 != 0) {
     punchesArray.push('?')
   }
@@ -124,7 +124,7 @@ function _getPunchesTableHTML(punchesArray, messages, i) {
       value = value.replace('#2', `e-${i}-${j}`);
       entradas.push(value);
       if (j > 0) {
-        let intervaloValue = `<span class="${BADGES_JSON.common.badge}" id="i-${i}-${j}">${_timeDifference(punchesArray[j - 1], punchesArray[j])}</span>`;
+        let intervaloValue = `<span class="${internalIntervalBadge}" id="i-${i}-${j}">${_timeDifference(punchesArray[j - 1], punchesArray[j])}</span>`;
         intervalos.push(intervaloValue);
       }
     } else {
