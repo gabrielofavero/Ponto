@@ -107,7 +107,7 @@ function _getPunchesTableHTML(punchesArray, messages, i) {
   }
   let entradas = [];
   let saidas = [];
-  let intervalos = ["-"];
+  let intervalos = [];
   let batidas;
 
   for (let j = 0; j < punchesArray.length; j++) {
@@ -131,6 +131,8 @@ function _getPunchesTableHTML(punchesArray, messages, i) {
       saidas.push(value);
     }
   }
+
+  intervalos.push("-");
 
   // Batidas
   if (punchesArray.length % 2 == 0) {

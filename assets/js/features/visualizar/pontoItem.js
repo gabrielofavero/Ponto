@@ -3,7 +3,7 @@ var messages = [];
 
 
 // ==== Loaders ====
-function _loadPontoItem(i, key, checkBoxes={}) {
+function _loadPontoItem(i, key, checkBoxes = {}) {
     const meuRH = _getLocal('meuRH');
     const epm = _getLocal('epm');
     const manual = _getLocal('manual');
@@ -36,17 +36,17 @@ function _loadPontoItem(i, key, checkBoxes={}) {
 
         // Apply to HTML
         if (!(checkBoxes.checkboxVazio == true && ponto.title.value == "00:00")) {
-        _loadAccordionItemHTML(ponto)
-        _setVisibilityAfterLoad(i);
+            _loadAccordionItemHTML(ponto)
+            _setVisibilityAfterLoad(i);
         }
     }
 }
 
-function _getInitialPontoItem (i, key){
+function _getInitialPontoItem(i, key) {
     let ponto = JSON.parse(JSON.stringify(PONTO_ITEM_JSON))
     ponto.i = i;
     ponto.key = key;
-    
+
     ponto.title.roundedPill = BADGES_JSON.success.roundedPill;
     ponto.title.badge = BADGES_JSON.success.badge;
     ponto.title.icon = BADGES_JSON.success.icon;
@@ -215,16 +215,16 @@ function _getIntervalRoundedPill(hours, iArray, messages) {
                 }
                 break;
             default:
-                for (let i = 0; i < iArray.length; i++) {
-                    let hasMainInterval = false;
-                    if (_isTimeStringBiggerThen(iArray[i], "01:00") && !_isTimeStringBiggerThen(iArray[i], "02:00")) {
-                        hasMainInterval = true;
+                let mainInterval = false;
+                for (let interval of iArray) {
+                    if (interval == "01:00" || (_isTimeStringBiggerThen(interval, "01:00") || !_isTimeStringBiggerThen(interval, "02:00"))) {
+                        mainInterval = true;
                         break;
                     }
-                    if (!hasMainInterval) {
-                        result = BADGES_JSON.warning.roundedPill;
-                        messages.push(MESSAGES_JSON.noMainIntervals);
-                    }
+                }
+                if (!mainInterval) {
+                    result = BADGES_JSON.warning.roundedPill;
+                    messages.push(MESSAGES_JSON.noMainIntervals);
                 }
         }
     }
