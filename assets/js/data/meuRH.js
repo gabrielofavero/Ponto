@@ -1,12 +1,12 @@
-function _meuRH(rawData="") {
-    try{
+function _meuRH(rawData = "") {
+    try {
         let year;
         if (rawData) {
             let nameFound = false;
             let jobFound = false;
             let result = {};
             let i = 0;
-    
+
             for (i; i < rawData.length; i++) {
                 let value = rawData[i];
                 if (value.includes("Nome: ") && !nameFound) {
@@ -30,7 +30,7 @@ function _meuRH(rawData="") {
             localStorage.setItem('meuRH-result', JSON.stringify(result));
             _start();
         }
-    } catch (e){
+    } catch (e) {
         _start();
         _logger(ERROR, e.message || e.toString());
     }
@@ -69,7 +69,7 @@ function _processDay(meuRH, result, i) {
         } else {
             if (value && value.split(":").length == 2) {
                 let valid = true;
-                if (system[key].length > 0){
+                if (system[key].length > 0) {
                     let time1 = system[key][system[key].length - 1].split(":");
                     let hour1 = parseInt(time1[0]);
                     let minute1 = parseInt(time1[1]);
@@ -78,12 +78,12 @@ function _processDay(meuRH, result, i) {
                     let hour2 = parseInt(time2[0]);
                     let minute2 = parseInt(time2[1]);
 
-                    if (hour2 < hour1 || (hour2 == hour1 && minute2 < minute1)){
+                    if (hour2 < hour1 || (hour2 == hour1 && minute2 < minute1)) {
                         valid = false;
                     }
                 }
 
-                if (valid){
+                if (valid) {
                     system[key].push(value.replace(" *", ""));
                 } else {
                     break;
@@ -144,7 +144,7 @@ function _getDayTime(day, dayObj) {
     return _sumTime(timeArray);
 }
 
-function _deleteMeuRH(){
+function _deleteMeuRH() {
     localStorage.removeItem('meuRH-result');
     _start();
 }

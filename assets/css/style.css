@@ -1236,23 +1236,35 @@ h6 {
   color: #012970;
 }
 
-#epm-load, #meuRH-load {
+#epm-load,
+#meuRH-load {
   height: 167px;
 }
 
-#overlaping, #meuRH-input, #epm-input, #meuRH-visualizar, #epm-visualizar{
+#overlaping,
+#meuRH-input,
+#epm-input,
+#meuRH-visualizar,
+#epm-visualizar {
   display: none;
 }
 
-#meuRH-filter, #meuRH-icon, #meuRH-input, #epm-filter, #epm-icon, #epm-input, #meuRH-delete, #epm-delete {
+#meuRH-filter,
+#meuRH-icon,
+#meuRH-input,
+#epm-filter,
+#epm-icon,
+#epm-input,
+#meuRH-delete,
+#epm-delete {
   cursor: pointer;
 }
 
-.video-container{
+.video-container {
   margin-top: 20px;
 }
 
-.video{
+.video {
   width: 600px;
 }
 
@@ -1262,12 +1274,15 @@ h6 {
   }
 }
 
-#meuRH-tutorial, #epm-tutorial {
+#meuRH-tutorial,
+#epm-tutorial {
   margin-top: 30px;
 }
 
 @media (max-width: 2000px) and (min-width: 1400px) {
-  #meuRH-card, #epm-card {
+
+  #meuRH-card,
+  #epm-card {
     width: 350px;
   }
 }
@@ -1281,7 +1296,8 @@ h6 {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh; /* Adjust this value as needed */
+  height: 100vh;
+  /* Adjust this value as needed */
   background-color: white;
 }
 
@@ -1289,21 +1305,22 @@ h6 {
   text-align: center;
 }
 
-#dino-load{
+#dino-load {
   height: 100px;
 }
 
-#login{
+#login {
   display: none;
 }
 
-.time-badge{
+.time-badge {
   position: absolute;
   right: 0;
   margin-right: 50px;
 }
 
-.inner-card-title, .inner-card-value {
+.inner-card-title,
+.inner-card-value {
   font-size: 20px;
   font-family: "Poppins", sans-serif;
   text-align: center;
@@ -1315,7 +1332,7 @@ h6 {
   color: #012970;
 }
 
-.visualizar{
+.visualizar {
   display: flex;
 }
 
@@ -1323,7 +1340,11 @@ h6 {
   flex: 1;
 }
 
-.item-horas-trabalhadas, .item-entrada, .item-meuRH, .item-editar, .item-mensagem {
+.item-horas-trabalhadas,
+.item-entrada,
+.item-meuRH,
+.item-editar,
+.item-mensagem {
   margin-top: 20px;
 }
 
@@ -1331,15 +1352,15 @@ h6 {
   color: #084298;
 }
 
-.invalido{
+.invalido {
   color: #664D03
 }
 
-.valido{
+.valido {
   color: #0B6623
 }
 
-.ponto-buttons{
+.ponto-buttons {
   text-align: right;
   margin-top: 20px;
 }
@@ -1348,7 +1369,7 @@ h6 {
   margin-right: 5px;
 }
 
-.value-meuRH{
+.value-meuRH {
   margin-left: 5px;
 }
 
@@ -1399,7 +1420,7 @@ h6 {
   color: rgb(71, 71, 71);
 }
 
-.dayOfTheWeek{
+.dayOfTheWeek {
   color: gray;
   margin-left: 10px;
 }
@@ -1426,5 +1447,37 @@ h6 {
   margin-right: 10px;
 }
 
+.accordion-filter:focus {
+  outline: 0;
+  box-shadow: none;
+}
 
+.accordion-filter:not(.collapsed) {
+  color: #012970;
+}
 
+.accordion-filter {
+  padding: 15px 0;
+  background: none;
+  border: 0;
+  float: right;
+}
+
+.accordion-filter:not(.collapsed) {
+  box-shadow: none;
+  color: #4154f1;
+}
+
+.title-filter {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; /* Align items on top */
+}
+
+.card-title {
+  margin-top: 0; /* Reset the default margin */
+}
+
+.accordion-collapse {
+  clear: both;
+}

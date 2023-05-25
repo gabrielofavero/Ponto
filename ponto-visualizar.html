@@ -206,31 +206,48 @@
 
             <div class="card">
               <div class="card-body">
-                <h5 class="card-title" id="periodo"></h5>
+                <div class="title-filter">
+                  <h5 class="card-title" id="periodo"></h5>
+                  <div class="accordion accordion-flush" id="filtro">
+                    <div class="accordion-item">
+                      <h2 class="accordion-header" id="flush-headingOne">
+                        <button id="accordion-filter" class="accordion-filter bi bi-filter-circle collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne" onClick="_filterVisibility()">
+                        </button>
+                      </h2>
+                      <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample" style="">
+                        <div class="accordion-body">
+                          <div class="checkboxes-visualizar">
+                            <li class="list-group-item">
+                              <label class="checkbox-label">
+                                <span class="checkbox-text">Dados manuais</span>
+                                <input id="checkbox-manual" class="form-check-input me-1 right-checkbox" type="checkbox"
+                                  value="" aria-label="..." checked>
+                              </label>
+                            </li>
+        
+                            <li class="list-group-item">
+                              <label class="checkbox-label">
+                                <span class="checkbox-text">Dados no futuro</span>
+                                <input id="checkbox-futuro" class="form-check-input me-1 right-checkbox" type="checkbox"
+                                  value="" aria-label="...">
+                              </label>
+                            </li>
+        
+                            <li class="list-group-item">
+                              <label class="checkbox-label">
+                                <span class="checkbox-text">Dados só com EPM</span>
+                                <input id="checkbox-apenas-epm" class="form-check-input me-1 right-checkbox" type="checkbox"
+                                  value="" aria-label="...">
+                              </label>
+                            </li>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
 
-                <div class="checkboxes-visualizar">
-                  <li class="list-group-item">
-                    <label class="checkbox-label">
-                      <span class="checkbox-text">Dados manuais</span>
-                      <input class="form-check-input me-1 right-checkbox" type="checkbox" value="" aria-label="..." checked>
-                    </label>
-                  </li>
-                
-                  <li class="list-group-item">
-                    <label class="checkbox-label">
-                      <span class="checkbox-text">Dados no futuro</span>
-                      <input class="form-check-input me-1 right-checkbox" type="checkbox" value="" aria-label="...">
-                    </label>
-                  </li>
-                
-                  <li class="list-group-item">
-                    <label class="checkbox-label">
-                      <span class="checkbox-text">Dados só com EPM</span>
-                      <input class="form-check-input me-1 right-checkbox" type="checkbox" value="" aria-label="...">
-                    </label>
-                  </li>
-                </div>                               
-                
+                </div>
                 <!-- Default Accordion -->
                 <div class="accordion" id="ponto-accordion">
                   <div id="accordion-items"></div>
@@ -279,7 +296,7 @@
   <script src="assets/js/data/meuRH.js"></script>
   <script src="assets/js/data/epm.js"></script>
   <script src="assets/js/data/compare.js"></script>
-    <script src="assets/js/features/visualizar/innerHTML.js"></script>
+  <script src="assets/js/features/visualizar/innerHTML.js"></script>
   <script src="assets/js/features/visualizar/pontoItem.js"></script>
   <script src="assets/js/features/visualizar/visualizar.js"></script>
   <script src="assets/js/features/conversores.js"></script>

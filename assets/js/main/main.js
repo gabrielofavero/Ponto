@@ -474,3 +474,15 @@ function _endLoad() {
   document.getElementById("loading-container").style.display = "none";
   document.getElementById("main-container").style.display = "block";
 }
+
+function _filterVisibility() {
+  const filter = document.getElementById("accordion-filter");
+  var classList = filter.classList;
+  if (classList.contains("bi-filter-circle")) {
+    classList.remove("bi-filter-circle");
+    classList.add("bi-filter-circle-fill");
+  } else {
+    classList.remove("bi-filter-circle-fill");
+    classList.add("bi-filter-circle");
+  }
+}
