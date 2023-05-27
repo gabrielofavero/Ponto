@@ -60,10 +60,6 @@ function _loadMessagesHTML(ponto) {
   for (let message of messages) {
     let messageDiv;
     switch (message) {
-      case MESSAGES_JSON.manual:
-        messageDiv = MESSAGE_DIVS_JSON.manual;
-        types.push(BADGES_JSON.manual.badge);
-        break;
       case MESSAGES_JSON.epmMissing:
         messageDiv = MESSAGE_DIVS_JSON.info;
         break;

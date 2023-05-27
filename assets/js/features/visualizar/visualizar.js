@@ -29,9 +29,8 @@ function _startVisualizar(type) {
 
     const meuRH = _getLocal('meuRH');
     const epm = _getLocal('epm');
-    const manual = _getLocal('manual');
 
-    if (meuRH || epm || manual) {
+    if (meuRH || epm) {
         _loadPonto(checkBoxes, type);
     }
     _endLoad();
@@ -41,11 +40,9 @@ function _startVisualizar(type) {
 function _loadPonto(checkBoxes, type) {
     const meuRH = _getLocal('meuRH');
     const epm = _getLocal('epm');
-    const manual = _getLocal('manual');
 
     let keysMeuRH = [];
     let keysEPM = [];
-    let keysManual = [];
 
     if (meuRH) {
         keysMeuRH = Object.keys(meuRH['system']);
@@ -55,11 +52,7 @@ function _loadPonto(checkBoxes, type) {
         keysEPM = Object.keys(epm['system']);
     }
 
-    if (manual) {
-        keysManual = Object.keys(manual['system']);
-    }
-
-    let keys = [...new Set(keysMeuRH.concat(keysEPM, keysManual))];
+    let keys = [...new Set(keysMeuRH.concat(keysEPM))];
 
     keys.sort((a, b) => {
         const dateA = new Date(a.split('/').reverse().join('/'));

@@ -6,9 +6,8 @@ var messages = [];
 function _loadPontoItem(i, key, checkBoxes = {}, type) {
     const meuRH = _getLocal('meuRH');
     const epm = _getLocal('epm');
-    const manual = _getLocal('manual');
 
-    if ((meuRH && meuRH['system'][key]) || (epm && epm['system'][key]) || (manual && manual['system'][key])) {
+    if ((meuRH && meuRH['system'][key]) || (epm && epm['system'][key])) {
         let ponto = _getInitialPontoItem(i, key);
         messages = [];
 

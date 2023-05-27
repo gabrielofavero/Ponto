@@ -19,11 +19,6 @@
         "roundedPill": "badge rounded-pill bg-secondary",
         "icon": "bi bi-info-circle"
     },
-    "manual": {
-        "badge": "primary",
-        "roundedPill": "badge rounded-pill bg-primary",
-        "icon": "bi bi-pencil"
-    },
     "common": {
         "badge": "common",
         "roundedPill": "common",

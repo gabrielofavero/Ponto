@@ -3,7 +3,6 @@ function _getCheckboxes() {
     switch (window.location.pathname) {
         case "/meuRH-visualizar.html":
             _loadCheckbox('checkboxEPM', checkBoxes);
-            _loadCheckbox('checkboxManual', checkBoxes);
             _loadCheckbox('checkboxFuturo', checkBoxes);
             _loadCheckbox('checkboxVazio', checkBoxes);
             break;
@@ -58,11 +57,6 @@ function _getCheckboxVisibility(name) {
                 result = "none";
             }
             break;
-        case 'checkboxManual':
-            if (!_getLocal('manual')) {
-                result = "none";
-            }
-            break;
         case 'checkboxFuturo':
         case 'checkboxVazio':
             break;
@@ -73,7 +67,6 @@ function _getCheckboxVisibility(name) {
 function _getPeriodo(checkboxResult, type) {
     var meuRH = type == 'meuRH' ? _getLocal('meuRH') : undefined;
     var epm = type == 'epm' ? _getLocal('epm') : undefined;
-    var manual;
     var today;
 
     const keys = Object.keys(checkboxResult);
@@ -87,11 +80,6 @@ function _getPeriodo(checkboxResult, type) {
             case 'checkboxEPM':
                 if (checkboxResult[key] == true) {
                     epm = _getLocal('epm');
-                }
-                break;
-            case 'checkboxManual':
-                if (checkboxResult[key] == true) {
-                    manual = _getLocal('manual');
                 }
                 break;
             case 'checkboxFuturo':
@@ -109,21 +97,18 @@ function _getPeriodo(checkboxResult, type) {
         end: "",
         meuRH: meuRH ? true : false,
         epm: epm ? true : false,
-        manual: manual ? true : false,
     }
 
-    _loadPeriodo(result, meuRH, epm, manual, today);
+    _loadPeriodo(result, meuRH, epm, today);
 
     return result;
 }
 
-function _loadPeriodo(result, meuRH, epm, manual, today) {
+function _loadPeriodo(result, meuRH, epm, today) {
     let startMeuRH;
     let endMeuRH;
     let startEPM;
     let endEPM;
-    let startManual;
-    let endManual;
 
     if (meuRH && meuRH['keypoints'] && meuRH['keypoints']['Início'] && meuRH['keypoints']['Fim']) {
         startMeuRH = _getDate(meuRH['keypoints']['Início']);
@@ -135,13 +120,8 @@ function _loadPeriodo(result, meuRH, epm, manual, today) {
         endEPM = _getDate(epm['keypoints']['Fim']);
     }
 
-    if (manual && manual['keypoints'] && manual['keypoints']['Início'] && manual['keypoints']['Fim']) {
-        startManual = _getDate(manual['keypoints']['Início']);
-        endManual = _getDate(manual['keypoints']['Fim']);
-    }
-
-    let start = _getEarliest(_getFilteredDateArray([startMeuRH, startEPM, startManual]));
-    let end = _getLatest(_getFilteredDateArray([endMeuRH, endEPM, endManual]));
+    let start = _getEarliest(_getFilteredDateArray([startMeuRH, startEPM]));
+    let end = _getLatest(_getFilteredDateArray([endMeuRH, endEPM]));
 
     if (today && today.getDate() < end.getDate()) {
         end = today;
