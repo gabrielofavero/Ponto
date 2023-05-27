@@ -1,4 +1,5 @@
-function _loadCheckboxes(checkBoxes) {
+function _getCheckboxes() {
+    let checkBoxes = {};
     switch (window.location.pathname) {
         case "/meuRH-visualizar.html":
             _loadCheckbox('checkboxEPM', checkBoxes);
@@ -7,7 +8,9 @@ function _loadCheckboxes(checkBoxes) {
             _loadCheckbox('checkboxVazio', checkBoxes);
             break;
         case "/epm-visualizar.html":
-            // TO-DO
+            _loadCheckbox('checkboxMeuRH', checkBoxes);
+            _loadCheckbox('checkboxVazio', checkBoxes);
+            _loadCheckbox('checkboxFuturo', checkBoxes);
             break;
     }
 
@@ -20,6 +23,8 @@ function _loadCheckboxes(checkBoxes) {
     filterApply.addEventListener('click', function () {
         window.location.reload();
     });
+
+    return checkBoxes;
 }
 
 function _loadCheckbox(name, checkBoxes) {
@@ -65,9 +70,9 @@ function _getCheckboxVisibility(name) {
     return result;
 }
 
-function _getPeriodo(checkboxResult) {
-    const meuRH = _getLocal('meuRH');
-    var epm;
+function _getPeriodo(checkboxResult, type) {
+    var meuRH = type == 'meuRH' ? _getLocal('meuRH') : undefined;
+    var epm = type == 'epm' ? _getLocal('epm') : undefined;
     var manual;
     var today;
 
@@ -75,6 +80,10 @@ function _getPeriodo(checkboxResult) {
 
     for (let key of keys) {
         switch (key) {
+            case 'checkboxMeuRH':
+                if (checkboxResult[key] == true) {
+                    meuRH = _getLocal('meuRH');
+                }
             case 'checkboxEPM':
                 if (checkboxResult[key] == true) {
                     epm = _getLocal('epm');
@@ -98,6 +107,9 @@ function _getPeriodo(checkboxResult) {
     let result = {
         start: "",
         end: "",
+        meuRH: meuRH ? true : false,
+        epm: epm ? true : false,
+        manual: manual ? true : false,
     }
 
     _loadPeriodo(result, meuRH, epm, manual, today);

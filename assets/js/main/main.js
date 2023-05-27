@@ -416,7 +416,10 @@ async function _start() {
       _startIndex();
       break;
     case "/meuRH-visualizar.html":
-      _startVisualizar();
+      _startVisualizar('meuRH');
+      break;
+    case "/epm-visualizar.html":
+      _startVisualizar('epm');
       break;
   }
 

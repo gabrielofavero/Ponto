@@ -6,23 +6,23 @@ const PONTO_ITEM_JSON = _getJSON('assets/json/visualizar/Ponto Item.json');
 var PERIODO;
 
 // ==== Main ====
-function _startVisualizar() {
-    let checkBoxes = {};
+function _startVisualizar(type) {
+    let checkBoxes = _getCheckboxes();;
 
-    _loadCheckboxes(checkBoxes);
-
-    let regime = _getRegime();
-    let saldo = _getSaldo();
-    let periodo = _getPeriodo(checkBoxes);
-
-    if (regime) {
-        document.getElementById('regime').innerHTML = regime;
+    if (type == 'meuRH'){
+        let regime = _getRegime();
+        let saldo = _getSaldo();
+    
+        if (regime) {
+            document.getElementById('regime').innerHTML = regime;
+        }
+    
+        if (saldo) {
+            document.getElementById('saldo').innerHTML = saldo;
+        }
     }
 
-    if (saldo) {
-        document.getElementById('saldo').innerHTML = saldo;
-    }
-
+    let periodo = _getPeriodo(checkBoxes, type);
     if (periodo) {
         document.getElementById('periodo').innerHTML = _getPeriodoString(periodo);
     }
@@ -32,13 +32,13 @@ function _startVisualizar() {
     const manual = _getLocal('manual');
 
     if (meuRH || epm || manual) {
-        _loadPonto(checkBoxes);
+        _loadPonto(checkBoxes, type);
     }
     _endLoad();
 }
 
 // ==== Loaders ====
-function _loadPonto(checkBoxes) {
+function _loadPonto(checkBoxes, type) {
     const meuRH = _getLocal('meuRH');
     const epm = _getLocal('epm');
     const manual = _getLocal('manual');
@@ -68,7 +68,7 @@ function _loadPonto(checkBoxes) {
     });
 
     for (let i = 0; i < keys.length; i++) {
-        _loadPontoItem(i, keys[i], checkBoxes);
+        _loadPontoItem(i, keys[i], checkBoxes, type);
     }
 }
 

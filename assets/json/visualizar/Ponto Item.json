@@ -30,7 +30,8 @@
     },
     "meuRH": {
         "roundedPill": "",
-        "value": "?"
+        "value": "?",
+        "visibility": ""
     },
     "epm": {
         "roundedPill": "",

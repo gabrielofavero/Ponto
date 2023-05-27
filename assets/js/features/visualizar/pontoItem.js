@@ -3,7 +3,7 @@ var messages = [];
 
 
 // ==== Loaders ====
-function _loadPontoItem(i, key, checkBoxes = {}) {
+function _loadPontoItem(i, key, checkBoxes = {}, type) {
     const meuRH = _getLocal('meuRH');
     const epm = _getLocal('epm');
     const manual = _getLocal('manual');
@@ -16,11 +16,16 @@ function _loadPontoItem(i, key, checkBoxes = {}) {
         _loadPontoDate(ponto);
 
         // Meu RH
-        _loadPontoItemMeuRH(ponto);
-        _validatePontoValue(ponto, "meuRH");
+        if (type == "meuRH" || checkBoxes.checkboxMeuRH == true){
+            _loadPontoItemMeuRH(ponto);
+            _validatePontoValue(ponto, "meuRH");
+        } else {
+            ponto.comparisonTable.visibility = "style='display: none;'"
+            ponto.meuRH.visibility = "style='display: none;'"
+        }
 
         // EPM
-        if (checkBoxes.checkboxEPM == true) {
+        if (type == "epm" || checkBoxes.checkboxEPM == true) {
             _loadPontoItemEPM(ponto);
             _validatePontoValue(ponto, "epm");
         } else {
@@ -88,12 +93,10 @@ function _loadPontoItemMeuRH(ponto) {
     }
 }
 
-function _loadPontoItemEPM(ponto) {
-    const meuRH = _getLocal('meuRH');
+function _loadPontoItemEPM(ponto, type) {
     const epm = _getLocal('epm');
-    const manual = _getLocal('manual');
     if (epm && epm['system'][ponto.key]) {
-        if ((!meuRH || !meuRH['system'][ponto.key]) && (!manual || !manual['system'][ponto.key])) {
+        if (type == "epm") {
             _loadPontoItemEPMExclusive(ponto);
         } else {
             ponto.epm.value = epm['system'][ponto.key];
@@ -134,6 +137,7 @@ function _getPunches(array, messages) {
         interval: {
             roundedPill: BADGES_JSON.common.roundedPill,
             icon: BADGES_JSON.common.icon,
+            internalRoundedPill: BADGES_JSON.common.roundedPill,
             value: "00:00"
         },
     }
