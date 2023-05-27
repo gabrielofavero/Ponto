@@ -9,27 +9,6 @@
         "icon": "",
         "textType": ""
     },
-    "observation":{
-        "value": "",
-        "innerHTML": ""
-    },
-    "hours": {
-        "title": "Trabalho",
-        "roundedPill": "",
-        "badge": "",
-        "value": "",
-        "icon": ""
-    },
-    "interval": {
-        "title": "Intervalo",
-        "roundedPill": "",
-        "internalRoundedPill": "",
-        "value": ""
-    },
-    "punchesTable":{
-        "visibility": "",
-        "innerHTML": ""
-    },
     "meuRH": {
         "roundedPill": "",
         "value": "",
@@ -41,8 +20,32 @@
         "value": "",
         "visibility": ""
     },
-    "messagesHTML": "",
-    "comparisonTable": {
-        "visibility": ""
+    "htmlElements":{
+        "observation":{
+            "value": "",
+            "innerHTML": ""
+        },
+        "hours": {
+            "title": "Trabalho",
+            "roundedPill": "",
+            "badge": "",
+            "value": "",
+            "icon": ""
+        },
+        "interval": {
+            "title": "Intervalo",
+            "roundedPill": "",
+            "internalRoundedPill": "",
+            "value": ""
+        },
+        "punchesTable":{
+            "visibility": "",
+            "innerHTML": ""
+        },
+        "comparisonTable": {
+            "visibility": ""
+        },
+        "messagesHTML": "",
+        "sumUpContainerHTML": ""
     }
 }

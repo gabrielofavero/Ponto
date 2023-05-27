@@ -27,7 +27,7 @@ function _loadPonto(checkBoxes, type, system) {
         if ((type == "meuRH" && checkBoxes.checkboxEPM == true) || (type == "epm" && checkBoxes.checkboxMeuRH == true)){
             _loadComparison(ponto, messages);
         } else {
-            ponto.comparisonTable.visibility = "style='display: none;'"
+            ponto.htmlElements.comparisonTable.visibility = "style='display: none;'"
         }
 
         // Messages HTML
@@ -51,13 +51,13 @@ function _getInitialPontoItem(i, key) {
     ponto.title.badge = BADGES_JSON.success.badge;
     ponto.title.icon = BADGES_JSON.success.icon;
 
-    ponto.hours.title = "Trabalho";
-    ponto.hours.roundedPill = BADGES_JSON.info.roundedPill;
-    ponto.hours.badge = BADGES_JSON.info.badge;
-    ponto.hours.icon = BADGES_JSON.info.icon;
+    ponto.htmlElements.hours.title = "Trabalho";
+    ponto.htmlElements.hours.roundedPill = BADGES_JSON.info.roundedPill;
+    ponto.htmlElements.hours.badge = BADGES_JSON.info.badge;
+    ponto.htmlElements.hours.icon = BADGES_JSON.info.icon;
 
-    ponto.interval.title = "Intervalo";
-    ponto.interval.internalRoundedPill = BADGES_JSON.common.roundedPill;
+    ponto.htmlElements.interval.title = "Intervalo";
+    ponto.htmlElements.interval.internalRoundedPill = BADGES_JSON.common.roundedPill;
 
     ponto.meuRH.roundedPill = BADGES_JSON.info.roundedPill;
     ponto.epm.roundedPill = BADGES_JSON.info.roundedPill
@@ -68,23 +68,23 @@ function _getInitialPontoItem(i, key) {
 function _loadPontoMeuRH(ponto, messages, type) {
     const meuRH = _getLocal('meuRH');
     if (meuRH && meuRH['system'] && meuRH['system'][ponto.key]) {
-        ponto.observation.value = meuRH['system'][ponto.key]["observation"];
-        ponto.observation.innerHTML = _getPontoObservationInnerHTML(ponto.observation.value, ponto.i);
+        ponto.htmlElements.observation.value = meuRH['system'][ponto.key]["observation"];
+        ponto.htmlElements.observation.innerHTML = _getPontoObservationInnerHTML(ponto.htmlElements.observation.value, ponto.i);
 
         const PUNCHES = _getPunches(meuRH['system'][ponto.key]["punches"], messages);
 
         if (type == "meuRH") {
-        ponto.interval.internalRoundedPill = PUNCHES.interval.internalRoundedPill
-        ponto.punchesTable.innerHTML = _getPunchesTableHTML(meuRH['system'][ponto.key]["punches"], messages, ponto.i, ponto.interval.internalRoundedPill);
+        ponto.htmlElements.interval.internalRoundedPill = PUNCHES.interval.internalRoundedPill
+        ponto.htmlElements.punchesTable.innerHTML = _getPunchesTableHTML(meuRH['system'][ponto.key]["punches"], messages, ponto.i, ponto.htmlElements.interval.internalRoundedPill);
 
-        ponto.hours.value = PUNCHES.hours.value;
-        ponto.hours.roundedPill = PUNCHES.hours.roundedPill;
-        ponto.hours.badge = PUNCHES.hours.badge;
-        ponto.hours.icon = PUNCHES.hours.icon;
+        ponto.htmlElements.hours.value = PUNCHES.hours.value;
+        ponto.htmlElements.hours.roundedPill = PUNCHES.hours.roundedPill;
+        ponto.htmlElements.hours.badge = PUNCHES.hours.badge;
+        ponto.htmlElements.hours.icon = PUNCHES.hours.icon;
 
-        ponto.interval.value = PUNCHES.interval.value;
-        ponto.interval.roundedPill = PUNCHES.interval.roundedPill;
-        ponto.interval.icon = PUNCHES.interval.icon;
+        ponto.htmlElements.interval.value = PUNCHES.interval.value;
+        ponto.htmlElements.interval.roundedPill = PUNCHES.interval.roundedPill;
+        ponto.htmlElements.interval.icon = PUNCHES.interval.icon;
 
         ponto.title.value = PUNCHES.hours.value;
         };
@@ -98,7 +98,7 @@ function _loadPontoEPM(ponto) {
     ponto.epm.value = epm['system'][ponto.key];
     ponto.epm.roundedPill = BADGES_JSON.common.roundedPill;
 
-    ponto.punchesTable.visibility = `style="display:none;"`
+    ponto.htmlElements.punchesTable.visibility = `style="display:none;"`
 
     ponto.title.value = _epmToTime(ponto.epm.value);
 }
@@ -279,9 +279,9 @@ function _setVisibilityAfterLoad(i) {
     }
 
     const observation = document.getElementById(`observation${i}`);
-    const comparisonContainer = document.getElementById(`comparison-container${i}`);
+    const sumUpContainer = document.getElementById(`sumUp-container${i}`);
 
-    if (observation && comparisonContainer) {
-        comparisonContainer.style.marginTop = "35px"
+    if (observation && sumUpContainer) {
+        sumUpContainer.style.marginTop = "35px"
     }
 }

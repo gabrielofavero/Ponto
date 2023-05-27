@@ -12,25 +12,25 @@ function _loadAccordionItemHTML(ponto) {
       data-bs-parent="#ponto-accordion">
       <div class="accordion-body">
 
-        ${ponto.observation.innerHTML}
-        <div class="item-comparison-container" id="comparison-container${ponto.i}" ${ponto.punchesTable.visibility}>
+        ${ponto.htmlElements.observation.innerHTML}
+        <div class="item-comparison-container" id="sumUp-container${ponto.i}" ${ponto.htmlElements.punchesTable.visibility}>
           <div class="item-comparison-table">
             <div class="item-internal-container">
-              <div class="item-comparison-title">${ponto.hours.title}</div>
-              <div><span class="${ponto.hours.roundedPill}">${ponto.hours.value}</span></div>
+              <div class="item-comparison-title">${ponto.htmlElements.hours.title}</div>
+              <div><span class="${ponto.htmlElements.hours.roundedPill}">${ponto.htmlElements.hours.value}</span></div>
             </div>
             <div class="item-internal-container">
-              <div class="item-comparison-title">${ponto.interval.title}</div>
-              <div><span class="${ponto.interval.roundedPill}">${ponto.interval.value}</span></div>
+              <div class="item-comparison-title">${ponto.htmlElements.interval.title}</div>
+              <div><span class="${ponto.htmlElements.interval.roundedPill}">${ponto.htmlElements.interval.value}</span></div>
             </div>
           </div>
         </div>
 
         <div class="item-comparison-container" id="punchesTable${ponto.i}">
-        ${ponto.punchesTable.innerHTML}
+        ${ponto.htmlElements.punchesTable.innerHTML}
         </div>
 
-        <div class="item-comparison-container" ${ponto.comparisonTable.visibility}>
+        <div class="item-comparison-container" ${ponto.htmlElements.comparisonTable.visibility}>
           <div class="item-comparison-table">
             <div class="item-internal-container">
               <div class="item-comparison-title">Meu RH</div>
@@ -44,7 +44,7 @@ function _loadAccordionItemHTML(ponto) {
         </div>
 
         <div class="item-internal-messages" id="message${ponto.i}">
-            ${ponto.messagesHTML}
+            ${ponto.htmlElements.messagesHTML}
         </div>
 
       </div>
@@ -67,7 +67,7 @@ function _loadMessagesHTML(ponto, messages) {
         messageDiv = MESSAGE_DIVS_JSON.info;
         types.push(BADGES_JSON.info.badge);
         if (!ponto.epm.visibility) {
-          ponto.comparisonTable.visibility = "style='display: none;'";
+          ponto.htmlElements.comparisonTable.visibility = "style='display: none;'";
         }
         break;
       case "":
@@ -82,7 +82,7 @@ function _loadMessagesHTML(ponto, messages) {
       result.push(messageDiv.replace("#1", message));
     }
   }
-  ponto.messagesHTML = result.join("");
+  ponto.htmlElements.messagesHTML = result.join("");
   let typesS = types.toString();
 
   if (typesS.includes(BADGES_JSON.danger.badge)) {
