@@ -30,6 +30,9 @@ function _startVisualizar(type) {
     
     if (periodo) {
         document.getElementById('periodo').innerHTML = _getPeriodoString(periodo);
+        if ((new Date()).getTime() >= periodo.end.getTime()){
+            _unloadCheckbox('checkboxFuturo', checkBoxes);
+        }
     }
 
     if (database) {
@@ -113,6 +116,20 @@ function _loadCheckbox(name, checkBoxes) {
             checkBoxes[name] = val || div.checked;
         }
     }
+}
+
+function _unloadCheckbox(name, checkBoxes) {
+    delete checkBoxes[name];
+    localStorage.removeItem(name);
+    const div = document.getElementById(name);
+    const itemDiv = document.getElementById(name + '-item');
+    if (div && itemDiv) {
+        itemDiv.style.display = "none";
+    }
+    // remove event listener
+    div.removeEventListener('change', function (event) {
+        localStorage.setItem(name, event.target.checked);
+    });
 }
 
 function _getPeriodo(checkboxResult, type) {

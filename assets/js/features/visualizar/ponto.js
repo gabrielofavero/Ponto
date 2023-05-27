@@ -51,10 +51,12 @@ function _getInitialPontoItem(i, key) {
     ponto.title.badge = BADGES_JSON.success.badge;
     ponto.title.icon = BADGES_JSON.success.icon;
 
+    ponto.hours.title = "Trabalho";
     ponto.hours.roundedPill = BADGES_JSON.info.roundedPill;
     ponto.hours.badge = BADGES_JSON.info.badge;
     ponto.hours.icon = BADGES_JSON.info.icon;
 
+    ponto.interval.title = "Intervalo";
     ponto.interval.internalRoundedPill = BADGES_JSON.common.roundedPill;
 
     ponto.meuRH.roundedPill = BADGES_JSON.info.roundedPill;
