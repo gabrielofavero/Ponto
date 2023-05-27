@@ -149,16 +149,6 @@ function _getEarliest(dateArray){
     return earliest;
 }
 
-function _getLatest(dateArray){
-    let latest = dateArray[0];
-    for (let i = 1; i < dateArray.length; i++){
-        if (dateArray[i] && dateArray[i] > latest){
-            latest = dateArray[i];
-        }
-    }
-    return latest;
-}
-
 function _isTimeString(string){
     let result = false;
     if (string) {

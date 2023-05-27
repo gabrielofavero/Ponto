@@ -16,11 +16,11 @@ function _loadAccordionItemHTML(ponto) {
         <div class="item-comparison-container" id="comparison-container${ponto.i}" ${ponto.punchesTable.visibility}>
           <div class="item-comparison-table">
             <div class="item-internal-container">
-              <div class="item-comparison-title">Trabalho</div>
+              <div class="item-comparison-title">${ponto.hours.title}</div>
               <div><span class="${ponto.hours.roundedPill}">${ponto.hours.value}</span></div>
             </div>
             <div class="item-internal-container">
-              <div class="item-comparison-title">Intervalo</div>
+              <div class="item-comparison-title">${ponto.interval.title}</div>
               <div><span class="${ponto.interval.roundedPill}">${ponto.interval.value}</span></div>
             </div>
           </div>
@@ -54,7 +54,7 @@ function _loadAccordionItemHTML(ponto) {
   document.getElementById("accordion-items").innerHTML += result;
 }
 
-function _loadMessagesHTML(ponto) {
+function _loadMessagesHTML(ponto, messages) {
   let result = [];
   let types = [];
   for (let message of messages) {

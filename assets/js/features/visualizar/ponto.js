@@ -1,53 +1,49 @@
-// ==== Dynamic Variables ====
-var messages = [];
-
-
 // ==== Loaders ====
-function _loadPontoItem(i, key, checkBoxes = {}, type) {
-    const meuRH = _getLocal('meuRH');
-    const epm = _getLocal('epm');
+function _loadPonto(checkBoxes, type, system) {
+    let keys = Object.keys(system);
+    let i = 0;
 
-    if ((meuRH && meuRH['system'][key]) || (epm && epm['system'][key])) {
+    for (let key of keys) {
         let ponto = _getInitialPontoItem(i, key);
-        messages = [];
+        let messages = [];
 
         // Date
         _loadPontoDate(ponto);
 
         // Meu RH
-        if (type == "meuRH" || checkBoxes.checkboxMeuRH == true){
-            _loadPontoItemMeuRH(ponto);
-            _validatePontoValue(ponto, "meuRH");
-        } else {
-            ponto.comparisonTable.visibility = "style='display: none;'"
-            ponto.meuRH.visibility = "style='display: none;'"
-        }
+        _loadPontoMeuRH(ponto, messages, type);
+        _validatePontoValue(ponto, "meuRH", messages);
 
         // EPM
-        if (type == "epm" || checkBoxes.checkboxEPM == true) {
-            _loadPontoItemEPM(ponto);
-            _validatePontoValue(ponto, "epm");
+        if (type == "epm") {
+            _loadPontoEPM(ponto);
+            _validatePontoValue(ponto, "epm", messages);
+            ponto.meuRH.visibility = "style='display: none;'"
         } else {
-            ponto.comparisonTable.visibility = "style='display: none;'"
             ponto.epm.visibility = "style='display: none;'"
         }
 
         // Meu RH and EPM Comparison
-        _validateMeuRHAndEPM(ponto);
+        if ((type == "meuRH" && checkBoxes.checkboxEPM == true) || (type == "epm" && checkBoxes.checkboxMeuRH == true)){
+            _loadComparison(ponto, messages);
+        } else {
+            ponto.comparisonTable.visibility = "style='display: none;'"
+        }
 
         // Messages HTML
-        _loadMessagesHTML(ponto);
+        _loadMessagesHTML(ponto, messages);
 
         // Apply to HTML
         if (!(checkBoxes.checkboxVazio == true && ponto.title.value == "00:00")) {
             _loadAccordionItemHTML(ponto)
             _setVisibilityAfterLoad(i);
         }
+        i++;
     }
 }
 
 function _getInitialPontoItem(i, key) {
-    let ponto = JSON.parse(JSON.stringify(PONTO_ITEM_JSON))
+    let ponto = JSON.parse(JSON.stringify(PONTO))
     ponto.i = i;
     ponto.key = key;
 
@@ -67,14 +63,15 @@ function _getInitialPontoItem(i, key) {
     return ponto;
 }
 
-function _loadPontoItemMeuRH(ponto) {
+function _loadPontoMeuRH(ponto, messages, type) {
     const meuRH = _getLocal('meuRH');
     if (meuRH && meuRH['system'] && meuRH['system'][ponto.key]) {
         ponto.observation.value = meuRH['system'][ponto.key]["observation"];
         ponto.observation.innerHTML = _getPontoObservationInnerHTML(ponto.observation.value, ponto.i);
-        
+
         const PUNCHES = _getPunches(meuRH['system'][ponto.key]["punches"], messages);
-        
+
+        if (type == "meuRH") {
         ponto.interval.internalRoundedPill = PUNCHES.interval.internalRoundedPill
         ponto.punchesTable.innerHTML = _getPunchesTableHTML(meuRH['system'][ponto.key]["punches"], messages, ponto.i, ponto.interval.internalRoundedPill);
 
@@ -88,23 +85,12 @@ function _loadPontoItemMeuRH(ponto) {
         ponto.interval.icon = PUNCHES.interval.icon;
 
         ponto.title.value = PUNCHES.hours.value;
+        };
         ponto.meuRH.value = _timeToEPM(PUNCHES.hours.value);
     }
 }
 
-function _loadPontoItemEPM(ponto, type) {
-    const epm = _getLocal('epm');
-    if (epm && epm['system'][ponto.key]) {
-        if (type == "epm") {
-            _loadPontoItemEPMExclusive(ponto);
-        } else {
-            ponto.epm.value = epm['system'][ponto.key];
-            ponto.epm.roundedPill = BADGES_JSON.common.roundedPill;
-        }
-    }
-}
-
-function _loadPontoItemEPMExclusive(ponto) {
+function _loadPontoEPM(ponto) {
     const epm = _getLocal('epm');
 
     ponto.epm.value = epm['system'][ponto.key];
@@ -161,7 +147,7 @@ function _getPunches(array, messages) {
         result.hours.icon = _getIcon(result.hours.badge);
 
         _loadIntervalRules(result, iArray, messages);
-        
+
         result.interval.icon = _getIcon(result.interval.badge);
     }
     return result;
@@ -212,7 +198,7 @@ function _getIcon(badge) {
 
 function _loadIntervalRules(result, iArray, messages) {
     let hours = result.hours.value;
-    
+
     if (_isTimeStringBiggerThen(hours, "06:00")) {
         switch (iArray.length) {
             case 0:
@@ -242,7 +228,7 @@ function _loadIntervalRules(result, iArray, messages) {
 }
 
 // ==== Validators ====
-function _validatePontoValue(ponto, value, i) {
+function _validatePontoValue(ponto, value, messages) {
     if (value == "meuRH" || value == "epm") {
         if (ponto[value].value == "?") {
             messages.push(MESSAGES_JSON[`${value}Missing`]);
@@ -252,7 +238,22 @@ function _validatePontoValue(ponto, value, i) {
     }
 }
 
-function _validateMeuRHAndEPM(ponto) {
+function _loadComparison(ponto, messages) {
+    const epm = _getLocal("epm");
+
+    if (!ponto.epm.value){
+        ponto.epm.value = epm['system'][ponto.key] || "?";
+        ponto.epm.roundedPill = BADGES_JSON.common.roundedPill;
+        if (ponto.epm.value == "?") {
+            ponto.epm.roundedPill = BADGES_JSON.info.roundedPill;
+            messages.push(MESSAGES_JSON.epmMissing);
+        }
+    }
+
+    if (ponto.meuRH.value == "?") {
+        messages.push(MESSAGES_JSON.meuRHMissing);
+    }
+
     if (ponto.meuRH.value != "?" && ponto.epm.value != "?" && ponto.meuRH.value != ponto.epm.value) {
         ponto.meuRH.roundedPill = BADGES_JSON.warning.roundedPill;
         ponto.epm.roundedPill = BADGES_JSON.warning.roundedPill;
@@ -278,7 +279,7 @@ function _setVisibilityAfterLoad(i) {
     const observation = document.getElementById(`observation${i}`);
     const comparisonContainer = document.getElementById(`comparison-container${i}`);
 
-    if (observation && comparisonContainer){
+    if (observation && comparisonContainer) {
         comparisonContainer.style.marginTop = "35px"
     }
 }
