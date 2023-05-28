@@ -124,7 +124,6 @@ function _unloadCheckbox(name, checkBoxes) {
     if (div && itemDiv) {
         itemDiv.style.display = "none";
     }
-    // remove event listener
     div.removeEventListener('change', function (event) {
         localStorage.setItem(name, event.target.checked);
     });
