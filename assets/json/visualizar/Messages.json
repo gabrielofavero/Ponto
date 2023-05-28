@@ -7,5 +7,5 @@
     "noMainIntervals": "Apesar de ter feito mais de um intervalo, nenhum deles durou entre <b>1 a 2 horas</b>.",
     "odd": "Você marcou um número ímpar de batidas. Realize o ajuste manual para incluir o horário ausente.",
     "tooLongJourney": "Você trabalhou mais de 10 horas. Só é autorizado trabalhar até 2h extras por dia.",
-    "internJourneyMismatch": "Você não trabalhou 6 horas. Estagiários devem trabalhar exatamente 6 horas por dia."
+    "internJourneyMismatch": "Você não trabalhou 6 horas. Estagiários devem trabalhar exatamente 6 horas por dia. Alinhe com seu gestor ou realize o ajuste manual."
 }

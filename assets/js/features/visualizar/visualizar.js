@@ -45,9 +45,9 @@ function _startVisualizar(type) {
 function _getRegime() {
     let job = _getLocal('job');
     if (job && (job.toLowerCase().includes('estagiario'))) {
-        job = 'Estagiário';
+        job = 'Estágio (6h)';
     } else {
-        job = 'CLT';
+        job = 'Comum (8h)';
     }
     return job;
 }

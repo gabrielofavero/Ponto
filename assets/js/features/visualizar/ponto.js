@@ -110,6 +110,20 @@ function _loadPontoEPM(ponto, messages) {
     ponto.title.value = ponto.epm.value;
 }
 
+function _loadRulesEPM(ponto, messages){
+    const regime = _getRegime();
+
+    if (regime )
+
+    if (_isTimeStringBiggerThen(ponto.epm.valueTime, "10:00")) {
+        messages.push(MESSAGES_JSON.tooLongJourney);
+        ponto.epm.roundedPill = BADGES_JSON.warning.roundedPill;
+    } else {
+        ponto.epm.roundedPill = BADGES_JSON.common.roundedPill;
+    }
+
+}
+
 function _loadPontoDate(ponto) {
     const dateNoYear = _dateStringToDateStringNoYear(ponto.key);
     const dayOfTheWeek = _getDayOfTheWeek(ponto.key);
@@ -167,7 +181,7 @@ function _getHoursBadge(hours, messages) {
     if (regime == "CLT" && _isTimeStringBiggerThen(hours, "10:00")) {
         messages.push(MESSAGES_JSON.tooLongJourney);
         return BADGES_JSON.warning.badge;
-    } else if (regime == "Estagiário" && hours != "06:00") {
+    } else if (regime == "Estágio (6h)" && hours != "06:00") {
         messages.push(MESSAGES_JSON.internJourneyMismatch);
         return BADGES_JSON.warning.badge;
     } else {
