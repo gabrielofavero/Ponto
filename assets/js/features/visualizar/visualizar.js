@@ -27,9 +27,11 @@ function _startVisualizar(type) {
     }
 
     let periodo = _getPeriodo(checkBoxes, type);
+    let periodoString = "";
     
     if (periodo) {
-        document.getElementById('periodo').innerHTML = _getPeriodoString(periodo);
+        periodoString = _getPeriodoString(periodo);
+        document.getElementById('periodo').innerHTML = periodoString;
         if ((new Date()).getTime() >= periodo.end.getTime()){
             _unloadCheckbox('checkboxFuturo', checkBoxes);
         }
@@ -38,6 +40,8 @@ function _startVisualizar(type) {
     if (database) {
         _loadPonto(checkBoxes, type, database.system);
     }
+
+    _updatePeriodoString(periodoString);
     _endLoad();
 }
 
@@ -129,27 +133,27 @@ function _unloadCheckbox(name, checkBoxes) {
     });
 }
 
-function _getPeriodo(checkboxResult, type) {
+function _getPeriodo(checkBoxes, type) {
     var meuRH = type == 'meuRH' ? _getLocal('meuRH') : undefined;
     var epm = type == 'epm' ? _getLocal('epm') : undefined;
     var today;
 
-    const keys = Object.keys(checkboxResult);
+    const keys = Object.keys(checkBoxes);
 
     for (let key of keys) {
         switch (key) {
             case 'checkboxMeuRH':
-                if (checkboxResult[key] == true) {
+                if (checkBoxes[key] == true) {
                     meuRH = _getLocal('meuRH');
                 }
                 break;
             case 'checkboxEPM':
-                if (checkboxResult[key] == true) {
+                if (checkBoxes[key] == true) {
                     epm = _getLocal('epm');
                 }
                 break;
             case 'checkboxFuturo':
-                if (checkboxResult[key] == false) {
+                if (checkBoxes[key] == false) {
                     today = new Date();
                 }
         }
@@ -181,4 +185,17 @@ function _getPeriodoString(periodo) {
     const start = _dateToDateStringNoYear(periodo.start);
     const end = _dateToDateStringNoYear(periodo.end);
     return start + " - " + end;
+}
+
+function _updatePeriodoString(periodoString){
+    const start = periodoString.split(" - ")[0];
+    const end = periodoString.split(" - ")[1];
+    const dates = _getAllIdsInClass("dateBox").sort((a, b) => a - b);
+    const startHTML = document.getElementById(dates[0]).innerHTML.trim();
+    const endHTML = document.getElementById(dates[dates.length - 1]).innerHTML.trim();
+    
+    if (start != startHTML || end != endHTML){
+        periodoString = startHTML + " - " + endHTML;
+        document.getElementById('periodo').innerHTML = periodoString;
+    }
 }

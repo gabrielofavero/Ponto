@@ -127,7 +127,7 @@ function _loadRulesEPM(ponto, messages){
 function _loadPontoDate(ponto) {
     const dateNoYear = _dateStringToDateStringNoYear(ponto.key);
     const dayOfTheWeek = _getDayOfTheWeek(ponto.key);
-    ponto.date = `${dateNoYear}<div class="dayOfTheWeek"> ${dayOfTheWeek}</div>`
+    ponto.date = `<div class="dateBox" id=date${ponto.i}>${dateNoYear}</div><div class="dayOfTheWeek"> ${dayOfTheWeek}</div>`
 }
 
 // ==== Getters ====
