@@ -16,12 +16,14 @@ function _loadPonto(checkBoxes, type, system) {
 
         // EPM
         if (type == "epm") {
-            _loadPontoEPM(ponto);
+            _loadPontoEPM(ponto, messages);
             _validatePontoValue(ponto, "epm", messages);
             ponto.meuRH.visibility = "style='display: none;'"
         } else {
             ponto.epm.visibility = "style='display: none;'"
         }
+
+        ponto.sumUpContainerHTML = _getSumUpContainerHTML(ponto, type);
 
         // Meu RH and EPM Comparison
         if ((type == "meuRH" && checkBoxes.checkboxEPM == true) || (type == "epm" && checkBoxes.checkboxMeuRH == true)){
@@ -51,12 +53,10 @@ function _getInitialPontoItem(i, key) {
     ponto.title.badge = BADGES_JSON.success.badge;
     ponto.title.icon = BADGES_JSON.success.icon;
 
-    ponto.htmlElements.hours.title = "Trabalho";
     ponto.htmlElements.hours.roundedPill = BADGES_JSON.info.roundedPill;
     ponto.htmlElements.hours.badge = BADGES_JSON.info.badge;
     ponto.htmlElements.hours.icon = BADGES_JSON.info.icon;
 
-    ponto.htmlElements.interval.title = "Intervalo";
     ponto.htmlElements.interval.internalRoundedPill = BADGES_JSON.common.roundedPill;
 
     ponto.meuRH.roundedPill = BADGES_JSON.info.roundedPill;
@@ -92,15 +92,22 @@ function _loadPontoMeuRH(ponto, messages, type) {
     }
 }
 
-function _loadPontoEPM(ponto) {
+function _loadPontoEPM(ponto, messages) {
     const epm = _getLocal('epm');
 
     ponto.epm.value = epm['system'][ponto.key];
-    ponto.epm.roundedPill = BADGES_JSON.common.roundedPill;
+    ponto.epm.valueTime = _epmToTime(ponto.epm.value);
 
-    ponto.htmlElements.punchesTable.visibility = `style="display:none;"`
+    if (_isTimeStringBiggerThen(ponto.epm.valueTime, "10:00")) {
+        messages.push(MESSAGES_JSON.tooLongJourney);
+        ponto.epm.roundedPill = BADGES_JSON.warning.roundedPill;
+    } else {
+        ponto.epm.roundedPill = BADGES_JSON.common.roundedPill;
+    }
 
-    ponto.title.value = _epmToTime(ponto.epm.value);
+    ponto.htmlElements.punchesTable.visibility = `style="display:none;"`;
+
+    ponto.title.value = ponto.epm.value;
 }
 
 function _loadPontoDate(ponto) {
@@ -234,7 +241,7 @@ function _validatePontoValue(ponto, value, messages) {
     if (value == "meuRH" || value == "epm") {
         if (ponto[value].value == "?") {
             messages.push(MESSAGES_JSON[`${value}Missing`]);
-        } else {
+        } else if (ponto[value].roundedPill != BADGES_JSON.warning.roundedPill) {
             ponto[value].roundedPill = BADGES_JSON.common.roundedPill;
         }
     }

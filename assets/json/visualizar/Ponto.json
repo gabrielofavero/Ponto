@@ -12,12 +12,12 @@
     "meuRH": {
         "roundedPill": "",
         "value": "",
-        "valueTime": "00:00",
         "visibility": ""
     },
     "epm": {
         "roundedPill": "",
         "value": "",
+        "valueTime": "",
         "visibility": ""
     },
     "htmlElements":{
@@ -26,14 +26,12 @@
             "innerHTML": ""
         },
         "hours": {
-            "title": "Trabalho",
             "roundedPill": "",
             "badge": "",
             "value": "",
             "icon": ""
         },
         "interval": {
-            "title": "Intervalo",
             "roundedPill": "",
             "internalRoundedPill": "",
             "value": ""

@@ -13,18 +13,7 @@ function _loadAccordionItemHTML(ponto) {
       <div class="accordion-body">
 
         ${ponto.htmlElements.observation.innerHTML}
-        <div class="item-comparison-container" id="sumUp-container${ponto.i}" ${ponto.htmlElements.punchesTable.visibility}>
-          <div class="item-comparison-table">
-            <div class="item-internal-container">
-              <div class="item-comparison-title">${ponto.htmlElements.hours.title}</div>
-              <div><span class="${ponto.htmlElements.hours.roundedPill}">${ponto.htmlElements.hours.value}</span></div>
-            </div>
-            <div class="item-internal-container">
-              <div class="item-comparison-title">${ponto.htmlElements.interval.title}</div>
-              <div><span class="${ponto.htmlElements.interval.roundedPill}">${ponto.htmlElements.interval.value}</span></div>
-            </div>
-          </div>
-        </div>
+        ${ponto.sumUpContainerHTML}
 
         <div class="item-comparison-container" id="punchesTable${ponto.i}">
         ${ponto.htmlElements.punchesTable.innerHTML}
@@ -171,5 +160,58 @@ function _getPontoObservationInnerHTML(value, i) {
   if (value){
     result = `<div class="badge bg-light observation" id="observation${i}"></i>${value}</div>`;
   }
+  return result;
+}
+
+function _getSumUpContainerHTML(ponto, type){
+  let result = "";
+  
+  let visibility; 
+  let title1;
+  let badge1;
+  let value1;
+  let title2; 
+  let badge2; 
+  let value2
+
+  if (type == "meuRH"){
+    visibility = ponto.htmlElements.punchesTable.visibility;
+    
+    title1 = "Trabalho";
+    badge1 = ponto.htmlElements.hours.roundedPill;
+    value1 = ponto.htmlElements.hours.value;
+    
+    title2 = "Intervalo";
+    badge2 = ponto.htmlElements.interval.roundedPill;
+    value2 = ponto.htmlElements.interval.value;
+  } else if (type == "epm"){
+    visibility = ponto.epm.visibility;
+    
+    title1 = "EPM";
+    badge1 = BADGES_JSON.common.roundedPill;
+    value1 = ponto.epm.value;
+    
+    title2 = "Hora Aprox.";
+    badge2 = ponto.epm.roundedPill;
+    value2 = ponto.epm.valueTime;
+  }
+  
+  
+  if (type == "meuRH" || type == "epm"){
+    result =`
+    <div class="item-comparison-container" id="sumUp-container${ponto.i}" ${visibility}>
+      <div class="item-comparison-table">
+        <div class="item-internal-container">
+          <div class="item-comparison-title">${title1}</div>
+          <div><span class="${badge1}">${value1}</span></div>
+        </div>
+        <div class="item-internal-container">
+          <div class="item-comparison-title">${title2}</div>
+          <div><span class="${badge2}">${value2}</span></div>
+        </div>
+      </div>
+    </div>`;
+  }
+  
   return result;
 }
