@@ -7,7 +7,7 @@ var PERIODO;
 
 // ==== Main ====
 function _startVisualizar(type) {
-    let checkBoxes = _getCheckboxes();;
+    let checkBoxes = _getCheckboxes(type);;
     let database = "";
 
     if (type == 'meuRH'){
@@ -59,22 +59,20 @@ function _getSaldo() {
     } else return "";
 }
 
-function _getCheckboxes() {
+function _getCheckboxes(type) {
     let checkBoxes = {};
     let ids;
-    switch (window.location.pathname) {
-        case "/meuRH-visualizar.html":
-            _loadCheckbox('checkboxEPM', checkBoxes);
-            _loadCheckbox('checkboxFuturo', checkBoxes);
-            _loadCheckbox('checkboxVazio', checkBoxes);
-            ids = ['checkboxEPM', 'checkboxFuturo', 'checkboxVazio'];
-            break;
-        case "/epm-visualizar.html":
-            _loadCheckbox('checkboxMeuRH', checkBoxes);
-            _loadCheckbox('checkboxVazio', checkBoxes);
-            _loadCheckbox('checkboxFuturo', checkBoxes);
-            ids = ['checkboxMeuRH', 'checkboxVazio', 'checkboxFuturo'];
-            break;
+
+    if (type == 'meuRH'){
+        _loadCheckbox('checkboxEPM', checkBoxes);
+        _loadCheckbox('checkboxFuturo', checkBoxes);
+        _loadCheckbox('checkboxVazio', checkBoxes);
+        ids = ['checkboxEPM', 'checkboxFuturo', 'checkboxVazio'];
+    } else if (type == 'epm'){
+        _loadCheckbox('checkboxMeuRH', checkBoxes);
+        _loadCheckbox('checkboxVazio', checkBoxes);
+        _loadCheckbox('checkboxFuturo', checkBoxes);
+        ids = ['checkboxMeuRH', 'checkboxVazio', 'checkboxFuturo'];
     }
 
     const accordion = document.getElementById('accordion-filter');
