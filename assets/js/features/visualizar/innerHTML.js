@@ -4,7 +4,7 @@ function _loadAccordionItemHTML(ponto) {
     <h2 class="accordion-header" id="heading${ponto.i}">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
         data-bs-target="#collapse${ponto.i}" aria-expanded="false" aria-controls="collapse${ponto.i}">
-        ${ponto.date} <span class="badge bg-${ponto.title.badge} time-badge ${ponto.title.textType}" id="badge${ponto.i}"><i class="${ponto.title.icon} me-1"></i>
+        ${ponto.htmlElements.date} <span class="badge bg-${ponto.title.badge} time-badge ${ponto.title.textType}" id="badge${ponto.i}"><i class="${ponto.title.icon} me-1"></i>
           ${ponto.title.value}</span>
       </button>
     </h2>
@@ -13,7 +13,7 @@ function _loadAccordionItemHTML(ponto) {
       <div class="accordion-body">
 
         ${ponto.htmlElements.observation.innerHTML}
-        ${ponto.sumUpContainerHTML}
+        ${ponto.htmlElements.sumUpContainerHTML}
 
         <div class="item-comparison-container" id="punchesTable${ponto.i}">
         ${ponto.htmlElements.punchesTable.innerHTML}
@@ -87,9 +87,13 @@ function _loadMessagesHTML(ponto, messages) {
   }
 }
 
-function _getPunchesTableHTML(punchesArray, messages, i, internalIntervalBadge) {
+function _getPunchesTableHTML(ponto, punchesArray, messages) {
+  const i = ponto.i;
+  const internalIntervalBadge = ponto.htmlElements.interval.internalRoundedPill;
+  
   if (punchesArray.length % 2 != 0) {
-    punchesArray.push('?')
+    punchesArray.push('?');
+    ponto.meuRH.missingPunches = true;
   }
   let entradas = [];
   let saidas = [];
@@ -121,7 +125,7 @@ function _getPunchesTableHTML(punchesArray, messages, i, internalIntervalBadge) 
   intervalos.push("-");
 
   // Batidas
-  if (punchesArray.includes("?")) {
+  if (ponto.meuRH.missingPunches == true) {
     messages.push(MESSAGES_JSON.odd);
     batidas = `<span class="${BADGES_JSON.warning.roundedPill}">${punchesArray.length - 1}</span>`
   } else {

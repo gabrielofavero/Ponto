@@ -23,10 +23,10 @@ function _loadPonto(checkBoxes, type, system) {
             ponto.epm.visibility = "style='display: none;'"
         }
 
-        ponto.sumUpContainerHTML = _getSumUpContainerHTML(ponto, type);
+        ponto.htmlElements.sumUpContainerHTML = _getSumUpContainerHTML(ponto, type);
 
         // Meu RH and EPM Comparison
-        if ((type == "meuRH" && checkBoxes.checkboxEPM == true) || (type == "epm" && checkBoxes.checkboxMeuRH == true)){
+        if ((type == "meuRH" && checkBoxes.checkboxEPM == true) || (type == "epm" && checkBoxes.checkboxMeuRH == true)) {
             _loadComparison(ponto, messages);
         } else {
             ponto.htmlElements.comparisonTable.visibility = "style='display: none;'"
@@ -74,19 +74,19 @@ function _loadPontoMeuRH(ponto, messages, type) {
         const PUNCHES = _getPunches(meuRH['system'][ponto.key]["punches"], messages);
 
         if (type == "meuRH") {
-        ponto.htmlElements.interval.internalRoundedPill = PUNCHES.interval.internalRoundedPill
-        ponto.htmlElements.punchesTable.innerHTML = _getPunchesTableHTML(meuRH['system'][ponto.key]["punches"], messages, ponto.i, ponto.htmlElements.interval.internalRoundedPill);
+            ponto.htmlElements.interval.internalRoundedPill = PUNCHES.interval.internalRoundedPill
+            ponto.htmlElements.punchesTable.innerHTML = _getPunchesTableHTML(ponto, meuRH['system'][ponto.key]["punches"], messages);
 
-        ponto.htmlElements.hours.value = PUNCHES.hours.value;
-        ponto.htmlElements.hours.roundedPill = PUNCHES.hours.roundedPill;
-        ponto.htmlElements.hours.badge = PUNCHES.hours.badge;
-        ponto.htmlElements.hours.icon = PUNCHES.hours.icon;
+            ponto.htmlElements.hours.value = PUNCHES.hours.value;
+            ponto.htmlElements.hours.roundedPill = PUNCHES.hours.roundedPill;
+            ponto.htmlElements.hours.badge = PUNCHES.hours.badge;
+            ponto.htmlElements.hours.icon = PUNCHES.hours.icon;
 
-        ponto.htmlElements.interval.value = PUNCHES.interval.value;
-        ponto.htmlElements.interval.roundedPill = PUNCHES.interval.roundedPill;
-        ponto.htmlElements.interval.icon = PUNCHES.interval.icon;
+            ponto.htmlElements.interval.value = PUNCHES.interval.value;
+            ponto.htmlElements.interval.roundedPill = PUNCHES.interval.roundedPill;
+            ponto.htmlElements.interval.icon = PUNCHES.interval.icon;
 
-        ponto.title.value = PUNCHES.hours.value;
+            ponto.title.value = PUNCHES.hours.value;
         };
         ponto.meuRH.value = _timeToEPM(PUNCHES.hours.value);
     }
@@ -110,24 +110,24 @@ function _loadPontoEPM(ponto, messages) {
     ponto.title.value = ponto.epm.value;
 }
 
-function _loadRulesEPM(ponto, messages){
+function _loadRulesEPM(ponto, messages) {
     const regime = _getRegime();
 
-    if (regime )
+    if (regime)
 
-    if (_isTimeStringBiggerThen(ponto.epm.valueTime, "10:00")) {
-        messages.push(MESSAGES_JSON.tooLongJourney);
-        ponto.epm.roundedPill = BADGES_JSON.warning.roundedPill;
-    } else {
-        ponto.epm.roundedPill = BADGES_JSON.common.roundedPill;
-    }
+        if (_isTimeStringBiggerThen(ponto.epm.valueTime, "10:00")) {
+            messages.push(MESSAGES_JSON.tooLongJourney);
+            ponto.epm.roundedPill = BADGES_JSON.warning.roundedPill;
+        } else {
+            ponto.epm.roundedPill = BADGES_JSON.common.roundedPill;
+        }
 
 }
 
 function _loadPontoDate(ponto) {
     const dateNoYear = _dateStringToDateStringNoYear(ponto.key);
     const dayOfTheWeek = _getDayOfTheWeek(ponto.key);
-    ponto.date = `<div class="dateBox" id=date${ponto.i}>${dateNoYear}</div><div class="dayOfTheWeek"> ${dayOfTheWeek}</div>`
+    ponto.htmlElements.date = `<div class="dateBox" id=date${ponto.i}>${dateNoYear}</div><div class="dayOfTheWeek"> ${dayOfTheWeek}</div>`
 }
 
 // ==== Getters ====
@@ -264,7 +264,7 @@ function _validatePontoValue(ponto, value, messages) {
 function _loadComparison(ponto, messages) {
     const epm = _getLocal("epm");
 
-    if (!ponto.epm.value){
+    if (!ponto.epm.value) {
         ponto.epm.value = epm['system'][ponto.key] || "?";
         ponto.epm.roundedPill = BADGES_JSON.common.roundedPill;
         if (ponto.epm.value == "?") {
@@ -280,7 +280,7 @@ function _loadComparison(ponto, messages) {
     if (ponto.meuRH.value != "?" && ponto.epm.value != "?" && ponto.meuRH.value != ponto.epm.value) {
         ponto.meuRH.roundedPill = BADGES_JSON.warning.roundedPill;
         ponto.epm.roundedPill = BADGES_JSON.warning.roundedPill;
-        messages.push(MESSAGES_JSON.noMatch);
+        messages.push(MESSAGES_JSON.noMatch + _getNoMatchDifferenceMessage(ponto));
     }
 }
 
@@ -304,5 +304,31 @@ function _setVisibilityAfterLoad(i) {
 
     if (observation && sumUpContainer) {
         sumUpContainer.style.marginTop = "35px"
+    }
+}
+
+function _getNoMatchDifferenceMessage(ponto) {
+    const valueMeuRH = ponto.meuRH.value;
+    const valueEPM = ponto.epm.value;
+    const oddPunches = ponto.meuRH.missingPunches;
+
+    switch (true) {
+        case valueMeuRH === "?":
+            return " Preencha as horas no Meu RH.";
+        case valueEPM === "?":
+            return " Preencha as horas no EPM.";
+        default:
+            const difference = _epmToNumber(valueMeuRH) - _epmToNumber(valueEPM);
+            if (difference !== 0) {
+                if (oddPunches) {
+                    return ` Adicione o ponto ausente no <b>Meu RH</b> para depois comparar com o <b>EPM</b>.`;
+                } else if (difference > 0) {
+                    return ` Adicione <b>${_numberToEpm(difference)}h</b> ao EPM`;
+                } else {
+                    return ` Remova <b>${_numberToEpm(difference * -1)}h</b> do EPM`;
+                }
+            } else {
+                return "";
+            }
     }
 }

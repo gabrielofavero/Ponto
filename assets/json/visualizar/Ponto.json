@@ -12,7 +12,8 @@
     "meuRH": {
         "roundedPill": "",
         "value": "",
-        "visibility": ""
+        "visibility": "",
+        "missingPunches": false
     },
     "epm": {
         "roundedPill": "",
