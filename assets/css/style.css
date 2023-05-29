@@ -1520,10 +1520,6 @@ h6 {
   color: gray;
 }
 
-input[type="time"]::-webkit-calendar-picker-indicator {
-  display: none;
-}
-
 #regimeInput, #inputSaldo{
   font-size: 20px;
 }

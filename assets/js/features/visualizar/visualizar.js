@@ -3,6 +3,7 @@ const MESSAGES_JSON = _getJSON('assets/json/visualizar/Messages.json');
 const BUTTONS_JSON = _getJSON('assets/json/visualizar/Messages.json');
 const BADGES_JSON = _getJSON('assets/json/visualizar/Badges.json');
 const PONTO = _getJSON('assets/json/visualizar/Ponto.json');
+const REGIMES = _getJSON('assets/json/visualizar/Regimes.json');
 var PERIODO;
 
 // ==== Main ====
@@ -49,10 +50,12 @@ function _startVisualizar(type) {
 // ==== Getters ====
 function _getRegime() {
     let job = _getLocal('job');
-    if (job && (job.toLowerCase().includes('estagiario'))) {
-        job = 'Estágio (6h)';
-    } else {
-        job = 'Comum (8h)';
+    if (job){
+        if ((job.toLowerCase().includes('estagiario'))) {
+            job = REGIMES.estagio;
+        } else {
+            job = REGIMES.comum;
+        }
     }
     return job;
 }
