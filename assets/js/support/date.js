@@ -83,7 +83,7 @@ function _timeToEPM(time) {
     return _numberToEpm(hour + minute / 60);
 }
 
-function _epmToTime(epm){
+function _epmToTime(epm) {
     let number = _epmToNumber(epm);
     let hour = Math.floor(number);
     let minute = (number - hour) * 60;
@@ -97,14 +97,14 @@ function _stringNumberToEPM(string) {
 }
 
 function _epmToNumber(epm) { // "90,4123h" -> 90.4
-    return parseFloat(parseFloat(epm.replace(",", ".").replace("h","")))
+    return parseFloat(parseFloat(epm.replace(",", ".").replace("h", "")))
 }
 
 function _numberToEpm(number) {
     return number.toFixed(1).replace(".", ",");
 }
 
-function _dateStringToDateStringNoYear(dateString){
+function _dateStringToDateStringNoYear(dateString) {
     let split = dateString.split("/");
     return split[0] + "/" + split[1];
 }
@@ -114,42 +114,42 @@ function _getDate(dateString) {
     return new Date(split[2], split[1] - 1, split[0]);
 }
 
-function _getDateString(date){
+function _getDateString(date) {
     let day = date.getDate();
     let month = date.getMonth() + 1;
     let year = date.getFullYear();
-    if (day < 10){
+    if (day < 10) {
         day = "0" + day;
     }
-    if (month < 10){
+    if (month < 10) {
         month = "0" + month;
     }
     return day + "/" + month + "/" + year;
 }
 
-function _dateToDateStringNoYear(date){
+function _dateToDateStringNoYear(date) {
     let day = date.getDate();
     let month = date.getMonth() + 1;
-    if (day < 10){
+    if (day < 10) {
         day = "0" + day;
     }
-    if (month < 10){
+    if (month < 10) {
         month = "0" + month;
     }
     return day + "/" + month;
 }
 
-function _getEarliest(dateArray){
+function _getEarliest(dateArray) {
     let earliest = dateArray[0];
-    for (let i = 1; i < dateArray.length; i++){
-        if (dateArray[i] && dateArray[i] < earliest){
+    for (let i = 1; i < dateArray.length; i++) {
+        if (dateArray[i] && dateArray[i] < earliest) {
             earliest = dateArray[i];
         }
     }
     return earliest;
 }
 
-function _isTimeString(string){
+function _isTimeString(string) {
     let result = false;
     if (string) {
         const split = string.split(":");
@@ -174,23 +174,23 @@ function _isTimeStringBiggerThen(timeString, biggerThen) {
 
 function _getDayOfTheWeek(key) {
     const daysOfWeek = [
-      'Domingo',
-      'Segunda-feira',
-      'Terça-feira',
-      'Quarta-feira',
-      'Quinta-feira',
-      'Sexta-feira',
-      'Sábado'
+        'Domingo',
+        'Segunda-feira',
+        'Terça-feira',
+        'Quarta-feira',
+        'Quinta-feira',
+        'Sexta-feira',
+        'Sábado'
     ];
-  
+
     const dateParts = key.split('/');
     const day = parseInt(dateParts[0], 10);
     const month = parseInt(dateParts[1], 10) - 1;
     const year = parseInt(dateParts[2], 10);
-  
+
     const date = new Date(year, month, day);
     const dayOfWeekIndex = date.getDay();
-  
+
     return daysOfWeek[dayOfWeekIndex];
-  }
-  
+}
+

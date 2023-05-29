@@ -18,11 +18,11 @@ function _meuRH(rawData = "") {
                     jobFound = true;
                 } else if (_isFullDate(value)) {
 
-                    if (lastKey){
-                        let lastObservation = _getObservation(rawData[i-1]);
-                        if (lastObservation){
+                    if (lastKey) {
+                        let lastObservation = _getObservation(rawData[i - 1]);
+                        if (lastObservation) {
                             result["system"][lastKey]["observation"] = lastObservation
-                        } 
+                        }
                     }
 
                     if (!year) {
@@ -83,9 +83,9 @@ function _processDay(meuRH, result, i) {
             if (value && value.split(":").length == 2) {
                 let valid = true;
                 let punches = system[key]["punches"];
-                
+
                 if (punches.length > 0) {
-                    let time1 =punches[punches.length - 1].split(":");
+                    let time1 = punches[punches.length - 1].split(":");
                     let hour1 = parseInt(time1[0]);
                     let minute1 = parseInt(time1[1]);
 
@@ -161,9 +161,9 @@ function _getDayTime(day, dayObj) {
 
 function _getObservation(rawData) {
     let result = "";
-    if (rawData) { 
+    if (rawData) {
         const treatedData = rawData.replace(/\*/g, "").trim();
-        if (!_isTimeString(treatedData)){
+        if (!_isTimeString(treatedData)) {
             result = _getFirstCharUpperCase(treatedData);
         }
     }

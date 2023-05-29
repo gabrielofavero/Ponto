@@ -90,7 +90,7 @@ function _loadMessagesHTML(ponto, messages) {
 function _getPunchesTableHTML(ponto, punchesArray, messages) {
   const i = ponto.i;
   const internalIntervalBadge = ponto.htmlElements.interval.internalRoundedPill;
-  
+
   if (punchesArray.length % 2 != 0) {
     punchesArray.push('?');
     ponto.meuRH.missingPunches = true;
@@ -161,48 +161,48 @@ function _getPunchesTableHTML(ponto, punchesArray, messages) {
 
 function _getPontoObservationInnerHTML(value, i) {
   let result = "";
-  if (value){
+  if (value) {
     result = `<div class="badge bg-light observation" id="observation${i}"></i>${value}</div>`;
   }
   return result;
 }
 
-function _getSumUpContainerHTML(ponto, type){
+function _getSumUpContainerHTML(ponto, type) {
   let result = "";
-  
-  let visibility; 
+
+  let visibility;
   let title1;
   let badge1;
   let value1;
-  let title2; 
-  let badge2; 
+  let title2;
+  let badge2;
   let value2
 
-  if (type == "meuRH"){
+  if (type == "meuRH") {
     visibility = ponto.htmlElements.punchesTable.visibility;
-    
+
     title1 = "Trabalho";
     badge1 = ponto.htmlElements.hours.roundedPill;
     value1 = ponto.htmlElements.hours.value;
-    
+
     title2 = "Intervalo";
     badge2 = ponto.htmlElements.interval.roundedPill;
     value2 = ponto.htmlElements.interval.value;
-  } else if (type == "epm"){
+  } else if (type == "epm") {
     visibility = ponto.epm.visibility;
-    
+
     title1 = "EPM";
     badge1 = BADGES_JSON.common.roundedPill;
     value1 = ponto.epm.value;
-    
+
     title2 = "Hora Aprox.";
     badge2 = ponto.epm.roundedPill;
     value2 = ponto.epm.valueTime;
   }
-  
-  
-  if (type == "meuRH" || type == "epm"){
-    result =`
+
+
+  if (type == "meuRH" || type == "epm") {
+    result = `
     <div class="item-comparison-container" id="sumUp-container${ponto.i}" ${visibility}>
       <div class="item-comparison-table">
         <div class="item-internal-container">
@@ -216,6 +216,6 @@ function _getSumUpContainerHTML(ponto, type){
       </div>
     </div>`;
   }
-  
+
   return result;
 }

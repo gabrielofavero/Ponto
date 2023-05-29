@@ -1,4 +1,4 @@
-function _epm(rawData="") {
+function _epm(rawData = "") {
     try {
         let week = ["seg", "ter", "qua", "qui", "sex", "sáb", "dom"];
         let result = {
@@ -26,13 +26,13 @@ function _epm(rawData="") {
             localStorage.setItem('epm', JSON.stringify(result));
             _start();
         }
-    } catch (e){
+    } catch (e) {
         _start();
         _logger(ERROR, e.message || e.toString());
     }
 }
 
-function _updateYearEPM(epm){
+function _updateYearEPM(epm) {
     let result = {
         system: {}
     };
@@ -40,13 +40,13 @@ function _updateYearEPM(epm){
     let year = parseInt(_getLocal('year'));
     let startMonth = parseInt(keys[0].split("/")[1]);
 
-    for (let key of keys){
+    for (let key of keys) {
         let month = parseInt(key.split("/")[1]);
         let newKey;
-        if (month <= startMonth){
+        if (month <= startMonth) {
             newKey = key + "/" + year;
         } else {
-            newKey = key + "/" + (year+1);
+            newKey = key + "/" + (year + 1);
         }
         result["system"][newKey] = epm["system"][key];
     }
@@ -54,7 +54,7 @@ function _updateYearEPM(epm){
     epm["system"] = result["system"];
 }
 
-function _deleteEPM(){
+function _deleteEPM() {
     localStorage.removeItem('epm');
     _start();
 }

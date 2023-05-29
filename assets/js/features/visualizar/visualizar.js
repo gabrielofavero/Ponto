@@ -10,29 +10,29 @@ function _startVisualizar(type) {
     let checkBoxes = _getCheckboxes(type);;
     let database = "";
 
-    if (type == 'meuRH'){
+    if (type == 'meuRH') {
         let regime = _getRegime();
         let saldo = _getSaldo();
-    
+
         if (regime) {
             document.getElementById('regime').innerHTML = regime;
         }
-    
+
         if (saldo) {
             document.getElementById('saldo').innerHTML = saldo;
         }
         database = _getLocal('meuRH');
-    } else if (type == 'epm'){
+    } else if (type == 'epm') {
         database = _getLocal('epm');
     }
 
     let periodo = _getPeriodo(checkBoxes, type);
     let periodoString = "";
-    
+
     if (periodo) {
         periodoString = _getPeriodoString(periodo);
         document.getElementById('periodo').innerHTML = periodoString;
-        if ((new Date()).getTime() >= periodo.end.getTime()){
+        if ((new Date()).getTime() >= periodo.end.getTime()) {
             _unloadCheckbox('checkboxFuturo', checkBoxes);
         }
     }
@@ -67,12 +67,12 @@ function _getCheckboxes(type) {
     let checkBoxes = {};
     let ids;
 
-    if (type == 'meuRH'){
+    if (type == 'meuRH') {
         _loadCheckbox('checkboxEPM', checkBoxes);
         _loadCheckbox('checkboxFuturo', checkBoxes);
         _loadCheckbox('checkboxVazio', checkBoxes);
         ids = ['checkboxEPM', 'checkboxFuturo', 'checkboxVazio'];
-    } else if (type == 'epm'){
+    } else if (type == 'epm') {
         _loadCheckbox('checkboxMeuRH', checkBoxes);
         _loadCheckbox('checkboxVazio', checkBoxes);
         _loadCheckbox('checkboxFuturo', checkBoxes);
@@ -81,7 +81,7 @@ function _getCheckboxes(type) {
 
     const accordion = document.getElementById('accordion-filter');
     accordion.addEventListener('click', function () {
-        _filterVisibility();     
+        _filterVisibility();
     });
 
     const filterApply = document.getElementById('filter-apply');
@@ -187,14 +187,14 @@ function _getPeriodoString(periodo) {
     return start + " - " + end;
 }
 
-function _updatePeriodoString(periodoString){
+function _updatePeriodoString(periodoString) {
     const start = periodoString.split(" - ")[0];
     const end = periodoString.split(" - ")[1];
     const dates = _getAllIdsInClass("dateBox").sort((a, b) => a - b);
     const startHTML = document.getElementById(dates[0]).innerHTML.trim();
     const endHTML = document.getElementById(dates[dates.length - 1]).innerHTML.trim();
-    
-    if (start != startHTML || end != endHTML){
+
+    if (start != startHTML || end != endHTML) {
         periodoString = startHTML + " - " + endHTML;
         document.getElementById('periodo').innerHTML = periodoString;
     }

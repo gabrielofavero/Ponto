@@ -21,8 +21,8 @@
         "valueTime": "",
         "visibility": ""
     },
-    "htmlElements":{
-        "observation":{
+    "htmlElements": {
+        "observation": {
             "value": "",
             "innerHTML": ""
         },
@@ -37,7 +37,7 @@
             "internalRoundedPill": "",
             "value": ""
         },
-        "punchesTable":{
+        "punchesTable": {
             "visibility": "",
             "innerHTML": ""
         },
