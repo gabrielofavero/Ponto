@@ -25,6 +25,15 @@ function _loadTimeToEPM(time){
 function _loadEPMToTime(epm){
     const outputTime = document.getElementById('outputTime');
     try {
+        const split = epm.split(".");
+        if (split[1] && split[1].lenght > 1){
+            let beforeComma = parseFloat(split[0])
+            let afterComma = parseFloat('0,' + split[1]).toFixed(1)
+            epm = beforeComma + ',' + afterComma;
+            console.log(epm)
+        } else if (split.lenght == 1){
+            epm = split[0] + ".0"
+        }
         result = _epmToTime(epm);
     } catch (e) {
         result = "00:00"
