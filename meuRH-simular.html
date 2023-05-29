@@ -139,7 +139,7 @@
               </a>
             </li>
             <li id="meuRH-simular">
-              <a href="epm-simular.html" class="active">
+              <a href="meuRH-simular.html" class="active">
                 <i class="bi bi-circle"></i><span>Simular</span>
               </a>
             </li>
@@ -192,6 +192,40 @@
           </ol>
         </nav>
       </div><!-- End Page Title -->
+
+      <section class="section">
+
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="card">
+              <div class="card-body visualizar">
+                <div class="inner-card-body">
+                  <div class="inner-card-title" id="regimeTitle">Modelo de Trabalho</div>
+                  <select class="form-select simulador" id="regimeInput" aria-label="Default select example">
+                    <option selected="8">Comum (8h)</option>
+                    <option value="6">Estágio (6h)</option>
+                  </select>
+                </div>
+                <div class="inner-card-body">
+                  <div class="inner-card-title" id="saldoTitle">Saldo</div>
+                  <input id="inputSaldo" type="time" class="form-control simulador" value="00:00">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="card">
+              <div class="card-body">
+                <input id="periodoInput" type="date" class="form-control card-title">
+
+              </div>
+
+            </div>
+          </div>
+      </section>
 
     </main><!-- End #main -->
 
