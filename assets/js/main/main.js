@@ -421,6 +421,9 @@ async function _start() {
     case "/epm-visualizar.html":
       _startVisualizar('epm');
       break;
+    case "/epm-conversores.html":
+      _startConversores('epm');
+      break;
   }
 
 }

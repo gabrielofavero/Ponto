@@ -88,7 +88,10 @@ function _epmToTime(epm) {
     let hour = Math.floor(number);
     let minute = (number - hour) * 60;
     minute = Math.round(minute)
-    return _hourMinuteToTime(hour, minute)
+
+    if (isNaN(hour) || isNaN(minute)){
+        return "00:00"
+    } else return _hourMinuteToTime(hour, minute)
 }
 
 function _stringNumberToEPM(string) {

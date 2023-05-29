@@ -1484,12 +1484,41 @@ h6 {
   clear: both;
 }
 
-#filter-apply{
+#filter-apply {
   margin-top: 10px;
 }
 
-.observation{
+.observation {
   margin-right: 10px;
   color: rgb(71, 71, 71);
   float: right;
+}
+
+.conversor-card {
+  max-width: 500px;
+}
+
+.conversor,
+.converor-output {
+  height: 60px;
+  font-size: 40px;
+  color: gray;
+  text-align: center;
+  margin-top: 7px;
+}
+
+#inputTime, #inputEPM{
+  color: gray;
+}
+
+#outputEPM, #outputTime {
+  height: 60px;
+  font-size: 40px;
+  text-align: center;
+  margin-top: 7px;
+  color: gray;
+}
+
+input[type="time"]::-webkit-calendar-picker-indicator {
+  display: none;
 }
