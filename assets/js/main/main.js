@@ -418,6 +418,9 @@ async function _start() {
     case "/meuRH-visualizar.html":
       _startVisualizar('meuRH');
       break;
+    case "/meuRH-simular.html":
+      _startSimular();
+      break;
     case "/epm-visualizar.html":
       _startVisualizar('epm');
       break;
