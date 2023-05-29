@@ -7,6 +7,7 @@ var PERIODO;
 
 // ==== Main ====
 function _startVisualizar(type) {
+    _loadVisualizarEventListeners();
     let checkBoxes = _getCheckboxes(type);;
     let database = "";
 
@@ -198,4 +199,20 @@ function _updatePeriodoString(periodoString) {
         periodoString = startHTML + " - " + endHTML;
         document.getElementById('periodo').innerHTML = periodoString;
     }
+}
+
+function _loadVisualizarEventListeners() {
+    window.addEventListener('resize', function() {
+        var width = window.innerWidth;
+        var regimeTitle = document.getElementById('regimeTitle');
+        
+        if (width < 484) {
+            regimeTitle.innerHTML = 'Modelo';
+        } else {
+            regimeTitle.innerHTML = 'Modelo de Trabalho';
+        }
+    });
+    
+    // Trigger the event once at the start to set initial value
+    window.dispatchEvent(new Event('resize'));    
 }
