@@ -121,11 +121,11 @@ function _getPunchesTableHTML(punchesArray, messages, i, internalIntervalBadge) 
   intervalos.push("-");
 
   // Batidas
-  if (punchesArray.length % 2 == 0) {
-    batidas = `<span class="common">${punchesArray.length}</span>`
-  } else {
+  if (punchesArray.includes("?")) {
     messages.push(MESSAGES_JSON.odd);
-    batidas = `<span class="${BADGES_JSON.warning.roundedPill}">${punchesArray.length}</span>`
+    batidas = `<span class="${BADGES_JSON.warning.roundedPill}">${punchesArray.length - 1}</span>`
+  } else {
+    batidas = `<span class="common">${punchesArray.length}</span>`
   }
 
   return `
