@@ -37,12 +37,7 @@ function _applySimulation() {
     _applyVal('simular-dayOfTheWeek', dayOfTheWeek);
 
     if (punches.length > 0) {
-        let ponto;
-        if (PONTO) {
-            ponto = JSON.parse(JSON.stringify(PONTO));
-        } else {
-            ponto = _getJSON('assets/json/visualizar/Ponto.json');
-        }
+        _loadPontoSim(regime, saldo, punches);
     } else {
         _loadSimWarning("Insira no mínimo 1 ponto para simular.")
     }
@@ -69,17 +64,28 @@ function _applyVal(id, val) {
     document.getElementById(id).innerHTML = val;
 }
 
+function _loadPontoSim(regime, saldo, punches) {
+    let messages = [];
+    let ponto;
+    if (PONTO) {
+        ponto = JSON.parse(JSON.stringify(PONTO));
+    } else {
+        ponto = _getJSON('assets/json/visualizar/Ponto.json');
+    }
+    const PUNCHES = _getPunches(punches, messages);
+    console.log(PUNCHES);
+}
+
 function _getSimPunches() {
     let result = [];
-    for (let i = 0; i < 10; i++) {
-        let val;
-        if (i % 0 == 0) {
-            val = _getVal('e' + i)
-        } else {
-            val = _getVal('s' + i)
+    for (let i = 0; i < 5; i++) {
+        let e = _getVal('e' + i);
+        if (e) {
+            result.push(e);
         }
-        if (val) {
-            result.push(val);
+        let s = _getVal('s' + i);
+        if (s) {
+            result.push(s);
         }
     }
     if (result.length > 1) {
@@ -92,7 +98,7 @@ function _loadSimWarning(text){
     _applyVal('simular-body',`<div class="alert alert-warning alert-dismissible fade show" role="alert">${text}</div>`)
 }
 
-function _loadSimHTML(ponto){
+function _loadSimHTML(saldo, ponto){
     _applyVal('simular-body', `<div class="item-comparison-container" id="sumUp-container1">
                               <div class="item-comparison-table">
                                 <div class="item-internal-container">
