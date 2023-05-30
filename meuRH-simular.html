@@ -199,16 +199,16 @@
           <div class="col-lg-6">
             <div class="card">
               <div class="card-body visualizar">
-                <div class="inner-card-body">
+                <div class="inner-card-body" id="card1">
                   <div class="inner-card-title" id="regimeTitle">Modelo de Trabalho</div>
                   <select class="form-select simulador" id="regimeInput">
                     <option id="optionComum" value="Comum (8h)">Comum (8h)</option>
                     <option id="optionEstagio" value="Estágio (6h)">Estágio (6h)</option>
                   </select>
                 </div>
-                <div class="inner-card-body">
+                <div class="inner-card-body" id="card2">
                   <div class="inner-card-title" id="saldoTitle">Saldo</div>
-                  <input id="inputSaldo" type="time" class="form-control simulador" value="00:00">
+                  <input id="saldoInput" type="time" class="form-control simulador" value="00:00">
                 </div>
               </div>
             </div>
@@ -220,6 +220,127 @@
             <div class="card">
               <div class="card-body">
                 <input id="periodoInput" type="date" class="form-control card-title">
+                <div class="header-simular">
+                  <div class="inner-card-title title-simular">Entradas</div>
+                  <div class="inner-card-title title-simular">Saídas</div>
+                </div>
+                <div class="body-simular">
+                  <div class="line-simular">
+                    <div class="simulador line-title-simular">1º</div>
+                    <input id="e0" type="time" class="form-control simulador form-simular">
+                    <input id="s0" type="time" class="form-control simulador form-simular">
+                  </div>
+                  <div class="line-simular">
+                    <div class="simulador line-title-simular">2º</div>
+                    <input id="e1" type="time" class="form-control simulador form-simular">
+                    <input id="s1" type="time" class="form-control simulador form-simular">
+                  </div>
+                  <div class="line-simular">
+                    <div class="simulador line-title-simular">3º</div>
+                    <input id="e2" type="time" class="form-control simulador form-simular">
+                    <input id="s2" type="time" class="form-control simulador form-simular">
+                  </div>
+                  <div class="line-simular">
+                    <div class="simulador line-title-simular">4º</div>
+                    <input id="e3" type="time" class="form-control simulador form-simular">
+                    <input id="s3" type="time" class="form-control simulador form-simular">
+                  </div>
+                  <div class="line-simular">
+                    <div class="simulador line-title-simular">5º</div>
+                    <input id="e4" type="time" class="form-control simulador form-simular">
+                    <input id="s4" type="time" class="form-control simulador form-simular">
+                  </div>
+                  <div class="button-container">
+                    <button id="simular-button" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#largeModal">
+                      Simular
+                    </button>
+                  </div>
+                  <div class="modal fade" id="largeModal" tabindex="-1" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <div id="simular-date" class="modal-title inner-card-title"></div>
+                          <div id="simular-dayOfTheWeek" class="dayOfTheWeek-simular"></div>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" id="simular-body">
+                          <div class="accordion-body">
+
+                            <div class="item-comparison-container" id="sumUp-container1">
+                              <div class="item-comparison-table">
+                                <div class="item-internal-container">
+                                  <div class="item-comparison-title">Saldo Atualizado</div>
+                                  <div><span class="common">08:18</span></div>
+                                </div>
+                              </div>
+                            </div>
+
+        
+        
+                            <div class="item-comparison-container" id="sumUp-container1">
+                              <div class="item-comparison-table">
+                                <div class="item-internal-container">
+                                  <div class="item-comparison-title">Trabalho</div>
+                                  <div><span class="common">08:18</span></div>
+                                </div>
+                                <div class="item-internal-container">
+                                  <div class="item-comparison-title">Intervalo</div>
+                                  <div><span class="common">01:12</span></div>
+                                </div>
+                              </div>
+                            </div>
+                        
+                                <div class="item-comparison-container" id="punchesTable1">
+                                
+                            <div class="item-comparison-table" id="item-comparison-table1" "="">
+                              <div class="item-internal-container">
+                                <div class="item-comparison-title">Entrada</div>
+                                <div id="entradas1">
+                                    <span class="common" id="e-1-0">09:19</span><br><span class="common" id="e-1-2">12:09</span>
+                                </div>
+                              </div>
+                              <div class="item-internal-container">
+                                <div class="item-comparison-title">Saída</div>
+                                <div id="saidas1">
+                                    <span class="common" id="s-1-1">10:57</span><br><span class="common" id="s-1-3">18:49</span>
+                                </div>
+                              </div>
+                              <div class="item-internal-container">
+                              <div class="item-comparison-title">Intervalo</div>
+                              <div id="intervalo1">
+                                  <span class="common" id="i-1-2">01:12</span><br>-
+                              </div>
+                            </div>
+                            </div>
+                          <div class="item-internal-footer">
+                            <span class="item-comparison-title">Batidas: </span><span class="common">4</span>
+                          </div>
+                            
+                                </div>
+                        
+                                <div class="item-comparison-container">
+                                  <div class="item-comparison-table">
+                                    <div class="item-internal-container">
+                                      <div class="item-comparison-title">EPM</div>
+                                      <div><span class="common">8,3</span></div>
+                                    </div>
+                                  </div>
+                                </div>
+                        
+                                <div class="item-internal-messages" id="message1">
+                                    
+                                </div>
+                        
+                              </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Sair</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
 
               </div>
 

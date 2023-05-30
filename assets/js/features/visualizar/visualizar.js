@@ -213,7 +213,7 @@ function _resizeRegime(){
         var width = window.innerWidth;
         var regimeTitle = document.getElementById('regimeTitle');
         
-        if (width < 484) {
+        if (width < 484 || (width < 1400 && width >= 1200)) {
             regimeTitle.innerHTML = 'Modelo';
         } else {
             regimeTitle.innerHTML = 'Modelo de Trabalho';

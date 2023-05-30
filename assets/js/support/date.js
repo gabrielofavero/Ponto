@@ -89,7 +89,7 @@ function _epmToTime(epm) {
     let minute = (number - hour) * 60;
     minute = Math.round(minute)
 
-    if (isNaN(hour) || isNaN(minute)){
+    if (isNaN(hour) || isNaN(minute)) {
         return "00:00"
     } else return _hourMinuteToTime(hour, minute)
 }
@@ -197,3 +197,23 @@ function _getDayOfTheWeek(key) {
     return daysOfWeek[dayOfWeekIndex];
 }
 
+function _orderArrayByTime(array) {
+    const timeArray = array;
+
+    timeArray.sort((time1, time2) => {
+        const [hours1, minutes1] = time1.split(':');
+        const [hours2, minutes2] = time2.split(':');
+
+        const time1InMinutes = parseInt(hours1) * 60 + parseInt(minutes1);
+        const time2InMinutes = parseInt(hours2) * 60 + parseInt(minutes2);
+
+        return time1InMinutes - time2InMinutes;
+    });
+
+    return timeArray;
+}
+
+function _dateInputToDateString(inputValue){
+    const dateParts = inputValue.split('-');
+    return dateParts[2] + '/' + dateParts[1] + '/' + dateParts[0];
+}
