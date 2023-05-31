@@ -348,5 +348,19 @@ function _getNoMatchMessage(ponto) {
 }
 
 function _loadVisualizarSimMessage(ponto, messages){
-    
+    const oddPunches = ponto.meuRH.missingPunches;
+    const today = _dateToDateString(new Date());
+    if (today == ponto.key && oddPunches){
+        let batidasHTML = ponto.htmlElements.punchesTable.innerHTML;
+        if (batidasHTML) {
+            const beggining = batidasHTML.split(`<span id="batidas" class="`);
+            const end = split[1].split('">').shift().join('">');
+            const roundedPill = BADGES_JSON.simulate.roundedPill;
+            ponto.htmlElements.punchesTable.innerHTML = beggining + roundedPill + end;
+            ponto.meuRH.roundedPill = roundedPill;
+            ponto.epm.roundedPill = roundedPill;
+            messages.push(MESSAGES_JSON.simulate);
+            ponto.simulate = true;
+        }
+    }
 }

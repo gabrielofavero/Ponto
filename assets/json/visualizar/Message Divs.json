@@ -2,5 +2,5 @@
     "info": "<div class=\"alert alert-secondary item-mensagem\" role=\"alert\"><i class=\"bi bi-info-circle me-1\"></i> #1</div>",
     "warning": "<div class=\"alert alert-warning item-mensagem\" role=\"alert\"><i class=\"bi bi-exclamation-triangle me-1\"></i> #1</div>",
     "success": "<div class=\"alert alert-success item-mensagem\" role=\"alert\"><i class=\"bi bi-check-circle me-1\"></i> #1</div>",
-    "simulation": "<div class=\"alert alert-primary item-mensagem\" role=\"alert\"><i class=\"bi bi-pencil me-1\"></i> #1</div>"
+    "simulate": "<div class=\"alert alert-primary item-mensagem\" role=\"alert\"><i class=\"bi bi-pencil me-1\"></i> #1</div>"
 }
