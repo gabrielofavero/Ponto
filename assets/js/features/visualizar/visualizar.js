@@ -172,11 +172,11 @@ function _getPeriodo(checkBoxes, type) {
     let end;
 
     if (meuRH && meuRH['keypoints'] && meuRH['keypoints']['Início'] && meuRH['keypoints']['Fim']) {
-        start = _getDate(meuRH['keypoints']['Início']);
-        end = _getDate(meuRH['keypoints']['Fim']);
+        start = _dateStringToDate(meuRH['keypoints']['Início']);
+        end = _dateStringToDate(meuRH['keypoints']['Fim']);
     } else if (epm && epm['keypoints'] && epm['keypoints']['Início'] && epm['keypoints']['Fim']) {
-        start = _getDate(epm['keypoints']['Início']);
-        end = _getDate(epm['keypoints']['Fim']);
+        start = _dateStringToDate(epm['keypoints']['Início']);
+        end = _dateStringToDate(epm['keypoints']['Fim']);
     }
 
     result.start = start;

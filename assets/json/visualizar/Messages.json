@@ -2,10 +2,12 @@
     "meuRHMissing": "Não é possível comparar com o <b>Meu RH</b> pois não existem dados para essa data.",
     "epmMissing": "Ponto váldio, mas não é possível comparar com o <b>EPM</b> pois não existem dados para essa data.",
     "noMatch": "Os horários do <b>Meu RH</b> e <b>EPM</b> não batem.",
+    "noEPM": "Você não inseriu horas no <b>EPM</b>.",
     "noInterval": "Você trabalhou mais de 6 horas, mas não teve um intervalo que durou entre <b>1 a 2 horas</b>.",
     "noMainInterval": "Apesar de você ter feito um intervalo, ele não durou entre <b>1 a 2 horas</b>.",
     "noMainIntervals": "Apesar de ter feito mais de um intervalo, nenhum deles durou entre <b>1 a 2 horas</b>.",
     "odd": "Você marcou um número ímpar de batidas. Realize o ajuste manual para incluir o horário ausente.",
     "tooLongJourney": "Você trabalhou mais de 10 horas. Só é autorizado trabalhar até 2h extras por dia.",
-    "internJourneyMismatch": "Horário não previsto. Estagiários devem trabalhar <b>exatamente 6 horas por dia</b>. Em caso de discrepância significativa, alinhe com seu gestor ou, caso seja um erro, realize o ajuste manual."
+    "internJourneyMismatch": "Horário não previsto. Estagiários devem trabalhar <b>exatamente 6 horas por dia</b>. Em caso de discrepância significativa, alinhe com seu gestor ou, caso seja um erro, realize o ajuste manual.",
+    "simulate": "A jornada de hoje está incompleta. <i href=\"meuRH-simular.html\">Simule</i> para verificar o horário de saída."
 }

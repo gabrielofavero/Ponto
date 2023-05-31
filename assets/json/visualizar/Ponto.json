@@ -2,6 +2,7 @@
     "key": "",
     "i": 0,
     "date": "",
+    "simulate": false,
     "title": {
         "roundedPill": "",
         "badge": "",

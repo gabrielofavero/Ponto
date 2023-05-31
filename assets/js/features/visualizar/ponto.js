@@ -25,9 +25,14 @@ function _loadPonto(checkBoxes, type, system) {
 
         ponto.htmlElements.sumUpContainerHTML = _getSumUpContainerHTML(ponto, type);
 
+        // Simulate
+        _loadVisualizarSimMessage(ponto, messages);
+
         // Meu RH and EPM Comparison
         if ((type == "meuRH" && checkBoxes.checkboxEPM == true) || (type == "epm" && checkBoxes.checkboxMeuRH == true)) {
-            _loadComparison(ponto, messages);
+            if (ponto.simulate == false){
+                _loadComparison(ponto, messages);
+            }
         } else {
             ponto.htmlElements.comparisonTable.visibility = "style='display: none;'"
         }
@@ -278,9 +283,7 @@ function _loadComparison(ponto, messages) {
     }
 
     if (ponto.meuRH.value != "?" && ponto.epm.value != "?" && ponto.meuRH.value != ponto.epm.value) {
-        ponto.meuRH.roundedPill = BADGES_JSON.warning.roundedPill;
-        ponto.epm.roundedPill = BADGES_JSON.warning.roundedPill;
-        messages.push(MESSAGES_JSON.noMatch + _getNoMatchDifferenceMessage(ponto));
+        _getNoMatchMessage(ponto, messages);
     }
 }
 
@@ -307,28 +310,43 @@ function _setVisibilityAfterLoad(i) {
     }
 }
 
-function _getNoMatchDifferenceMessage(ponto) {
+function _getNoMatchMessage(ponto) {
     const valueMeuRH = ponto.meuRH.value;
     const valueEPM = ponto.epm.value;
     const oddPunches = ponto.meuRH.missingPunches;
 
-    switch (true) {
-        case valueMeuRH === "?":
-            return " Preencha as horas no Meu RH.";
-        case valueEPM === "?":
-            return " Preencha as horas no EPM.";
-        default:
-            const difference = _epmToNumber(valueMeuRH) - _epmToNumber(valueEPM);
-            if (difference !== 0) {
-                if (oddPunches) {
-                    return ` Adicione o ponto ausente no <b>Meu RH</b> para depois comparar com o <b>EPM</b>.`;
-                } else if (difference > 0) {
-                    return ` Adicione <b>${_numberToEpm(difference)}h</b> ao EPM`;
-                } else {
-                    return ` Remova <b>${_numberToEpm(difference * -1)}h</b> do EPM`;
-                }
-            } else {
-                return "";
+    if (valueMeuRH === "?" || valueEPM === "?") {
+        ponto.meuRH.roundedPill = BADGES_JSON.warning.roundedPill;
+        ponto.epm.roundedPill = BADGES_JSON.warning.roundedPill;
+        let location = valueMeuRH === "?" ? "<b>Meu RH</b>" : "<b>EPM</b>";
+        messages.push(`${MESSAGES_JSON.noMatch} Preencha as horas no ${location}.`);
+    } else {
+        const difference = _epmToNumber(valueMeuRH) - _epmToNumber(valueEPM);
+        if (difference !== 0) {
+            const today = _dateToDateString(new Date());
+            switch (true) {
+                case (today == ponto.key):
+                    break;
+                case oddPunches:
+                    ponto.meuRH.roundedPill = BADGES_JSON.warning.roundedPill;
+                    ponto.epm.roundedPill = BADGES_JSON.warning.roundedPill;
+                    messages.push(` Adicione o ponto ausente no <b>Meu RH</b> para depois comparar com o <b>EPM</b>.`);
+                    break;
+                case (difference > 0):
+                    ponto.meuRH.roundedPill = BADGES_JSON.warning.roundedPill;
+                    ponto.epm.roundedPill = BADGES_JSON.warning.roundedPill;
+                    messages.push(`${MESSAGES_JSON.noMatch} Adicione <b>${_numberToEpm(difference)}h</b> ao <b>EPM</b>.`);
+                    break;
+                case (difference < 0):
+                    ponto.meuRH.roundedPill = BADGES_JSON.warning.roundedPill;
+                    ponto.epm.roundedPill = BADGES_JSON.warning.roundedPill;
+                    messages.push(`${MESSAGES_JSON.noMatch} Remova <b>${_numberToEpm(difference * -1)}h</b> do <b>EPM</b>.`);
+                    break;
             }
+        }
     }
+}
+
+function _loadVisualizarSimMessage(ponto, messages){
+    
 }

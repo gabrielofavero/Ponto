@@ -112,12 +112,12 @@ function _dateStringToDateStringNoYear(dateString) {
     return split[0] + "/" + split[1];
 }
 
-function _getDate(dateString) {
+function _dateStringToDate(dateString) {
     let split = dateString.split("/");
     return new Date(split[2], split[1] - 1, split[0]);
 }
 
-function _getDateString(date) {
+function _dateToDateString(date) {
     let day = date.getDate();
     let month = date.getMonth() + 1;
     let year = date.getFullYear();
