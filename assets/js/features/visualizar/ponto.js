@@ -117,7 +117,6 @@ function _loadPontoEPM(ponto, messages) {
 
 function _loadRulesEPM(ponto, messages) {
     const regime = _getRegime();
-
     if (regime)
 
         if (_isTimeStringBiggerThen(ponto.epm.valueTime, "10:00")) {
@@ -283,7 +282,7 @@ function _loadComparison(ponto, messages) {
     }
 
     if (ponto.meuRH.value != "?" && ponto.epm.value != "?" && ponto.meuRH.value != ponto.epm.value) {
-        _getNoMatchMessage(ponto, messages);
+        _loadNoMatchMessage(ponto, messages);
     }
 }
 
@@ -310,7 +309,7 @@ function _setVisibilityAfterLoad(i) {
     }
 }
 
-function _getNoMatchMessage(ponto) {
+function _loadNoMatchMessage(ponto, messages) {
     const valueMeuRH = ponto.meuRH.value;
     const valueEPM = ponto.epm.value;
     const oddPunches = ponto.meuRH.missingPunches;
@@ -353,10 +352,8 @@ function _loadVisualizarSimMessage(ponto, messages){
     if (today == ponto.key && oddPunches){
         let batidasHTML = ponto.htmlElements.punchesTable.innerHTML;
         if (batidasHTML) {
-            const beggining = batidasHTML.split(`<span id="batidas" class="`);
-            const end = split[1].split('">').shift().join('">');
             const roundedPill = BADGES_JSON.simulate.roundedPill;
-            ponto.htmlElements.punchesTable.innerHTML = beggining + roundedPill + end;
+            ponto.htmlElements.punchesTable.innerHTML = batidasHTML.replace(`${BADGES_JSON.warning.roundedPill} batidas`, roundedPill).replace(`${BADGES_JSON.common.roundedPill} batidas`, roundedPill);
             ponto.meuRH.roundedPill = roundedPill;
             ponto.epm.roundedPill = roundedPill;
             messages.push(MESSAGES_JSON.simulate);

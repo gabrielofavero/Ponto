@@ -63,6 +63,10 @@ function _loadMessagesHTML(ponto, messages) {
       case undefined:
       case null:
         break;
+      case MESSAGES_JSON.simulate:
+        messageDiv = MESSAGE_DIVS_JSON.simulate;
+        types.push(BADGES_JSON.simulate.badge);
+        break;
       default:
         messageDiv = MESSAGE_DIVS_JSON.warning;
         types.push(BADGES_JSON.warning.badge);
@@ -127,9 +131,9 @@ function _getPunchesTableHTML(ponto, punchesArray, messages) {
   // Batidas
   if (ponto.meuRH.missingPunches == true) {
     messages.push(MESSAGES_JSON.odd);
-    batidas = `<span id="batidas" class="${BADGES_JSON.warning.roundedPill}">${punchesArray.length - 1}</span>`
+    batidas = `<span class="${BADGES_JSON.warning.roundedPill} batidas">${punchesArray.length - 1}</span>`
   } else {
-    batidas = `<span id="batidas" class="common">${punchesArray.length}</span>`
+    batidas = `<span class="${BADGES_JSON.common.roundedPill} batidas" batidas>${punchesArray.length}</span>`
   }
 
   return `

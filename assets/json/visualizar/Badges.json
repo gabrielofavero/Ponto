@@ -19,7 +19,7 @@
         "roundedPill": "badge rounded-pill bg-secondary",
         "icon": "bi bi-info-circle"
     },
-    "simulation": {
+    "simulate": {
         "badge": "primary",
         "roundedPill": "badge rounded-pill bg-primary",
         "icon": "bi bi-pencil"

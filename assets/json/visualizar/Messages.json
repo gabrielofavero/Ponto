@@ -9,5 +9,5 @@
     "odd": "Você marcou um número ímpar de batidas. Realize o ajuste manual para incluir o horário ausente.",
     "tooLongJourney": "Você trabalhou mais de 10 horas. Só é autorizado trabalhar até 2h extras por dia.",
     "internJourneyMismatch": "Horário não previsto. Estagiários devem trabalhar <b>exatamente 6 horas por dia</b>. Em caso de discrepância significativa, alinhe com seu gestor ou, caso seja um erro, realize o ajuste manual.",
-    "simulate": "A jornada de hoje está incompleta. <i href=\"meuRH-simular.html\">Simule</i> para verificar o horário de saída."
+    "simulate": "A jornada de hoje está incompleta. <b><a href=\"meuRH-simular.html\">Simule</a></b> para verificar o horário de saída."
 }
