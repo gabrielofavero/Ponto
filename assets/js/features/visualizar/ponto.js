@@ -326,18 +326,19 @@ function _loadNoMatchMessage(ponto, messages) {
         if (difference !== 0) {
             ponto.meuRH.roundedPill = BADGES_JSON.warning.roundedPill;
             ponto.epm.roundedPill = BADGES_JSON.warning.roundedPill;
+            const simuleAqui = `<a class="warningLink" href="epm-conversores.html?total=${valueMeuRH}&usadas=${valEPM}">Converter</a>`
             switch (true) {
                 case oddPunches:
                     messages.push(` Adicione o ponto ausente no <b>Meu RH</b> para depois comparar com o <b>EPM</b>.`);
                     break;
                 case (valEPM === 0):
-                    messages.push(`${MESSAGES_JSON.noEPM} Adicione <b>${_numberToEpm(difference)}h</b>.`);
+                    messages.push(`${MESSAGES_JSON.noEPM} Adicione <b>${_numberToEpm(difference)}h</b>. ${simuleAqui}.`);
                     break;
                 case (difference > 0):
-                    messages.push(`${MESSAGES_JSON.noMatch} Adicione <b>${_numberToEpm(difference)}h</b> ao <b>EPM</b>.`);
+                    messages.push(`${MESSAGES_JSON.noMatch} Adicione <b>${_numberToEpm(difference)}h</b> ao EPM. ${simuleAqui}.`);
                     break;
                 case (difference < 0):
-                    messages.push(`${MESSAGES_JSON.noMatch} Remova <b>${_numberToEpm(difference * -1)}h</b> do <b>EPM</b>.`);
+                    messages.push(`${MESSAGES_JSON.noMatch} Remova <b>${_numberToEpm(difference * -1)}h</b> do EPM. ${simuleAqui}.`);
                     break;
             }
         }

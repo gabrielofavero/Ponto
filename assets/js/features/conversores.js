@@ -5,7 +5,7 @@ function _startConversores() {
     const inputUsadas = document.getElementById('inputUsadas');
 
     _loadURLParametersConversores();
-    
+
     inputTime.addEventListener('input', (event) => {
         _loadTimeToEPM(event.target.value);
     });
@@ -27,7 +27,7 @@ function _startConversores() {
     });
 }
 
-function _loadTimeToEPM(time){
+function _loadTimeToEPM(time) {
     const outputEMP = document.getElementById('outputEPM');
     let result;
     try {
@@ -38,15 +38,15 @@ function _loadTimeToEPM(time){
     outputEMP.innerHTML = result
 }
 
-function _loadEPMToTime(epm){
+function _loadEPMToTime(epm) {
     const outputTime = document.getElementById('outputTime');
     try {
         const split = epm.split(".");
-        if (split[1] && split[1].length > 1){
+        if (split[1] && split[1].length > 1) {
             let beforeComma = parseFloat(split[0])
             let afterComma = parseFloat('0.' + split[1]).toFixed(1)
             epm = (beforeComma + afterComma).toString();
-        } else if (split.length == 1){
+        } else if (split.length == 1) {
             epm = split[0] + ".0"
         }
         result = _epmToTime(epm);
@@ -56,7 +56,7 @@ function _loadEPMToTime(epm){
     outputTime.innerHTML = result
 }
 
-function _calculateSimHours(){
+function _calculateSimHours() {
     const totalVal = document.getElementById("inputTotal").value;
     const usadasVal = document.getElementById("inputUsadas").value;
     const outputDiv = document.getElementById("outputRestante");
@@ -66,22 +66,22 @@ function _calculateSimHours(){
     let totalNum = 0;
     let usadasNum = 0;
 
-    if (totalVal && !isNaN(totalVal)){
+    if (totalVal && !isNaN(totalVal)) {
         totalNum = parseFloat(totalVal).toFixed(1);
     }
 
-    if (usadasVal && !isNaN(usadasVal)){
+    if (usadasVal && !isNaN(usadasVal)) {
         usadasNum = parseFloat(usadasVal).toFixed(1);
     }
 
-    if (totalNum > -100 && totalNum < 100 && usadasNum > -100 && usadasNum < 100){
+    if (totalNum > -100 && totalNum < 100 && usadasNum > -100 && usadasNum < 100) {
         if (outputDiv.classList.contains("negative")) {
             outputDiv.classList.remove("negative");
-          }
-        result = ((totalNum - usadasNum).toFixed(1)).toString().replace(".",",");
-        if (result.includes("-")){
+        }
+        result = ((totalNum - usadasNum).toFixed(1)).toString().replace(".", ",");
+        if (result.includes("-")) {
             outputDiv.classList.add("negative");
-        }    
+        }
     }
     outputDiv.innerHTML = result
 }
@@ -91,12 +91,12 @@ function _loadURLParametersConversores() {
     const total = urlParams.get('total');
     const usadas = urlParams.get('usadas');
 
-    if (total){
-        document.getElementById("inputTotal").value = total;
+    if (total) {
+        document.getElementById("inputTotal").value = _epmToNumber(total);
     }
 
-    if (usadas){
-        document.getElementById("inputUsadas").value = usadas;
+    if (usadas) {
+        document.getElementById("inputUsadas").value = _epmToNumber(usadas);
     }
 
     if (total || usadas) {

@@ -1602,3 +1602,13 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 .negative {
   color:#661703
 }
+
+a.warningLink {
+  text-decoration: underline;
+  color: #664D03;
+  font-weight: bold;
+}
+
+a.warningLink:hover {
+  color: #7E5E04;
+}
