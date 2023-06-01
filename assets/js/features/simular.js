@@ -1,6 +1,7 @@
 function _startSimular() {
   _loadSimularPlaceHolders();
   _loadSimularEventListeners();
+  _loadSimularURLParameters();
 }
 
 function _loadSimularPlaceHolders() {
@@ -35,10 +36,10 @@ function _applySimulation() {
     const periodo = _dateInputToDateString(_getVal('periodoInput'));
     const dayOfTheWeek = periodo ? _getDayOfTheWeek(periodo) : "";
     const punches = _getSimPunches();
-  
+
     _applyVal('simular-date', periodo);
     _applyVal('simular-dayOfTheWeek', dayOfTheWeek);
-  
+
     if (punches.length > 0) {
       _loadPontoSim(regime, saldo, punches);
     } else {
@@ -159,4 +160,29 @@ function _loadSimHTML(saldo, ponto) {
                           <div class="item-internal-messages" id="message1">
                             ${ponto.htmlElements.messagesHTML}
                           </div>`)
+}
+
+function _loadSimularURLParameters() {
+  const urlParams = new URLSearchParams(window.location.search);
+  let date = urlParams.get('date');
+  let punches = urlParams.get('punches');
+
+  if (date) {
+    date = _dateStringToDateInput(date);
+    document.getElementById("periodoInput").value = date;
+  }
+
+  if (punches) {
+    punches = punches.split(",");
+    let i = 0;
+    let e = true;
+    for (const punch of punches) {
+      let type = e ? "e" : "s";
+      document.getElementById(type + i).value = punch;
+      if (!e){
+        i++;
+      }
+      e = !e;
+    }
+  }
 }

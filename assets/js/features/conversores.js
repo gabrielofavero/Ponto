@@ -4,7 +4,7 @@ function _startConversores() {
     const inputTotal = document.getElementById('inputTotal');
     const inputUsadas = document.getElementById('inputUsadas');
 
-    _loadURLParametersConversores();
+    _loadConversoresURLParameters();
 
     inputTime.addEventListener('input', (event) => {
         _loadTimeToEPM(event.target.value);
@@ -86,7 +86,7 @@ function _calculateSimHours() {
     outputDiv.innerHTML = result
 }
 
-function _loadURLParametersConversores() {
+function _loadConversoresURLParameters() {
     const urlParams = new URLSearchParams(window.location.search);
     const total = urlParams.get('total');
     const usadas = urlParams.get('usadas');

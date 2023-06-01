@@ -143,7 +143,6 @@ function _getPeriodo(checkBoxes, type) {
     var today;
 
     const keys = Object.keys(checkBoxes);
-
     for (let key of keys) {
         switch (key) {
             case 'checkboxMeuRH':
@@ -162,7 +161,6 @@ function _getPeriodo(checkBoxes, type) {
                 }
         }
     }
-
     let result = {
         start: "",
         end: "",

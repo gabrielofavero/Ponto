@@ -50,7 +50,7 @@ function _loadMessagesHTML(ponto, messages) {
   if (messages.includes(MESSAGES_JSON.simulate)) {
     let messageDiv = MESSAGE_DIVS_JSON.simulate;
     types.push(BADGES_JSON.simulate.badge);
-    result.push(messageDiv.replace("#1", MESSAGES_JSON.simulate));
+    result.push(messageDiv.replace("#1", _getSimulateMessageWithURL(ponto.key)));
   } else {
     for (let message of messages) {
       let messageDiv;
@@ -228,4 +228,12 @@ function _getSumUpContainerHTML(ponto, type) {
   }
 
   return result;
+}
+
+function _getSimulateMessageWithURL(key) {
+  const date = encodeURIComponent(key);
+  const punches = encodeURIComponent(_getLocal("meuRH")["system"][key]["punches"].toString())
+  const url = `meuRH-simular.html?date=${date}&punches=${punches}`
+
+  return MESSAGES_JSON.simulate.replace('meuRH-simular.html', url);
 }
