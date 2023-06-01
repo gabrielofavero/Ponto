@@ -50,6 +50,7 @@ function _loadMessagesHTML(ponto, messages) {
     let messageDiv;
     switch (message) {
       case MESSAGES_JSON.epmMissing:
+        types.push(BADGES_JSON.info.badge);
         messageDiv = MESSAGE_DIVS_JSON.info;
         break;
       case MESSAGES_JSON.meuRHMissing:
@@ -78,17 +79,19 @@ function _loadMessagesHTML(ponto, messages) {
   ponto.htmlElements.messagesHTML = result.join("");
   let typesS = types.toString();
 
-  if (typesS.includes(BADGES_JSON.danger.badge)) {
-    ponto.title.badge = BADGES_JSON.danger.badge;
-    ponto.title.icon = BADGES_JSON.danger.icon;
-  } else if (typesS.includes(BADGES_JSON.warning.badge)) {
-    ponto.title.badge = BADGES_JSON.warning.badge;
-    ponto.title.icon = BADGES_JSON.warning.icon;
-    ponto.title.textType = "text-dark";
-  } else if (typesS.includes(BADGES_JSON.info.badge)) {
-    ponto.title.badge = BADGES_JSON.info.badge;
-    ponto.title.icon = BADGES_JSON.info.icon;
+  const priorityOrder = ["danger", "simulate", "warning", "info"];
+
+for (const badgeType of priorityOrder) {
+  if (typesS.includes(BADGES_JSON[badgeType].badge)) {
+    ponto.title.badge = BADGES_JSON[badgeType].badge;
+    ponto.title.icon = BADGES_JSON[badgeType].icon;
+    const textType = BADGES_JSON[badgeType].textType;
+    if (textType) {
+      ponto.title.textType = textType;
+    }
+    break;
   }
+}
 }
 
 function _getPunchesTableHTML(ponto, punchesArray, messages) {

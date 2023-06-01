@@ -1604,11 +1604,10 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 }
 
 a.warningLink {
-  text-decoration: underline;
-  color: #664D03;
+  color: #735603;
   font-weight: bold;
 }
 
 a.warningLink:hover {
-  color: #7E5E04;
+  color: #8E6A04;
 }

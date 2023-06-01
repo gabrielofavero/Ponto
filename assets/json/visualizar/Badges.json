@@ -2,31 +2,37 @@
     "success": {
         "badge": "success",
         "roundedPill": "badge rounded-pill bg-success",
-        "icon": "bi bi-check-circle"
+        "icon": "bi bi-check-circle",
+        "textType": ""
     },
     "warning": {
         "badge": "warning",
         "roundedPill": "badge rounded-pill bg-warning text-dark",
-        "icon": "bi bi-exclamation-triangle"
+        "icon": "bi bi-exclamation-triangle",
+        "textType": "text-dark"
     },
     "danger": {
         "badge": "danger",
         "roundedPill": "badge rounded-pill bg-danger",
-        "icon": "bi bi-exclamation-octagon"
+        "icon": "bi bi-exclamation-octagon",
+        "textType": ""
     },
     "info": {
         "badge": "secondary",
         "roundedPill": "badge rounded-pill bg-secondary",
-        "icon": "bi bi-info-circle"
+        "icon": "bi bi-info-circle",
+        "textType": ""
     },
     "simulate": {
         "badge": "primary",
         "roundedPill": "badge rounded-pill bg-primary",
-        "icon": "bi bi-pencil"
+        "icon": "bi bi-pencil",
+        "textType": ""
     },
     "common": {
         "badge": "common",
         "roundedPill": "common",
-        "icon": ""
+        "icon": "",
+        "textType": ""
     }
 }
