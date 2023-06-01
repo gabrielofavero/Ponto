@@ -46,40 +46,44 @@ function _loadAccordionItemHTML(ponto) {
 function _loadMessagesHTML(ponto, messages) {
   let result = [];
   let types = [];
-  for (let message of messages) {
-    let messageDiv;
-    switch (message) {
-      case MESSAGES_JSON.epmMissing:
-        types.push(BADGES_JSON.info.badge);
-        messageDiv = MESSAGE_DIVS_JSON.info;
-        break;
-      case MESSAGES_JSON.meuRHMissing:
-        messageDiv = MESSAGE_DIVS_JSON.info;
-        types.push(BADGES_JSON.info.badge);
-        if (!ponto.epm.visibility) {
-          ponto.htmlElements.comparisonTable.visibility = "style='display: none;'";
-        }
-        break;
-      case "":
-      case undefined:
-      case null:
-        break;
-      case MESSAGES_JSON.simulate:
-        messageDiv = MESSAGE_DIVS_JSON.simulate;
-        types.push(BADGES_JSON.simulate.badge);
-        break;
-      default:
-        messageDiv = MESSAGE_DIVS_JSON.warning;
-        types.push(BADGES_JSON.warning.badge);
-    }
-    if (messageDiv) {
-      result.push(messageDiv.replace("#1", message));
+
+  if (messages.includes(MESSAGES_JSON.simulate)){
+    let messageDiv = MESSAGE_DIVS_JSON.simulate;
+    types.push(BADGES_JSON.simulate.badge);
+    result.push(messageDiv.replace("#1", MESSAGES_JSON.simulate));
+  } else {
+    for (let message of messages) {
+      let messageDiv;
+      switch (message) {
+        case MESSAGES_JSON.epmMissing:
+          types.push(BADGES_JSON.info.badge);
+          messageDiv = MESSAGE_DIVS_JSON.info;
+          break;
+        case MESSAGES_JSON.meuRHMissing:
+          messageDiv = MESSAGE_DIVS_JSON.info;
+          types.push(BADGES_JSON.info.badge);
+          if (!ponto.epm.visibility) {
+            ponto.htmlElements.comparisonTable.visibility = "style='display: none;'";
+          }
+          break;
+        case "":
+        case undefined:
+        case null:
+          break;
+        default:
+          messageDiv = MESSAGE_DIVS_JSON.warning;
+          types.push(BADGES_JSON.warning.badge);
+      }
+      if (messageDiv) {
+        result.push(messageDiv.replace("#1", message));
+      }
     }
   }
+
   ponto.htmlElements.messagesHTML = result.join("");
   let typesS = types.toString();
 
-  const priorityOrder = ["danger", "simulate", "warning", "info"];
+  const priorityOrder = ["simulate", "warning", "info"];
 
 for (const badgeType of priorityOrder) {
   if (typesS.includes(BADGES_JSON[badgeType].badge)) {
@@ -111,7 +115,7 @@ function _getPunchesTableHTML(ponto, punchesArray, messages) {
     let value = `<span class="#1" id="#2">${punchesArray[j]}</span>`
 
     if (punchesArray[j] == "?") {
-      value = value.replace('#1', BADGES_JSON.warning.roundedPill);
+      value = value.replace('#1', `${BADGES_JSON.warning.roundedPill} pontoNotFound`);
     } else {
       value = value.replace('#1', BADGES_JSON.common.badge);
     }

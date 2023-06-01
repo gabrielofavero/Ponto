@@ -349,14 +349,25 @@ function _loadVisualizarSimMessage(ponto, messages){
     const oddPunches = ponto.meuRH.missingPunches;
     const today = _dateToDateString(new Date());
     if (today == ponto.key && oddPunches){
-        let batidasHTML = ponto.htmlElements.punchesTable.innerHTML;
+        const div = ponto.htmlElements.punchesTable;
+        let batidasHTML = div.innerHTML;
         if (batidasHTML) {
             const roundedPill = BADGES_JSON.simulate.roundedPill;
-            ponto.htmlElements.punchesTable.innerHTML = batidasHTML.replace(`${BADGES_JSON.warning.roundedPill} batidas`, roundedPill).replace(`${BADGES_JSON.common.roundedPill} batidas`, roundedPill);
+
+            _replaceRoundedPill(div, roundedPill, 'batidas');
+            _replaceRoundedPill(div, roundedPill, 'pontoNotFound');
+
             ponto.meuRH.roundedPill = roundedPill;
             ponto.epm.roundedPill = roundedPill;
             messages.push(MESSAGES_JSON.simulate);
             ponto.simulate = true;
         }
     }
+}
+
+function _replaceRoundedPill(div, roundedPill, classComplement){
+    let innerHTML = div.innerHTML;
+    innerHTML = innerHTML.replace(`${BADGES_JSON.warning.roundedPill} ${classComplement}`, roundedPill);
+    innerHTML = innerHTML.replace(`${BADGES_JSON.common.roundedPill} ${classComplement}`, roundedPill);
+    div.innerHTML = innerHTML;
 }
