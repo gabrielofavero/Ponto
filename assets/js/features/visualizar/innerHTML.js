@@ -56,15 +56,9 @@ function _loadMessagesHTML(ponto, messages) {
       let messageDiv;
       switch (message) {
         case MESSAGES_JSON.epmMissing:
-          types.push(BADGES_JSON.info.badge);
-          messageDiv = MESSAGE_DIVS_JSON.info;
-          break;
         case MESSAGES_JSON.meuRHMissing:
           messageDiv = MESSAGE_DIVS_JSON.info;
           types.push(BADGES_JSON.info.badge);
-          if (!ponto.epm.visibility) {
-            ponto.htmlElements.comparisonTable.visibility = "style='display: none;'";
-          }
           break;
         case "":
         case undefined:

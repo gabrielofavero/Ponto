@@ -155,19 +155,7 @@ function _getPunches(array, messages) {
     }
 
     if (array.length > 1) {
-        for (let i = 1; i < array.length; i++) {
-            let time1 = array[i - 1];
-            let time2 = array[i]
-            let difference = _timeDifference(time1, time2);
-
-            if (i % 2 != 0) {
-                hArray.push(difference);
-            } else {
-                iArray.push(difference);
-            }
-        }
-        result.hours.value = _sumTime(hArray);
-        result.interval.value = _sumTime(iArray);
+        _loadHoursAndInterval(result, array, hArray, iArray);
 
         result.hours.badge = _getHoursBadge(result.hours.value, messages);
         result.hours.roundedPill = _getHoursRoundedPill(result.hours.badge);
@@ -266,6 +254,7 @@ function _validatePontoValue(ponto, value, messages) {
 }
 
 function _loadComparison(ponto, messages) {
+    const meuRH = _getLocal("meuRH");
     const epm = _getLocal("epm");
 
     if (!ponto.epm.value) {
@@ -277,7 +266,21 @@ function _loadComparison(ponto, messages) {
         }
     }
 
+    if (!ponto.meuRH.value){
+        let result = "?";
+        const system = meuRH['system'][ponto.key];
+        if (system) {
+            const punches = system.punches;
+            if (punches.length > 1){
+                _loadHoursAndInterval(ponto, punches);
+                result = _timeToEPM(ponto.hours.value);
+            } else result = "0,0"
+        }
+        ponto.meuRH.value = result;
+    }
+
     if (ponto.meuRH.value == "?") {
+        ponto.meuRH.roundedPill = BADGES_JSON.info.roundedPill;
         messages.push(MESSAGES_JSON.meuRHMissing);
     }
 
@@ -370,4 +373,20 @@ function _replaceRoundedPill(div, roundedPill, classComplement) {
     innerHTML = innerHTML.replace(`${BADGES_JSON.warning.roundedPill} ${classComplement}`, roundedPill);
     innerHTML = innerHTML.replace(`${BADGES_JSON.common.roundedPill} ${classComplement}`, roundedPill);
     div.innerHTML = innerHTML;
+}
+
+function _loadHoursAndInterval(result, array, hArray = [], iArray = []){
+    for (let i = 1; i < array.length; i++) {
+        let time1 = array[i - 1];
+        let time2 = array[i]
+        let difference = _timeDifference(time1, time2);
+
+        if (i % 2 != 0) {
+            hArray.push(difference);
+        } else {
+            iArray.push(difference);
+        }
+    }
+    result.hours.value = _sumTime(hArray);
+    result.interval.value = _sumTime(iArray);
 }
