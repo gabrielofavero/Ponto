@@ -30,7 +30,7 @@ function _loadPonto(checkBoxes, type, system) {
 
         // Meu RH and EPM Comparison
         if ((type == "meuRH" && checkBoxes.checkboxEPM == true) || (type == "epm" && checkBoxes.checkboxMeuRH == true)) {
-            if (ponto.simulate == false){
+            if (ponto.simulate == false) {
                 _loadComparison(ponto, messages);
             }
         } else {
@@ -345,10 +345,10 @@ function _loadNoMatchMessage(ponto, messages) {
     }
 }
 
-function _loadVisualizarSimMessage(ponto, messages){
+function _loadVisualizarSimMessage(ponto, messages) {
     const oddPunches = ponto.meuRH.missingPunches;
     const today = _dateToDateString(new Date());
-    if (today == ponto.key && oddPunches){
+    if (today == ponto.key && oddPunches) {
         const div = ponto.htmlElements.punchesTable;
         let batidasHTML = div.innerHTML;
         if (batidasHTML) {
@@ -365,7 +365,7 @@ function _loadVisualizarSimMessage(ponto, messages){
     }
 }
 
-function _replaceRoundedPill(div, roundedPill, classComplement){
+function _replaceRoundedPill(div, roundedPill, classComplement) {
     let innerHTML = div.innerHTML;
     innerHTML = innerHTML.replace(`${BADGES_JSON.warning.roundedPill} ${classComplement}`, roundedPill);
     innerHTML = innerHTML.replace(`${BADGES_JSON.common.roundedPill} ${classComplement}`, roundedPill);

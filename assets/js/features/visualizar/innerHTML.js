@@ -47,7 +47,7 @@ function _loadMessagesHTML(ponto, messages) {
   let result = [];
   let types = [];
 
-  if (messages.includes(MESSAGES_JSON.simulate)){
+  if (messages.includes(MESSAGES_JSON.simulate)) {
     let messageDiv = MESSAGE_DIVS_JSON.simulate;
     types.push(BADGES_JSON.simulate.badge);
     result.push(messageDiv.replace("#1", MESSAGES_JSON.simulate));
@@ -82,20 +82,19 @@ function _loadMessagesHTML(ponto, messages) {
 
   ponto.htmlElements.messagesHTML = result.join("");
   let typesS = types.toString();
-
   const priorityOrder = ["simulate", "warning", "info"];
 
-for (const badgeType of priorityOrder) {
-  if (typesS.includes(BADGES_JSON[badgeType].badge)) {
-    ponto.title.badge = BADGES_JSON[badgeType].badge;
-    ponto.title.icon = BADGES_JSON[badgeType].icon;
-    const textType = BADGES_JSON[badgeType].textType;
-    if (textType) {
-      ponto.title.textType = textType;
+  for (const badgeType of priorityOrder) {
+    if (typesS.includes(BADGES_JSON[badgeType].badge)) {
+      ponto.title.badge = BADGES_JSON[badgeType].badge;
+      ponto.title.icon = BADGES_JSON[badgeType].icon;
+      const textType = BADGES_JSON[badgeType].textType;
+      if (textType) {
+        ponto.title.textType = textType;
+      }
+      break;
     }
-    break;
   }
-}
 }
 
 function _getPunchesTableHTML(ponto, punchesArray, messages) {
