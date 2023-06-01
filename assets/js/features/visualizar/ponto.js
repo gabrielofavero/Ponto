@@ -326,7 +326,7 @@ function _loadNoMatchMessage(ponto, messages) {
         if (difference !== 0) {
             ponto.meuRH.roundedPill = BADGES_JSON.warning.roundedPill;
             ponto.epm.roundedPill = BADGES_JSON.warning.roundedPill;
-            const simuleAqui = `Clique em <a class="warningLink" href="epm-conversores.html?total=${valueMeuRH}&usadas=${valEPM}">Converter</a> para facilitar no cálculo de horas.`
+            const simuleAqui = `Clique em <a class="warningLink" href="epm-conversores.html?total=${encodeURIComponent(valueMeuRH)}&usadas=${encodeURIComponent(valEPM)}">Converter</a> para facilitar no cálculo de horas.`
             switch (true) {
                 case oddPunches:
                     messages.push(` Adicione o ponto ausente no <b>Meu RH</b> para depois comparar com o <b>EPM</b>.`);
