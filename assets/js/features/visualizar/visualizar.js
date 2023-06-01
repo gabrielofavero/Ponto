@@ -50,7 +50,7 @@ function _startVisualizar(type) {
 // ==== Getters ====
 function _getRegime() {
     let job = _getLocal('job');
-    if (job){
+    if (job) {
         if ((job.toLowerCase().includes('estagiario'))) {
             job = REGIMES.estagio;
         } else {
@@ -206,16 +206,17 @@ function _loadVisualizarEventListeners() {
     _resizeRegime();
 }
 
-function _resizeRegime(){
-    window.addEventListener('resize', function() {
+function _resizeRegime() {
+    window.addEventListener('resize', function () {
         var width = window.innerWidth;
         var regimeTitle = document.getElementById('regimeTitle');
-        
-        if (width < 484 || (width < 1400 && width >= 1200)) {
-            regimeTitle.innerHTML = 'Modelo';
-        } else {
-            regimeTitle.innerHTML = 'Modelo de Trabalho';
+        if (regimeTitle) {
+            if (width < 484 || (width < 1400 && width >= 1200)) {
+                regimeTitle.innerHTML = 'Modelo';
+            } else {
+                regimeTitle.innerHTML = 'Modelo de Trabalho';
+            }
         }
     });
-    window.dispatchEvent(new Event('resize'));    
+    window.dispatchEvent(new Event('resize'));
 }
