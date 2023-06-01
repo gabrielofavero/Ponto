@@ -1452,6 +1452,10 @@ h6 {
   margin-right: 10px;
 }
 
+.checkbox-text {
+  text-align: right;
+}
+
 .accordion-filter:focus {
   outline: 0;
   box-shadow: none;
