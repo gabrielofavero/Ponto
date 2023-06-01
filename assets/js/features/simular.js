@@ -9,7 +9,7 @@ function _loadSimularPlaceHolders() {
   const today = new Date().toISOString().substring(0, 10);
   input.value = today;
 
-  const regimes = REGIMES || _getJSON('assets/json/visualizar/Regimes.json');
+  const regimes = REGIMES_JSON;
   const regimeValue = _getRegime();
   let optionComum = document.getElementById('optionComum');
   let optionEstagio = document.getElementById('optionEstagio');
@@ -28,28 +28,55 @@ function _loadSimularPlaceHolders() {
 }
 
 function _applySimulation() {
-  const periodoInput = _getVal('periodoInput');
+  const periodoInput = _getInnerHTML('periodoInput');
+  const meuRH = _getLocal('meuRH');
 
   if (periodoInput) {
-    const regime = _getVal('regimeInput');
-    const saldo = _getVal('saldoInput');
-    const periodo = _dateInputToDateString(_getVal('periodoInput'));
+    let messages = [];
+
+    const regime = _getInnerHTML('regimeInput');
+    const saldo = _getInnerHTML('saldoInput');
+    const periodo = _dateInputToDateString(_getInnerHTML('periodoInput'));
     const dayOfTheWeek = periodo ? _getDayOfTheWeek(periodo) : "";
     const punches = _getSimPunches();
+    let observation = meuRH ? meuRH["system"][periodo]["observation"] : "";
 
-    _applyVal('simular-date', periodo);
-    _applyVal('simular-dayOfTheWeek', dayOfTheWeek);
+    if (observation == "Ausente") {
+      observation = "";
+    }
+
+    _setInnerHTML('simular-date', periodo);
+    _setInnerHTML('simular-dayOfTheWeek', dayOfTheWeek);
 
     if (punches.length > 0) {
-      _loadPontoSim(regime, saldo, punches);
+      if (observation) {
+        _loadSimObservation(observation, messages);
+      } else {
+        if (dayOfTheWeek == "Sábado" || dayOfTheWeek == "Domingo") {
+          _loadSimDayOfTheWeek(dayOfTheWeek, messages);
+        }
+      }
+      _loadPontoSim(regime, saldo, punches, observation, messages);
     } else {
       _loadSimWarning("Insira no mínimo 1 ponto para simular.");
     }
   } else {
     _loadSimWarning("Insira uma data válida para simular.")
   }
+}
 
+function _loadSimObservation(observation, messages) {
+  messages.push(MESSAGES_JSON.observation);
+  _addClass('simular-observation', BADGES_JSON.info.roundedPill);
+  _removeClass('simular-observation', "gray");
+  _setInnerHTML('simular-observation', observation);
+}
 
+function _loadSimDayOfTheWeek(dayOfTheWeek, messages) {
+  const translation = dayOfTheWeek == "Sábado" ? "saturday" : "sunday";
+  messages.push(MESSAGES_JSON[translation]);
+  _addClass('simular-dayOfTheWeek', BADGES_JSON.info.roundedPill);
+  _removeClass('simular-dayOfTheWeek', "gray");
 }
 
 function _loadSimularEventListeners() {
@@ -57,36 +84,21 @@ function _loadSimularEventListeners() {
   simular.addEventListener('click', function () {
     _applySimulation();
   });
-
   _resizeRegime();
 }
 
-function _getVal(id) {
-  try {
-    return document.getElementById(id).value;
-  } catch (e) {
-    return "";
-  }
-}
-
-function _applyVal(id, val) {
-  document.getElementById(id).innerHTML = val;
-}
-
-function _loadPontoSim(regime, saldo, punches) {
-  let messages = [];
+function _loadPontoSim(regime, currentSaldo, punchesArray, observation, messages) {
   let ponto;
-  if (PONTO) {
-    ponto = JSON.parse(JSON.stringify(PONTO));
+  if (PONTO_JSON) {
+    ponto = JSON.parse(JSON.stringify(PONTO_JSON));
   } else {
     ponto = _getJSON('assets/json/visualizar/Ponto.json');
   }
 
-  const SALDO = "00:00";
-  const PUNCHES = _getPunches(punches, messages);
+  const PUNCHES = _getPunches(punchesArray, messages);
 
   ponto.htmlElements.interval.internalRoundedPill = PUNCHES.interval.internalRoundedPill
-  ponto.htmlElements.punchesTable.innerHTML = _getPunchesTableHTML(ponto, punches, messages);
+  ponto.htmlElements.punchesTable.innerHTML = _getPunchesTableHTML(ponto, punchesArray, messages);
 
   ponto.htmlElements.hours.value = PUNCHES.hours.value;
   ponto.htmlElements.hours.roundedPill = PUNCHES.hours.roundedPill;
@@ -100,17 +112,20 @@ function _loadPontoSim(regime, saldo, punches) {
   ponto.title.value = PUNCHES.hours.value;
   ponto.epm.value = _timeToEPM(PUNCHES.hours.value);
 
-  _loadSimHTML(SALDO, ponto);
+  _loadSimSaldo(ponto, currentSaldo, regime, messages);
+  _loadSimMessagesHTML(ponto, messages, observation);
+
+  _loadSimHTML(ponto);
 }
 
 function _getSimPunches() {
   let result = [];
   for (let i = 0; i < 5; i++) {
-    let e = _getVal('e' + i);
+    let e = _getInnerHTML('e' + i);
     if (e) {
       result.push(e);
     }
-    let s = _getVal('s' + i);
+    let s = _getInnerHTML('s' + i);
     if (s) {
       result.push(s);
     }
@@ -122,15 +137,20 @@ function _getSimPunches() {
 }
 
 function _loadSimWarning(text) {
-  _applyVal('simular-body', `<div class="alert alert-warning alert-dismissible fade show" role="alert">${text}</div>`)
+  _setInnerHTML('simular-body', `<div class="alert alert-warning alert-dismissible fade show" role="alert">${text}</div>`)
 }
 
-function _loadSimHTML(saldo, ponto) {
-  _applyVal('simular-body', `<div class="item-comparison-container" id="sumUp-container1">
+function _loadSimHTML(ponto) {
+  _setInnerHTML('simular-body', `
+                            <div class="item-comparison-container" id="sumUp-container1">
                               <div class="item-comparison-table">
                                 <div class="item-internal-container">
-                                  <div class="item-comparison-title">Saldo Atualizado</div>
-                                  <div><span class="common" id="saldoOutput">${saldo}</span></div>
+                                  <div class="item-comparison-title">Novo Saldo</div>
+                                  <div><span class="common" id="saldoOutput">${ponto.saldo}</span></div>
+                                </div>
+                                <div class="item-internal-container">
+                                  <div class="item-comparison-title">EPM</div>
+                                  <div><span class="common" id="saldoOutput">${ponto.epm.value}</span></div>
                                 </div>
                               </div>
                             </div>
@@ -148,13 +168,8 @@ function _loadSimHTML(saldo, ponto) {
                               </div>
                             </div>
 
-                            <div class="item-comparison-container" id="sumUp-container1">
-                              <div class="item-comparison-table">
-                                <div class="item-internal-container">
-                                  <div class="item-comparison-title">EPM</div>
-                                  <div><span class="common" id="saldoOutput">${ponto.epm.value}</span></div>
-                                </div>
-                              </div>
+                            <div class="item-comparison-container">
+                            ${ponto.htmlElements.punchesTable.innerHTML}
                             </div>
 
                           <div class="item-internal-messages" id="message1">
@@ -179,10 +194,52 @@ function _loadSimularURLParameters() {
     for (const punch of punches) {
       let type = e ? "e" : "s";
       document.getElementById(type + i).value = punch;
-      if (!e){
+      if (!e) {
         i++;
       }
       e = !e;
     }
   }
+}
+
+function _loadSimSaldo(ponto, currentSaldo, regime, messages) {
+  let result = "00:00";
+  let hoursNumb = _timeToNumber(ponto.title.value);
+
+  if (regime == REGIMES_JSON.estagio) {
+    if (hoursNumb - 6 > 0) {
+      messages.push(MESSAGES_JSON.internJourneyMismatch)
+    }
+  } else {
+    const balance = _numberToTime(hoursNumb - 8);
+    result = _sumTime([currentSaldo, balance]);
+  }
+  ponto.saldo = result;
+}
+
+function _loadSimMessagesHTML(ponto, messages, observation) {
+  let result = [];
+
+  if (_getSimPunches().length % 2 != 0) {
+    messages.push(MESSAGES_JSON.odd);
+  }
+  if (messages.length == 0) {
+    result.push(MESSAGE_DIVS_JSON.success.replace("#1", MESSAGES_JSON.valid));
+  } else {
+    for (let message of messages) {
+      switch (message) {
+        case MESSAGES_JSON.saturday:
+        case MESSAGES_JSON.sunday:
+          result.push(MESSAGE_DIVS_JSON.info.replace("#1", message));
+          break;
+        case MESSAGES_JSON.observation:
+          result.push(MESSAGE_DIVS_JSON.info.replace("#1", message.replace("#1", observation)));
+          break;
+        default:
+          result.push(MESSAGE_DIVS_JSON.warning.replace("#1", message));
+      }
+    }
+  }
+
+  ponto.htmlElements.messagesHTML = result.join("");
 }

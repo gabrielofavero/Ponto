@@ -15,17 +15,26 @@ function _numberToTime(number) {
 
     let hour = Math.floor(number);
     let minute = Math.round((number - hour) * 60);
+
     return before + _hourMinuteToTime(hour, minute);
 }
 
-function _hourMinuteToTime(hour, minute) {
-    if (hour < 10) {
-        hour = "0" + hour;
+function _hourMinuteToTime(hour=0, minute=0) {
+    let signal = "";
+    let totalMinutes = (hour * 60) + minute;
+    if (totalMinutes < 0) {
+        signal = "-";
+        totalMinutes = -totalMinutes;
+    };
+    let hourResult = Math.floor(totalMinutes / 60);
+    let minuteResult = totalMinutes % 60;
+    if (hourResult < 10) {
+        hourResult = "0" + hourResult;
     }
-    if (minute < 10) {
-        minute = "0" + minute;
+    if (minuteResult < 10) {
+        minuteResult = "0" + minuteResult;
     }
-    return hour + ":" + minute;
+    return signal + hourResult + ":" + minuteResult;
 }
 
 function _dateToDateStringNoYear(date) {
@@ -51,17 +60,17 @@ function _isLater(time1, time2) {
 }
 
 function _sumTime(timeArray) {
-    let hour = 0;
-    let minute = 0;
+    let minutes = 0;
     for (let i = 0; i < timeArray.length; i++) {
+        let signal = 1;
+        if (timeArray[i].includes("-")) {
+            signal = -1;
+            timeArray[i] = timeArray[i].substring(1);
+        }
         let split = timeArray[i].split(":");
-        hour += parseInt(split[0]);
-        minute += parseInt(split[1]);
+        minutes += (((parseInt(split[0]) * 60) + parseInt(split[1])) * signal);
     }
-    hour += Math.floor(minute / 60);
-    minute = minute % 60;
-
-    return _hourMinuteToTime(hour, minute);
+    return _hourMinuteToTime(0, minutes);
 }
 
 function _timeDifference(time1, time2) {

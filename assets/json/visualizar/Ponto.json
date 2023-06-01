@@ -1,7 +1,11 @@
 {
     "key": "",
     "i": 0,
-    "date": "",
+    "date": {
+        "value": "",
+        "roundedPill": ""
+    },
+    "saldo": "",
     "simulate": false,
     "title": {
         "roundedPill": "",

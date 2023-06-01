@@ -1575,10 +1575,14 @@ h6 {
   width: 40%
 }
 
-.dayOfTheWeek-simular {
-  color: gray;
+.dayOfTheWeek-simular,
+.observation-simular {
   margin-left: 10px;
   margin-top: 20px;
+}
+
+.gray{
+  color: gray;
 }
 
 #card1 {

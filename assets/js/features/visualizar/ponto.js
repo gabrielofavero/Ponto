@@ -50,7 +50,7 @@ function _loadPonto(checkBoxes, type, system) {
 }
 
 function _getInitialPontoItem(i, key) {
-    let ponto = JSON.parse(JSON.stringify(PONTO))
+    let ponto = JSON.parse(JSON.stringify(PONTO_JSON))
     ponto.i = i;
     ponto.key = key;
 
