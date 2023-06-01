@@ -1,6 +1,8 @@
 function _startConversores() {
     const inputTime = document.getElementById('inputTime');
     const inputEPM = document.getElementById('inputEPM');
+    const inputTotal = document.getElementById('inputTotal');
+    const inputUsadas = document.getElementById('inputUsadas');
     
     inputTime.addEventListener('input', (event) => {
         _loadTimeToEPM(event.target.value);
@@ -8,6 +10,18 @@ function _startConversores() {
 
     inputEPM.addEventListener('input', (event) => {
         _loadEPMToTime(event.target.value);
+    });
+
+    inputEPM.addEventListener('input', (event) => {
+        _loadEPMToTime(event.target.value);
+    });
+
+    inputTotal.addEventListener('input', (event) => {
+        _calculateSimHours();
+    });
+
+    inputUsadas.addEventListener('input', (event) => {
+        _calculateSimHours();
     });
 }
 
@@ -38,4 +52,29 @@ function _loadEPMToTime(epm){
         result = "00:00"
     }
     outputTime.innerHTML = result
+}
+
+function _calculateSimHours(){
+    const totalVal = document.getElementById("inputTotal").value;
+    const usadasVal = document.getElementById("inputUsadas").value;
+    const outputDiv = document.getElementById("outputRestante");
+
+    let result = "-,-"
+
+    let totalNum = 0;
+    let usadasNum = 0;
+
+    if (totalVal && !isNaN(totalVal)){
+        totalNum = parseFloat(totalVal).toFixed(1);
+    }
+
+    if (usadasVal && !isNaN(usadasVal)){
+        usadasNum = parseFloat(usadasVal).toFixed(1);
+    }
+
+    if (totalNum > -100 && totalNum < 100 && usadasNum > -100 && usadasNum < 100){
+        result = ((totalNum - usadasNum).toFixed(1)).toString().replace(".",",");
+    }
+
+    outputDiv.innerHTML = result
 }

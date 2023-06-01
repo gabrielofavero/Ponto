@@ -320,25 +320,23 @@ function _loadNoMatchMessage(ponto, messages) {
         let location = valueMeuRH === "?" ? "<b>Meu RH</b>" : "<b>EPM</b>";
         messages.push(`${MESSAGES_JSON.noMatch} Preencha as horas no ${location}.`);
     } else {
-        const difference = _epmToNumber(valueMeuRH) - _epmToNumber(valueEPM);
+        const valMeuRH = _epmToNumber(valueMeuRH);
+        const valEPM = _epmToNumber(valueEPM);
+        const difference = valMeuRH - valEPM;
         if (difference !== 0) {
-            const today = _dateToDateString(new Date());
+            ponto.meuRH.roundedPill = BADGES_JSON.warning.roundedPill;
+            ponto.epm.roundedPill = BADGES_JSON.warning.roundedPill;
             switch (true) {
-                case (today == ponto.key):
-                    break;
                 case oddPunches:
-                    ponto.meuRH.roundedPill = BADGES_JSON.warning.roundedPill;
-                    ponto.epm.roundedPill = BADGES_JSON.warning.roundedPill;
                     messages.push(` Adicione o ponto ausente no <b>Meu RH</b> para depois comparar com o <b>EPM</b>.`);
                     break;
+                case (valEPM === 0):
+                    messages.push(`${MESSAGES_JSON.noEPM} Adicione <b>${_numberToEpm(difference)}h</b>.`);
+                    break;
                 case (difference > 0):
-                    ponto.meuRH.roundedPill = BADGES_JSON.warning.roundedPill;
-                    ponto.epm.roundedPill = BADGES_JSON.warning.roundedPill;
                     messages.push(`${MESSAGES_JSON.noMatch} Adicione <b>${_numberToEpm(difference)}h</b> ao <b>EPM</b>.`);
                     break;
                 case (difference < 0):
-                    ponto.meuRH.roundedPill = BADGES_JSON.warning.roundedPill;
-                    ponto.epm.roundedPill = BADGES_JSON.warning.roundedPill;
                     messages.push(`${MESSAGES_JSON.noMatch} Remova <b>${_numberToEpm(difference * -1)}h</b> do <b>EPM</b>.`);
                     break;
             }

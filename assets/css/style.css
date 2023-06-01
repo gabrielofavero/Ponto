@@ -1513,13 +1513,11 @@ h6 {
   margin-top: 7px;
 }
 
-#inputTime,
-#inputEPM {
+.input {
   color: gray;
 }
 
-#outputEPM,
-#outputTime {
+.output {
   height: 60px;
   font-size: 40px;
   text-align: center;
@@ -1594,4 +1592,9 @@ h6 {
 
 input[type="time"]::-webkit-calendar-picker-indicator {
   display: none;
+}
+
+#conversorHoras1,
+#conversorHoras2{
+  margin-right: 20px;
 }
