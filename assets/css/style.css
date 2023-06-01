@@ -1598,3 +1598,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 #conversorHoras2{
   margin-right: 20px;
 }
+
+.negative {
+  color:#661703
+}
