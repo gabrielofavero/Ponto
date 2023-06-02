@@ -14,16 +14,12 @@ function _startConversores() {
         _loadEPMToTime(event.target.value);
     });
 
-    inputEPM.addEventListener('input', (event) => {
-        _loadEPMToTime(event.target.value);
-    });
-
     inputTotal.addEventListener('input', (event) => {
-        _calculateSimHours();
+        _convertionHours();
     });
 
     inputUsadas.addEventListener('input', (event) => {
-        _calculateSimHours();
+        _convertionHours();
     });
 }
 
@@ -39,24 +35,27 @@ function _loadTimeToEPM(time) {
 }
 
 function _loadEPMToTime(epm) {
+    let result = "--:--"
     const outputTime = document.getElementById('outputTime');
     try {
-        const split = epm.split(".");
-        if (split[1] && split[1].length > 1) {
-            let beforeComma = parseFloat(split[0])
-            let afterComma = parseFloat('0.' + split[1]).toFixed(1)
-            epm = (beforeComma + afterComma).toString();
-        } else if (split.length == 1) {
-            epm = split[0] + ".0"
+        if (parseFloat(epm) < 1000 && parseFloat(epm) > -1000) {
+            const split = epm.split(".");
+            if (split[1] && split[1].length > 1) {
+                let beforeComma = parseFloat(split[0])
+                let afterComma = parseFloat(parseFloat('0.' + split[1]).toFixed(1));
+                epm = (beforeComma + afterComma).toString();
+            } else if (split.length == 1) {
+                epm = split[0] + ".0"
+            }
+            result = _epmToTime(epm);
         }
-        result = _epmToTime(epm);
     } catch (e) {
         result = "00:00"
     }
     outputTime.innerHTML = result
 }
 
-function _calculateSimHours() {
+function _convertionHours() {
     const totalVal = document.getElementById("inputTotal").value;
     const usadasVal = document.getElementById("inputUsadas").value;
     const outputDiv = document.getElementById("outputRestante");
@@ -100,6 +99,6 @@ function _loadConversoresURLParameters() {
     }
 
     if (total || usadas) {
-        _calculateSimHours();
+        _convertionHours();
     }
 }

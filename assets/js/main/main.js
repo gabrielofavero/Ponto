@@ -393,18 +393,22 @@
 })();
 
 async function _start() {
+  _loadVersion();
   const meuRH = _getLocal('meuRH');
   const epm = _getLocal('epm');
 
+  const meuRHValid = _isVersionValid(meuRH);
+  const epmValid = _isVersionValid(epm);
+
   _checkLogin();
 
-  if (meuRH) {
+  if (meuRH && meuRHValid) {
     _showNav('meuRH');
   } else {
     _hideNav('meuRH');
   }
 
-  if (epm) {
+  if (epm && epmValid) {
     _showNav('epm');
   } else {
     _hideNav('epm');
@@ -426,6 +430,9 @@ async function _start() {
       break;
     case "/epm-conversores.html":
       _startConversores('epm');
+      break;
+    case "/release-notes.html":
+      _startReleaseNotesHTML();
       break;
   }
 
@@ -453,15 +460,6 @@ function _showNav(type) {
 
 function _hideNav(type) {
   document.getElementById(type + "-visualizar").style.display = "none";
-}
-
-function _setNotLoaded(type) {
-  const badge = document.getElementById(type + "-status-badge")
-  const message = document.getElementById(type + "-status-message")
-  if (badge && message) {
-    badge.innerHTML = `<span class="badge rounded-pill bg-warning text-dark">Não Carregado</span>`;
-    message.innerHTML = `<span class="text-muted small pt-2">Carregue para ter acesso a todos os recursos</span>`
-  }
 }
 
 function _clearData() {

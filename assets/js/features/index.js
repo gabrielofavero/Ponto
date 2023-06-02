@@ -1,32 +1,39 @@
-const NAO_CARREGADO_JSON = _getJSON('assets/json/index/Não Carregado.json');
-const CARREGADO_JSON = _getJSON('assets/json/index/Carregado.json');
-const ERRO_JSON = _getJSON('assets/json/index/Erro.json');
-const DATAS_JSON = _getJSON('assets/json/index/Datas.json');
+const INDEX_BADGES_JSON = _getJSON('assets/json/index/Index Badges.json');
 
 function _startIndex() {
     const meuRH = _getLocal("meuRH");
     const epm = _getLocal("epm");
 
+    const meuRHValid = _isVersionValid(meuRH);
+    const epmValid = _isVersionValid(epm);
+
     _loadIndexEventListeners();
 
-    if (meuRH) {
-        _setLoaded('meuRH');
-        _loadedButtons('meuRH');
-    } else {
-        _setNotLoaded('meuRH');
-        _unloadedButtons('meuRH')
-    }
 
-    if (epm) {
+        if (meuRH && meuRHValid) {
+            _setLoaded('meuRH');
+            _loadedButtons('meuRH');
+        } else if (meuRHValid) {
+            _setNotLoaded('meuRH');
+            _unloadedButtons('meuRH');
+        } else {
+            _setLoadAgain('meuRH');
+            _loadedButtons('meuRH');
+        }
+
+    if (epm && epmValid) {
         _setLoaded('epm');
         _loadedButtons('epm');
-    } else {
+    } else if (epmValid) {
         _setNotLoaded('epm');
-        _unloadedButtons('epm')
+        _unloadedButtons('epm');
+    } else {
+        _setLoadAgain('epm');
+        _loadedButtons('epm');
     }
 
     _setYear();
-    if (meuRH && epm) {
+    if (meuRH && epm && meuRHValid && epmValid) {
         _checkOverlap();
     }
 }
@@ -52,11 +59,11 @@ function _setLoaded(type) {
     if (result && result["keypoints"] && result["keypoints"]["Início"] && result["keypoints"]["Fim"]) {
         let start = _dateStringToDateStringNoYear(result["keypoints"]["Início"]);
         let end = _dateStringToDateStringNoYear(result["keypoints"]["Fim"]);
-        badge.innerHTML = CARREGADO_JSON.badge;
-        message.innerHTML = CARREGADO_JSON.message.replace('#1', start).replace('#2', end);
+        badge.innerHTML = INDEX_BADGES_JSON["carregado"].badge;
+        message.innerHTML = INDEX_BADGES_JSON["carregado"].message.replace('#1', start).replace('#2', end);
     } else {
-        badge.innerHTML = ERRO_JSON.badge;
-        message.innerHTML = ERRO_JSON.message;
+        badge.innerHTML = INDEX_BADGES_JSON["erro"].badge;
+        message.innerHTML = INDEX_BADGES_JSON["erro"].message;
     }
 }
 
@@ -65,10 +72,10 @@ function _setNoOverlap() {
     const meuRH = document.getElementById("meuRH-status-badge");
     const epm = document.getElementById("epm-status-badge");
     if (meuRH) {
-        meuRH.innerHTML = DATAS_JSON.badge;
+        meuRH.innerHTML = INDEX_BADGES_JSON["datas"].badge;
     }
     if (epm) {
-        epm.innerHTML = DATAS_JSON.badge;
+        epm.innerHTML = INDEX_BADGES_JSON["datas"].badge;
     }
     _hideMeuRH();
     _hideEPM();
@@ -81,11 +88,14 @@ function _setOverlap() {
 }
 
 function _updateKeypoints(result) {
-    if (result && result.system && Object.keys(result.system).length > 1) {
-        let systemKeys = Object.keys(result.system);
-        systemKeys.sort((a, b) => a - b);
-        result["keypoints"]["Início"] = systemKeys[0];
-        result["keypoints"]["Fim"] = systemKeys[systemKeys.length - 1];
+    if (result) {
+        result["keypoints"]["Version"] = VERSION;
+        if (result.system && Object.keys(result.system).length > 1) {
+            let systemKeys = Object.keys(result.system);
+            systemKeys.sort((a, b) => a - b);
+            result["keypoints"]["Início"] = systemKeys[0];
+            result["keypoints"]["Fim"] = systemKeys[systemKeys.length - 1];
+        }
     }
 }
 
@@ -94,12 +104,12 @@ function _restoreBadge(type) {
     let message = document.getElementById(type + "-status-message");
     const currentMessage = message.innerHTML;
     if (currentMessage) {
-        if (currentMessage == NAO_CARREGADO_JSON.message) {
-            badge.innerHTML = NAO_CARREGADO_JSON.badge;
+        if (currentMessage == INDEX_BADGES_JSON["naoCarregado"].message) {
+            badge.innerHTML = INDEX_BADGES_JSON["naoCarregado"].badge;
         } else if (currentMessage.includes('Período:')) {
-            badge.innerHTML = CARREGADO_JSON.badge;
-        } else if (currentMessage == ERRO_JSON.message) {
-            badge.innerHTML = ERRO_JSON.badge;
+            badge.innerHTML = INDEX_BADGES_JSON["carregado"].badge;
+        } else if (currentMessage == INDEX_BADGES_JSON["erro"].message) {
+            badge.innerHTML = INDEX_BADGES_JSON["erro"].badge;
         }
     }
 }
@@ -120,3 +130,21 @@ function _unloadedButtons(type) {
     const deleteDiv = document.getElementById(type + "-delete");
     deleteDiv.style.display = "none"
 }
+
+function _setNotLoaded(type) {
+    const badge = document.getElementById(type + "-status-badge")
+    const message = document.getElementById(type + "-status-message")
+    if (badge && message) {
+      badge.innerHTML = INDEX_BADGES_JSON.naoCarregado.badge;
+      message.innerHTML = INDEX_BADGES_JSON.naoCarregado.message;
+    }
+  }
+  
+  function _setLoadAgain(type) {
+    const badge = document.getElementById(type + "-status-badge")
+    const message = document.getElementById(type + "-status-message")
+    if (badge && message) {
+      badge.innerHTML = INDEX_BADGES_JSON.carregueNovamente.badge;
+      message.innerHTML = INDEX_BADGES_JSON.carregueNovamente.message;
+    }
+  }

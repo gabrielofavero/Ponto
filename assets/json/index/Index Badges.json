@@ -1,0 +1,21 @@
+{
+    "carregado": {
+        "badge": "<span class=\"badge rounded-pill bg-success\">Carregado</span>",
+        "message": "<span class=\"text-muted small pt-2\">Período: #1 - #2</span>"
+    },
+    "datas": {
+        "badge": "<span class=\"badge rounded-pill bg-danger\">Datas Não Batem</span>"
+    },
+    "erro": {
+        "badge": "<span class=\"badge rounded-pill bg-danger\">Erro</span>",
+        "message": "<span class=\"text-muted small pt-2\">O arquivo não foi carregado corretamente. Tente novamente</span>"
+    },
+    "naoCarregado": {
+        "badge": "<span class=\"badge rounded-pill bg-warning text-dark\">Não Carregado</span>",
+        "message": "<span class=\"text-muted small pt-2\">Carregue para ter acesso a todos os recursos</span>"
+    },
+    "carregueNovamente": {
+        "badge": "<span class=\"badge rounded-pill bg-secondary\">Carregue Novamente</span>",
+        "message": "<span class=\"text-muted small pt-2\">O sistema foi atualizado. É preciso carregar novamente.</span>"
+    }
+}

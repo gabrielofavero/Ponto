@@ -34,9 +34,6 @@ function _startVisualizar(type) {
     if (periodo) {
         periodoString = _getPeriodoString(periodo);
         document.getElementById('periodo').innerHTML = periodoString;
-        if ((new Date()).getTime() >= periodo.end.getTime()) {
-            _unloadCheckbox('checkboxFuturo', checkBoxes);
-        }
     }
 
     if (database) {
@@ -73,14 +70,12 @@ function _getCheckboxes(type) {
 
     if (type == 'meuRH') {
         _loadCheckbox('checkboxEPM', checkBoxes);
-        _loadCheckbox('checkboxFuturo', checkBoxes);
         _loadCheckbox('checkboxVazio', checkBoxes);
-        ids = ['checkboxEPM', 'checkboxFuturo', 'checkboxVazio'];
+        ids = ['checkboxEPM', 'checkboxVazio'];
     } else if (type == 'epm') {
         _loadCheckbox('checkboxMeuRH', checkBoxes);
         _loadCheckbox('checkboxVazio', checkBoxes);
-        _loadCheckbox('checkboxFuturo', checkBoxes);
-        ids = ['checkboxMeuRH', 'checkboxVazio', 'checkboxFuturo'];
+        ids = ['checkboxMeuRH', 'checkboxVazio'];
     }
 
     const accordion = document.getElementById('accordion-filter');
@@ -103,7 +98,11 @@ function _loadCheckbox(name, checkBoxes) {
 
     if (div && itemDiv) {
         let visibility;
-        if ((name == 'checkboxEPM' && !_getLocal('epm')) || (name == 'checkboxMeuRH' && !_getLocal('meuRH'))) {
+        const meuRH = _getLocal('meuRH');
+        const epm = _getLocal('epm');
+        const meuRHCheck = name == 'checkboxMeuRH' && (!meuRH || !_isVersionValid(meuRH));
+        const epmCheck = name == 'checkboxEPM' && (!epm  || !_isVersionValid(epm));
+        if (meuRHCheck || epmCheck) {
             visibility = "none";
         } else {
             visibility = "block";
@@ -155,10 +154,6 @@ function _getPeriodo(checkBoxes, type) {
                     epm = _getLocal('epm');
                 }
                 break;
-            case 'checkboxFuturo':
-                if (checkBoxes[key] == false) {
-                    today = new Date();
-                }
         }
     }
     let result = {

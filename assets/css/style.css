@@ -1619,3 +1619,11 @@ a.warningLink {
 a.warningLink:hover {
   color: #8E6A04;
 }
+
+#release-notes-accordion{
+  margin-top: 20px;
+}
+
+.subtitle{
+  font-size: 15px;
+}

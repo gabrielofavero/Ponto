@@ -4,8 +4,8 @@
     "noMatch": "Os horários do <b>Meu RH</b> e <b>EPM</b> não batem.",
     "noEPM": "Você não inseriu horas no <b>EPM</b>.",
     "noInterval": "Você trabalhou mais de 6 horas, mas não teve um intervalo que durou entre <b>1 a 2 horas</b>.",
-    "noMainInterval": "Apesar de você ter feito um intervalo, ele não durou entre <b>1 a 2 horas</b>.",
-    "noMainIntervals": "Apesar de ter feito mais de um intervalo, nenhum deles durou entre <b>1 a 2 horas</b>.",
+    "noMainInterval": "Apesar de você ter feito um intervalo, ele não durou entre <b>1 a 2 horas</b>. Jornadas maiores que 6 horas devem ter um intervalo que dure entre <b>1 a 2 horas</b>.",
+    "noMainIntervals": "Apesar de ter feito mais de um intervalo, nenhum deles durou entre <b>1 a 2 horas</b>. Jornadas maiores que 6 horas devem ter um intervalo que dure entre <b>1 a 2 horas</b>.",
     "odd": "Você marcou um <b>número ímpar de batidas</b>. Realize o ajuste manual para incluir o horário ausente.",
     "tooLongJourney": "Você trabalhou mais de 10 horas. Só é autorizado trabalhar <b>até 2 horas extras por dia</b>.",
     "internJourneyMismatch": "Horário não previsto. Estagiários devem trabalhar <b>exatamente 6 horas por dia</b>. Em caso de discrepância significativa, alinhe com seu gestor ou, caso seja um erro, realize o ajuste manual.",
@@ -14,6 +14,6 @@
     "saturday": "Você colocou como data um <b>Sábado</b>. Verifique se a informação está correta.",
     "sunday": "Você colocou como data um <b>Domingo</b>. Verifique se a informação está correta.",
     "observation": "O Meu RH identificou a seguinte observação: <b>#1</b>. Confira se a data é um feriado, uma ausência, ou se você está em férias.",
-    "tooEarly": "Você iniciou sua jornada de trabalho muito cedo. Só é permitido iniciar a partir das <b>05:00</b>.",
-    "tooLate": "Você finalizou sua jornada de trabalho muito tarde. Só é permitido iniciar até as <b>22:00</b>."
+    "tooEarly": "Você iniciou sua jornada de trabalho muito cedo. Só é permitido trabalhar a partir de <b>05:00</b>.",
+    "tooLate": "Você finalizou sua jornada de trabalho muito tarde. Só é permitido trabalhar até <b>22:00</b>."
 }
