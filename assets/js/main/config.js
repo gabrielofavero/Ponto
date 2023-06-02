@@ -1,4 +1,4 @@
-const VERSION = '1.0.0';
+const VERSION = '1.0.1';
 const DATABASE_VERSION_LIMIT = "1.0.0";
 const VERSION_DATE = "02/06/2023";
 const MAJOR_RELEASE = true;

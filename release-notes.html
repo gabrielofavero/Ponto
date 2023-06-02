@@ -227,16 +227,45 @@
                 <h5 class="card-title">Histórico</h5>
                 <div class="accordion" id="release-notes-accordion">
                   <div id="accordion-items">
+
                     <div class="accordion-item">
                       <h2 class="accordion-header">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                           data-bs-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
-                          <div class="dateBox"><b>Versão 1.0.0</b></div>
+                          <div class="dateBox"><b>Versão 1.0.1</b></div>
                           <span class="badge bg-light time-badge text-dark"><i
                               class="bi bi-calendar me-1"></i>02/06/2023</span>
                         </button>
                       </h2>
                       <div id="collapse1" class="accordion-collapse collapse" aria-labelledby="heading1"
+                        data-bs-parent="#ponto-accordion">
+                        <div class="accordion-body">
+                          <b>What's New:</b> <br>
+                          <ul>
+                            <li>Todos os pontos válidos agora exibirão uma mensagem de ponto válido;</li>
+                            <li>Novo Checkbox para o usuário ignorar, caso esteja comparando EPM e Meu RH, datas fora do período de cobertura;</li>
+                            <li>Criada mensagem de "Não existem dados" caso o usuário aplique filtros que não retornem resultados.</li>
+                          </ul><br>
+                          <b>Bug Fixes:</b> <br>
+                          <ul>
+                            <li>Correção no carregamento de páginas;</li>
+                            <li>Correção de bug que exibia comparação EPM-MeuRH mesmo com períodos diferentes;</li>
+                            <li>Correção de bug que ocultava o dia de hoje caso o usuário selecionasse para ignorar dias não trabalhados</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="accordion-item">
+                      <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                          data-bs-target="#collapse0" aria-expanded="false" aria-controls="collapse1">
+                          <div class="dateBox"><b>Versão 1.0.0</b></div>
+                          <span class="badge bg-light time-badge text-dark"><i
+                              class="bi bi-calendar me-1"></i>01/06/2023</span>
+                        </button>
+                      </h2>
+                      <div id="collapse0" class="accordion-collapse collapse" aria-labelledby="heading1"
                         data-bs-parent="#ponto-accordion">
                         <div class="accordion-body">
                           Bem vindos(as) ao Ponto! 😃 <br><br>
@@ -245,6 +274,7 @@
                         </div>
                       </div>
                     </div>
+
                   </div>
                 </div>
               </div>
