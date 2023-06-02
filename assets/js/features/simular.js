@@ -41,10 +41,6 @@ function _applySimulation() {
     const punches = _getSimPunches();
     let observation = meuRH ? meuRH["system"][periodo]["observation"] : "";
 
-    if (observation == "Ausente" || observation == "Compensado" || observation == "D.S.R.") {
-      observation = "";
-    }
-
     _setInnerHTML('simular-date', periodo);
     _setInnerHTML('simular-dayOfTheWeek', dayOfTheWeek);
 

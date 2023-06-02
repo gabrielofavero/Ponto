@@ -164,7 +164,10 @@ function _getObservation(rawData) {
     if (rawData) {
         const treatedData = rawData.replace(/\*/g, "").trim();
         if (!_isTimeString(treatedData)) {
-            result = _getFirstCharUpperCase(treatedData);
+            let observation = _getFirstCharUpperCase(treatedData);
+            if (observation != "Ausente" && observation != "Compensado" && observation != "D.S.R."){
+                result = observation;
+            }
         }
     }
     return result;
