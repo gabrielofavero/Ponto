@@ -41,7 +41,7 @@ function _loadPonto(checkBoxes, type, system) {
         _loadMessagesHTML(ponto, messages);
 
         // Apply to HTML
-        if (!(checkBoxes.checkboxVazio == true && (ponto.title.value == "00:00" || ponto.title.value == "0,0"))) {
+        if (!(checkBoxes.checkboxVazio == true && (ponto.title.value == "00:00" || ponto.title.value == "0,0") && ponto.meuRH.punches == 0)) {
             _loadAccordionItemHTML(ponto)
             _setVisibilityAfterLoad(i);
         }

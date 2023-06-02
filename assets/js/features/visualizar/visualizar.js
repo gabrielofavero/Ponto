@@ -117,7 +117,6 @@ function _getSaldo() {
 
 function _getCheckboxes(type) {
     let checkBoxes = {};
-    let ids;
 
     if (type == 'meuRH') {
         _loadCheckbox('checkboxEPM', checkBoxes);

@@ -152,8 +152,10 @@ function _getPunchesTableHTML(ponto, punchesArray, messages) {
   // Batidas
   if (ponto.meuRH.missingPunches == true) {
     messages.push(MESSAGES_JSON.odd);
+    ponto.meuRH.punches = punchesArray.length - 1;
     batidas = `<span class="${BADGES_JSON.warning.roundedPill} batidas">${punchesArray.length - 1}</span>`
   } else {
+    ponto.meuRH.punches = punchesArray.length;
     batidas = `<span class="${BADGES_JSON.common.roundedPill} batidas" batidas>${punchesArray.length}</span>`
   }
 
