@@ -90,14 +90,14 @@ function _setNoOverlap() {
     if (epm) {
         epm.innerHTML = INDEX_BADGES_JSON["datas"].badge;
     }
-    _hideMeuRH();
-    _hideEPM();
+    localStorage.setItem("compare", "false");
 }
 
 function _setOverlap() {
     document.getElementById("overlaping").style.display = "none";
     _restoreBadge("meuRH");
     _restoreBadge("epm");
+    localStorage.setItem("compare", "true");
 }
 
 function _updateKeypoints(result) {

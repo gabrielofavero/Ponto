@@ -55,8 +55,9 @@ function _loadCheckbox(name, checkBoxes) {
         let visibility;
         const meuRH = _getLocal('meuRH');
         const epm = _getLocal('epm');
-        const meuRHCheck = name == 'checkboxMeuRH' && (!meuRH || !_isVersionValid(meuRH));
-        const epmCheck = name == 'checkboxEPM' && (!epm || !_isVersionValid(epm));
+        const compare = _getLocal("compare");
+        const meuRHCheck = name == 'checkboxMeuRH' && (!meuRH || !_isVersionValid(meuRH) || !compare);
+        const epmCheck = name == 'checkboxEPM' && (!epm || !_isVersionValid(epm) || !compare);
         if (meuRHCheck || epmCheck) {
             visibility = "none";
         } else {
