@@ -31,7 +31,7 @@ function _loadVersion() {
 
 function _loadNewIcon() {
     _addClass("newVersion", "bi bi-exclamation exclamation");
-    _addStyle("newVersion", "color: red;");
+    _setStyle("newVersion", "color: red;");
 }
 
 // === Verifiers ===

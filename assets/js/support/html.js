@@ -30,7 +30,7 @@ function _addClass(id, className) {
   }
 }
 
-function _addStyle(id, style) {
+function _setStyle(id, style) {
   var element = document.getElementById(id);
   if (element) {
     element.style = style;

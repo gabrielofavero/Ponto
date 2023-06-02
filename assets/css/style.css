@@ -1627,3 +1627,14 @@ a.warningLink:hover {
 .subtitle{
   font-size: 15px;
 }
+
+#checkboxVazioEPM-item,
+#checkboxVazioMeuRH-item {
+  transition: max-height 0.5s ease-out;
+  overflow: hidden;
+  max-height: 0;
+}
+#checkboxVazioEPM-item.visible,
+#checkboxVazioMeuRH-item.visible {
+  max-height: 100px; /* adjust this value to match the actual height of the item */
+}

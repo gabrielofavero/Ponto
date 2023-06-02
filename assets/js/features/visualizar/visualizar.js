@@ -71,8 +71,11 @@ function _loadCheckbox(name, checkBoxes) {
                     div.checked = val;
                 }
 
+            _loadCheckBoxVazioEPM((name));
             div.addEventListener('change', function (event) {
                 localStorage.setItem(name, event.target.checked);
+                _loadCheckBoxVazioEPM((name));
+
             });
             checkBoxes[name] = val || div.checked;
         }
@@ -94,6 +97,19 @@ function _unloadCheckbox(name, checkBoxes) {
 
 function _loadVisualizarEventListeners() {
     _resizeRegime();
+}
+
+function _loadCheckBoxVazioEPM(name){
+    if (name == 'checkboxEPM' || name == 'checkboxMeuRH'){
+        const type = name.replace('checkbox', "");
+        const checked = document.getElementById(name).checked;
+        const epmEmpty = document.getElementById(`checkboxVazio${type}-item`);
+        if (epmEmpty && checked){
+            epmEmpty.classList.add('visible');
+        } else if (epmEmpty && !checked){
+            epmEmpty.classList.remove('visible');
+        }
+    }
 }
 
 // === Getters ===
@@ -120,13 +136,13 @@ function _getCheckboxes(type) {
     let checkBoxes = {};
 
     if (type == 'meuRH') {
-        _loadCheckbox('checkboxEPM', checkBoxes);
         _loadCheckbox('checkboxVazio', checkBoxes);
-        ids = ['checkboxEPM', 'checkboxVazio'];
+        _loadCheckbox('checkboxEPM', checkBoxes);
+        _loadCheckbox('checkboxVazioEPM', checkBoxes);
     } else if (type == 'epm') {
         _loadCheckbox('checkboxMeuRH', checkBoxes);
         _loadCheckbox('checkboxVazio', checkBoxes);
-        ids = ['checkboxMeuRH', 'checkboxVazio'];
+        _loadCheckbox('checkboxVazioMeuRH', checkBoxes);
     }
 
     const accordion = document.getElementById('accordion-filter');
@@ -195,13 +211,19 @@ function _updatePeriodoString(periodoString) {
     const start = periodoString.split(" - ")[0];
     const end = periodoString.split(" - ")[1];
     const dates = _getAllIdsInClass("dateBox").sort((a, b) => a - b);
-    const startHTML = document.getElementById(dates[0]).innerHTML.trim();
-    const endHTML = document.getElementById(dates[dates.length - 1]).innerHTML.trim();
 
-    if (start != startHTML || end != endHTML) {
-        periodoString = startHTML + " - " + endHTML;
-        document.getElementById('periodo').innerHTML = periodoString;
+    if (dates.length > 0){
+        const startHTML = document.getElementById(dates[0]).innerHTML.trim();
+        const endHTML = document.getElementById(dates[dates.length - 1]).innerHTML.trim();
+    
+        if (start != startHTML || end != endHTML) {
+            periodoString = startHTML + " - " + endHTML;
+            document.getElementById('periodo').innerHTML = periodoString;
+        }
+    } else {
+        document.getElementById('accordion-items').innerHTML = MESSAGE_DIVS_JSON.info.replace('#1', MESSAGES_JSON.noDataFilter);
     }
+
 }
 
 function _resizeRegime() {

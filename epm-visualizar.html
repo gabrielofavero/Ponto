@@ -223,6 +223,14 @@
                         <div class="accordion-body">
                           <div class="checkboxes-visualizar">
 
+                            <li id="checkboxVazio-item" class="list-group-item checkbox-item">
+                              <label class="checkbox-label">
+                                <span class="checkbox-text">Ignorar dias não trabalhados</span>
+                                <input id="checkboxVazio" class="form-check-input me-1 right-checkbox" type="checkbox"
+                                  value="" aria-label="..." checked>
+                              </label>
+                            </li>
+
                             <li id="checkboxMeuRH-item" class="list-group-item checkbox-item">
                               <label class="checkbox-label">
                                 <span class="checkbox-text">Comparar com Meu RH</span>
@@ -231,13 +239,14 @@
                               </label>
                             </li>
 
-                            <li id="checkboxVazio-item" class="list-group-item checkbox-item">
+                            <li id="checkboxVazioMeuRH-item" class="list-group-item checkbox-item">
                               <label class="checkbox-label">
-                                <span class="checkbox-text">Ignorar dias não trabalhados</span>
-                                <input id="checkboxVazio" class="form-check-input me-1 right-checkbox" type="checkbox"
-                                  value="" aria-label="..." checked>
+                                <span class="checkbox-text">Ignorar dias fora do período do Meu RH</span>
+                                <input id="checkboxVazioMeuRH" class="form-check-input me-1 right-checkbox"
+                                  type="checkbox" value="" aria-label="..." checked>
                               </label>
                             </li>
+
                             <button type="button" id="filter-apply"
                               class="btn btn-primary rounded-pill">Aplicar</button>
                           </div>

@@ -15,5 +15,6 @@
     "sunday": "Você colocou como data um <b>Domingo</b>. Verifique se a informação está correta.",
     "observation": "O Meu RH identificou a seguinte observação: <b>#1</b>. Confira se a data é um feriado, uma ausência, ou se você está em férias.",
     "tooEarly": "Você iniciou sua jornada de trabalho muito cedo. Só é permitido trabalhar a partir de <b>05:00</b>.",
-    "tooLate": "Você finalizou sua jornada de trabalho muito tarde. Só é permitido trabalhar até <b>22:00</b>."
+    "tooLate": "Você finalizou sua jornada de trabalho muito tarde. Só é permitido trabalhar até <b>22:00</b>.",
+    "noDataFilter": "Poxa, não existem dados para os filtros aplicados! 😢"
 }

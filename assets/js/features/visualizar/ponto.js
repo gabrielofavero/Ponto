@@ -41,7 +41,23 @@ function _loadPonto(checkBoxes, type, system) {
         _loadMessagesHTML(ponto, messages);
 
         // Apply to HTML
-        if (!(checkBoxes.checkboxVazio == true && (ponto.title.value == "00:00" || ponto.title.value == "0,0") && ponto.meuRH.punches == 0)) {
+
+        const vazioCheck = (checkBoxes.checkboxVazio == true);
+        const noData = ((ponto.title.value == "00:00" || ponto.title.value == "0,0") && ponto.meuRH.punches == 0);
+        const invalidNoData = (vazioCheck && noData);
+
+        const compareAndNoMeuRHCheck = (checkBoxes.checkboxMeuRH == true && checkBoxes.checkboxVazioMeuRH == true);
+        const noMeuRH = (ponto.meuRH.value == "?");
+        const invalidMeuRH = (compareAndNoMeuRHCheck && noMeuRH);
+        
+        const compareAndNoEPMCheck = (checkBoxes.checkboxEPM == true && checkBoxes.checkboxVazioEPM == true);
+        const noEPM = (ponto.epm.value == "?");
+        const invalidEPM = (compareAndNoEPMCheck && noEPM);
+
+        const cannotBePublished = invalidNoData || invalidMeuRH || invalidEPM;
+        const canBePublished = !cannotBePublished;
+
+        if (canBePublished) {
             _loadAccordionItemHTML(ponto)
             _setVisibilityAfterLoad(i);
         }
