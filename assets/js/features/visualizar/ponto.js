@@ -118,7 +118,6 @@ function _loadPontoEPM(ponto, messages) {
 function _loadRulesEPM(ponto, messages) {
     const regime = _getRegime();
     if (regime)
-
         if (_isTimeStringBiggerThen(ponto.epm.valueTime, "10:00")) {
             messages.push(MESSAGES_JSON.tooLongJourney);
             ponto.epm.roundedPill = BADGES_JSON.warning.roundedPill;
@@ -170,10 +169,10 @@ function _getPunches(array, messages) {
 
 function _getHoursBadge(hours, messages) {
     const regime = _getRegime();
-    if (regime == "CLT" && _isTimeStringBiggerThen(hours, "10:00")) {
+    if (regime == REGIMES_JSON.comum && _isTimeStringBiggerThen(hours, "10:00")) {
         messages.push(MESSAGES_JSON.tooLongJourney);
         return BADGES_JSON.warning.badge;
-    } else if (regime == "Estágio (6h)" && hours != "06:00") {
+    } else if (regime == REGIMES_JSON.estagio && hours != "06:00") {
         messages.push(MESSAGES_JSON.internJourneyMismatch);
         return BADGES_JSON.warning.badge;
     } else {
@@ -221,7 +220,7 @@ function _loadIntervalRules(result, iArray, messages) {
                 messages.push(MESSAGES_JSON.noInterval);
                 break;
             case 1:
-                if (iArray[0] != "01:00" && (!_isTimeStringBiggerThen(iArray[0], "01:00") || _isTimeStringBiggerThen(iArray[0], "02:00"))) {
+                if (iArray[0] != "01:00" && (_isTimeStringSmallerThen(iArray[0], "01:00") || _isTimeStringBiggerThen(iArray[0], "02:00"))) {
                     result.interval.roundedPill = BADGES_JSON.warning.roundedPill;
                     messages.push(MESSAGES_JSON.noMainInterval);
                 }
@@ -229,7 +228,7 @@ function _loadIntervalRules(result, iArray, messages) {
             default:
                 let mainInterval = false;
                 for (let interval of iArray) {
-                    if (interval == "01:00" || (_isTimeStringBiggerThen(interval, "01:00") && !_isTimeStringBiggerThen(interval, "02:00"))) {
+                    if (interval == "01:00" || (_isTimeStringBiggerThen(interval, "01:00") && _isTimeStringSmallerThen(interval, "02:00"))) {
                         mainInterval = true;
                         break;
                     }

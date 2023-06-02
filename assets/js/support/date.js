@@ -184,6 +184,18 @@ function _isTimeStringBiggerThen(timeString, biggerThen) {
     }
 }
 
+function _isTimeStringSmallerThen(timeString, smallerThen) {
+    let split1 = timeString.split(":");
+    let split2 = smallerThen.split(":");
+    if (split1[0] < split2[0]) {
+        return true;
+    } else if (split1[0] == split2[0]) {
+        return split1[1] < split2[1];
+    } else {
+        return false;
+    }
+}
+
 function _getDayOfTheWeek(key) {
     const daysOfWeek = [
         'Domingo',

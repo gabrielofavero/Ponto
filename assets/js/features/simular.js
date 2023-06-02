@@ -41,7 +41,7 @@ function _applySimulation() {
     const punches = _getSimPunches();
     let observation = meuRH ? meuRH["system"][periodo]["observation"] : "";
 
-    if (observation == "Ausente") {
+    if (observation == "Ausente" || observation == "Compensado" || observation == "D.S.R.") {
       observation = "";
     }
 
@@ -51,10 +51,9 @@ function _applySimulation() {
     if (punches.length > 0) {
       if (observation) {
         _loadSimObservation(observation, messages);
-      } else {
-        if (dayOfTheWeek == "Sábado" || dayOfTheWeek == "Domingo") {
-          _loadSimDayOfTheWeek(dayOfTheWeek, messages);
-        }
+      }
+      if (dayOfTheWeek == "Sábado" || dayOfTheWeek == "Domingo") {
+        _loadSimDayOfTheWeek(dayOfTheWeek, messages);
       }
       _loadPontoSim(regime, saldo, punches, observation, messages);
     } else {

@@ -94,6 +94,8 @@ function _loadMessagesHTML(ponto, messages) {
 function _getPunchesTableHTML(ponto, punchesArray, messages) {
   const i = ponto.i;
   const internalIntervalBadge = ponto.htmlElements.interval.internalRoundedPill;
+  let startInvalid = false;
+  let endInvalid = false;
 
   if (punchesArray.length % 2 != 0) {
     punchesArray.push('?');
@@ -104,25 +106,37 @@ function _getPunchesTableHTML(ponto, punchesArray, messages) {
   let intervalos = [];
   let batidas;
 
-  for (let j = 0; j < punchesArray.length; j++) {
-    let value = `<span class="#1" id="#2">${punchesArray[j]}</span>`
-
-    if (punchesArray[j] == "?") {
-      value = value.replace('#1', `${BADGES_JSON.warning.roundedPill} pontoNotFound`);
-    } else {
-      value = value.replace('#1', BADGES_JSON.common.badge);
+  if (punchesArray.length > 0) {
+    if (_isTimeStringSmallerThen(punchesArray[0], "05:00")){
+      messages.push(MESSAGES_JSON.tooEarly);
+      startInvalid = true;
     }
-
-    if (j % 2 == 0) {
-      value = value.replace('#2', `e-${i}-${j}`);
-      entradas.push(value);
-      if (j > 0) {
-        let intervaloValue = `<span class="${internalIntervalBadge}" id="i-${i}-${j}">${_timeDifference(punchesArray[j - 1], punchesArray[j])}</span>`;
-        intervalos.push(intervaloValue);
+  
+    if (_isTimeStringBiggerThen(punchesArray[punchesArray.length - 1], "22:00")){
+      messages.push(MESSAGES_JSON.tooLate);
+      endInvalid = true;
+    }
+  
+    for (let j = 0; j < punchesArray.length; j++) {
+      let value = `<span class="#1" id="#2">${punchesArray[j]}</span>`
+  
+      if (punchesArray[j] == "?" || (j == 0 && startInvalid) || (j == punchesArray.length - 1 && endInvalid)) {
+        value = value.replace('#1', `${BADGES_JSON.warning.roundedPill} pontoNotFound`);
+      } else {
+        value = value.replace('#1', BADGES_JSON.common.badge);
       }
-    } else {
-      value = value.replace('#2', `s-${i}-${j}`);
-      saidas.push(value);
+  
+      if (j % 2 == 0) {
+        value = value.replace('#2', `e-${i}-${j}`);
+        entradas.push(value);
+        if (j > 0) {
+          let intervaloValue = `<span class="${internalIntervalBadge}" id="i-${i}-${j}">${_timeDifference(punchesArray[j - 1], punchesArray[j])}</span>`;
+          intervalos.push(intervaloValue);
+        }
+      } else {
+        value = value.replace('#2', `s-${i}-${j}`);
+        saidas.push(value);
+      }
     }
   }
 
