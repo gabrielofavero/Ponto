@@ -60,6 +60,11 @@ function _loadMessagesHTML(ponto, messages) {
           messageDiv = MESSAGE_DIVS_JSON.info;
           types.push(BADGES_JSON.info.badge);
           break;
+        case MESSAGES_JSON.observation:
+          messageDiv = MESSAGE_DIVS_JSON.info;
+          types.push(BADGES_JSON.info.badge);
+          message = message.replace("#1", ponto.htmlElements.observation.value);
+          break;
         case "":
         case undefined:
         case null:
@@ -178,11 +183,7 @@ function _getPunchesTableHTML(ponto, punchesArray, messages) {
 }
 
 function _getPontoObservationInnerHTML(value, i) {
-  let result = "";
-  if (value) {
-    result = `<div class="badge bg-light observation" id="observation${i}"></i>${value}</div>`;
-  }
-  return result;
+  return `<div class="badge bg-light observation" id="observation${i}"></i>${value}</div>`;
 }
 
 function _getSumUpContainerHTML(ponto, type) {

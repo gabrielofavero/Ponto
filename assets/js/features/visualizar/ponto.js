@@ -73,9 +73,13 @@ function _getInitialPontoItem(i, key) {
 function _loadPontoMeuRH(ponto, messages, type) {
     const meuRH = _getLocal('meuRH');
     if (meuRH && meuRH['system'] && meuRH['system'][ponto.key]) {
-        ponto.htmlElements.observation.value = meuRH['system'][ponto.key]["observation"];
-        ponto.htmlElements.observation.innerHTML = _getPontoObservationInnerHTML(ponto.htmlElements.observation.value, ponto.i);
+        const observation = meuRH['system'][ponto.key]["observation"];
 
+        if (observation) {
+            ponto.htmlElements.observation.value = meuRH['system'][ponto.key]["observation"];
+            ponto.htmlElements.observation.innerHTML = _getPontoObservationInnerHTML(ponto.htmlElements.observation.value, ponto.i);
+            messages.push(MESSAGES_JSON.observation)
+        }
         const PUNCHES = _getPunches(meuRH['system'][ponto.key]["punches"], messages);
 
         if (type == "meuRH") {
