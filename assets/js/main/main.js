@@ -415,7 +415,8 @@ async function _start() {
     _hideNav('epm');
   }
 
-  switch (window.location.pathname) {
+  const pathname = (window.location.pathname).replace('/Ponto', '');
+  switch (pathname) {
     case "/index.html":
     case "/":
       _startIndex();
