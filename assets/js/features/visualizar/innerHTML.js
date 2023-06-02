@@ -1,3 +1,4 @@
+// === Loaders ===
 function _loadAccordionItemHTML(ponto) {
   let result = `
     <div class="accordion-item">
@@ -96,6 +97,7 @@ function _loadMessagesHTML(ponto, messages) {
   }
 }
 
+// === Getters ===
 function _getPunchesTableHTML(ponto, punchesArray, messages) {
   const i = ponto.i;
   const internalIntervalBadge = ponto.htmlElements.interval.internalRoundedPill;

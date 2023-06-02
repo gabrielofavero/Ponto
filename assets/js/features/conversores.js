@@ -1,10 +1,11 @@
+// === Main Function ===
 function _startConversores() {
     const inputTime = document.getElementById('inputTime');
     const inputEPM = document.getElementById('inputEPM');
     const inputTotal = document.getElementById('inputTotal');
     const inputUsadas = document.getElementById('inputUsadas');
 
-    _loadConversoresURLParameters();
+    _loadConvertionURLParameters();
 
     inputTime.addEventListener('input', (event) => {
         _loadTimeToEPM(event.target.value);
@@ -15,14 +16,15 @@ function _startConversores() {
     });
 
     inputTotal.addEventListener('input', (event) => {
-        _convertionHours();
+        _loadConvertionHours();
     });
 
     inputUsadas.addEventListener('input', (event) => {
-        _convertionHours();
+        _loadConvertionHours();
     });
 }
 
+// === Loaders ===
 function _loadTimeToEPM(time) {
     const outputEMP = document.getElementById('outputEPM');
     let result;
@@ -55,7 +57,7 @@ function _loadEPMToTime(epm) {
     outputTime.innerHTML = result
 }
 
-function _convertionHours() {
+function _loadConvertionHours() {
     const totalVal = document.getElementById("inputTotal").value;
     const usadasVal = document.getElementById("inputUsadas").value;
     const outputDiv = document.getElementById("outputRestante");
@@ -85,7 +87,7 @@ function _convertionHours() {
     outputDiv.innerHTML = result
 }
 
-function _loadConversoresURLParameters() {
+function _loadConvertionURLParameters() {
     const urlParams = new URLSearchParams(window.location.search);
     const total = urlParams.get('total');
     const usadas = urlParams.get('usadas');
@@ -99,6 +101,6 @@ function _loadConversoresURLParameters() {
     }
 
     if (total || usadas) {
-        _convertionHours();
+        _loadConvertionHours();
     }
 }

@@ -6,7 +6,7 @@ const PONTO_JSON = _getJSON('assets/json/visualizar/Ponto.json');
 const REGIMES_JSON = _getJSON('assets/json/visualizar/Regimes.json');
 var PERIODO;
 
-// ==== Main ====
+// === Main Function ===
 function _startVisualizar(type) {
     _loadVisualizarEventListeners();
     let checkBoxes = _getCheckboxes(type);;
@@ -44,7 +44,58 @@ function _startVisualizar(type) {
     _endLoad();
 }
 
-// ==== Getters ====
+// === Loaders ===
+
+function _loadCheckbox(name, checkBoxes) {
+    const val = _getLocal(name, true);
+    const div = document.getElementById(name);
+    const itemDiv = document.getElementById(name + '-item');
+
+    if (div && itemDiv) {
+        let visibility;
+        const meuRH = _getLocal('meuRH');
+        const epm = _getLocal('epm');
+        const meuRHCheck = name == 'checkboxMeuRH' && (!meuRH || !_isVersionValid(meuRH));
+        const epmCheck = name == 'checkboxEPM' && (!epm || !_isVersionValid(epm));
+        if (meuRHCheck || epmCheck) {
+            visibility = "none";
+        } else {
+            visibility = "block";
+        }
+
+        itemDiv.style.display = visibility;
+        if (visibility != "none") {
+            if (itemDiv.style.display)
+                if (val !== undefined) {
+                    div.checked = val;
+                }
+
+            div.addEventListener('change', function (event) {
+                localStorage.setItem(name, event.target.checked);
+            });
+            checkBoxes[name] = val || div.checked;
+        }
+    }
+}
+
+function _unloadCheckbox(name, checkBoxes) {
+    delete checkBoxes[name];
+    localStorage.removeItem(name);
+    const div = document.getElementById(name);
+    const itemDiv = document.getElementById(name + '-item');
+    if (div && itemDiv) {
+        itemDiv.style.display = "none";
+    }
+    div.removeEventListener('change', function (event) {
+        localStorage.setItem(name, event.target.checked);
+    });
+}
+
+function _loadVisualizarEventListeners() {
+    _resizeRegime();
+}
+
+// === Getters ===
 function _getRegime() {
     let job = _getLocal('job');
     if (job) {
@@ -89,51 +140,6 @@ function _getCheckboxes(type) {
     });
 
     return checkBoxes;
-}
-
-function _loadCheckbox(name, checkBoxes) {
-    const val = _getLocal(name, true);
-    const div = document.getElementById(name);
-    const itemDiv = document.getElementById(name + '-item');
-
-    if (div && itemDiv) {
-        let visibility;
-        const meuRH = _getLocal('meuRH');
-        const epm = _getLocal('epm');
-        const meuRHCheck = name == 'checkboxMeuRH' && (!meuRH || !_isVersionValid(meuRH));
-        const epmCheck = name == 'checkboxEPM' && (!epm  || !_isVersionValid(epm));
-        if (meuRHCheck || epmCheck) {
-            visibility = "none";
-        } else {
-            visibility = "block";
-        }
-
-        itemDiv.style.display = visibility;
-        if (visibility != "none") {
-            if (itemDiv.style.display)
-                if (val !== undefined) {
-                    div.checked = val;
-                }
-
-            div.addEventListener('change', function (event) {
-                localStorage.setItem(name, event.target.checked);
-            });
-            checkBoxes[name] = val || div.checked;
-        }
-    }
-}
-
-function _unloadCheckbox(name, checkBoxes) {
-    delete checkBoxes[name];
-    localStorage.removeItem(name);
-    const div = document.getElementById(name);
-    const itemDiv = document.getElementById(name + '-item');
-    if (div && itemDiv) {
-        itemDiv.style.display = "none";
-    }
-    div.removeEventListener('change', function (event) {
-        localStorage.setItem(name, event.target.checked);
-    });
 }
 
 function _getPeriodo(checkBoxes, type) {
@@ -184,6 +190,7 @@ function _getPeriodoString(periodo) {
     return start + " - " + end;
 }
 
+// === Setters ===
 function _updatePeriodoString(periodoString) {
     const start = periodoString.split(" - ")[0];
     const end = periodoString.split(" - ")[1];
@@ -195,10 +202,6 @@ function _updatePeriodoString(periodoString) {
         periodoString = startHTML + " - " + endHTML;
         document.getElementById('periodo').innerHTML = periodoString;
     }
-}
-
-function _loadVisualizarEventListeners() {
-    _resizeRegime();
 }
 
 function _resizeRegime() {

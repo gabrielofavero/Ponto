@@ -1,4 +1,4 @@
-// ==== Loaders ====
+// === Loaders ===
 function _loadPonto(checkBoxes, type, system) {
     let keys = Object.keys(system);
     let i = 0;
@@ -47,27 +47,6 @@ function _loadPonto(checkBoxes, type, system) {
         }
         i++;
     }
-}
-
-function _getInitialPontoItem(i, key) {
-    let ponto = JSON.parse(JSON.stringify(PONTO_JSON))
-    ponto.i = i;
-    ponto.key = key;
-
-    ponto.title.roundedPill = BADGES_JSON.success.roundedPill;
-    ponto.title.badge = BADGES_JSON.success.badge;
-    ponto.title.icon = BADGES_JSON.success.icon;
-
-    ponto.htmlElements.hours.roundedPill = BADGES_JSON.info.roundedPill;
-    ponto.htmlElements.hours.badge = BADGES_JSON.info.badge;
-    ponto.htmlElements.hours.icon = BADGES_JSON.info.icon;
-
-    ponto.htmlElements.interval.internalRoundedPill = BADGES_JSON.common.roundedPill;
-
-    ponto.meuRH.roundedPill = BADGES_JSON.info.roundedPill;
-    ponto.epm.roundedPill = BADGES_JSON.info.roundedPill
-
-    return ponto;
 }
 
 function _loadPontoMeuRH(ponto, messages, type) {
@@ -137,7 +116,166 @@ function _loadPontoDate(ponto) {
     ponto.htmlElements.date = `<div class="dateBox" id=date${ponto.i}>${dateNoYear}</div><div class="dayOfTheWeek"> ${dayOfTheWeek}</div>`
 }
 
-// ==== Getters ====
+function _loadIntervalRules(result, iArray, messages) {
+    let hours = result.hours.value;
+
+    if (_isTimeStringBiggerThen(hours, "06:00")) {
+        switch (iArray.length) {
+            case 0:
+                result.interval.roundedPill = BADGES_JSON.warning.roundedPill;
+                messages.push(MESSAGES_JSON.noInterval);
+                break;
+            case 1:
+                if (iArray[0] != "01:00" && (_isTimeStringSmallerThen(iArray[0], "01:00") || _isTimeStringBiggerThen(iArray[0], "02:00"))) {
+                    result.interval.roundedPill = BADGES_JSON.warning.roundedPill;
+                    messages.push(MESSAGES_JSON.noMainInterval);
+                }
+                break;
+            default:
+                let mainInterval = false;
+                for (let interval of iArray) {
+                    if (interval == "01:00" || (_isTimeStringBiggerThen(interval, "01:00") && _isTimeStringSmallerThen(interval, "02:00"))) {
+                        mainInterval = true;
+                        break;
+                    }
+                }
+                if (!mainInterval) {
+                    result.interval.internalRoundedPill = BADGES_JSON.warning.roundedPill;
+                    messages.push(MESSAGES_JSON.noMainIntervals);
+                }
+        }
+    }
+}
+
+function _loadComparison(ponto, messages) {
+    const meuRH = _getLocal("meuRH");
+    const epm = _getLocal("epm");
+
+    if (!ponto.epm.value) {
+        ponto.epm.value = epm['system'][ponto.key] || "?";
+        ponto.epm.roundedPill = BADGES_JSON.common.roundedPill;
+        if (ponto.epm.value == "?") {
+            ponto.epm.roundedPill = BADGES_JSON.info.roundedPill;
+            messages.push(MESSAGES_JSON.epmMissing);
+        }
+    }
+
+    if (!ponto.meuRH.value) {
+        let result = "?";
+        const system = meuRH['system'][ponto.key];
+        if (system) {
+            const punches = system.punches;
+            if (punches.length > 1) {
+                _loadHoursAndInterval(ponto, punches);
+                result = _timeToEPM(ponto.hours.value);
+            } else result = "0,0"
+        }
+        ponto.meuRH.value = result;
+    }
+
+    if (ponto.meuRH.value == "?") {
+        ponto.meuRH.roundedPill = BADGES_JSON.info.roundedPill;
+        messages.push(MESSAGES_JSON.meuRHMissing);
+    }
+
+    if (ponto.meuRH.value != "?" && ponto.epm.value != "?" && ponto.meuRH.value != ponto.epm.value) {
+        _loadNoMatchMessage(ponto, messages);
+    }
+}
+
+function _loadNoMatchMessage(ponto, messages) {
+    const valueMeuRH = ponto.meuRH.value;
+    const valueEPM = ponto.epm.value;
+    const oddPunches = ponto.meuRH.missingPunches;
+
+    if (valueMeuRH === "?" || valueEPM === "?") {
+        ponto.meuRH.roundedPill = BADGES_JSON.warning.roundedPill;
+        ponto.epm.roundedPill = BADGES_JSON.warning.roundedPill;
+        let location = valueMeuRH === "?" ? "<b>Meu RH</b>" : "<b>EPM</b>";
+        messages.push(`${MESSAGES_JSON.noMatch} Preencha as horas no ${location}.`);
+    } else {
+        const valMeuRH = _epmToNumber(valueMeuRH);
+        const valEPM = _epmToNumber(valueEPM);
+        const difference = valMeuRH - valEPM;
+        if (difference !== 0) {
+            ponto.meuRH.roundedPill = BADGES_JSON.warning.roundedPill;
+            ponto.epm.roundedPill = BADGES_JSON.warning.roundedPill;
+            const simuleAqui = `Caso queira calcular as horas, vá em <a class="warningLink" href="epm-conversores.html?total=${encodeURIComponent(valueMeuRH)}&usadas=${encodeURIComponent(valEPM)}">Conversores</a>`
+            switch (true) {
+                case oddPunches:
+                    messages.push(` Adicione o ponto ausente no <b>Meu RH</b> para depois comparar com o <b>EPM</b>.`);
+                    break;
+                case (valEPM === 0):
+                    messages.push(`${MESSAGES_JSON.noEPM} Adicione <b>${_numberToEpm(difference)}h</b>. ${simuleAqui}.`);
+                    break;
+                case (difference > 0):
+                    messages.push(`${MESSAGES_JSON.noMatch} Adicione <b>${_numberToEpm(difference)}h</b> ao <b>EPM</b>. ${simuleAqui}.`);
+                    break;
+                case (difference < 0):
+                    messages.push(`${MESSAGES_JSON.noMatch} Remova <b>${_numberToEpm(difference * -1)}h</b> do <b>EPM</b>. ${simuleAqui}.`);
+                    break;
+            }
+        }
+    }
+}
+
+function _loadVisualizarSimMessage(ponto, messages) {
+    const oddPunches = ponto.meuRH.missingPunches;
+    const today = _dateToDateString(new Date());
+    if (today == ponto.key && oddPunches) {
+        const div = ponto.htmlElements.punchesTable;
+        let batidasHTML = div.innerHTML;
+        if (batidasHTML) {
+            const roundedPill = BADGES_JSON.simulate.roundedPill;
+
+            _replaceRoundedPill(div, roundedPill, 'batidas');
+            _replaceRoundedPill(div, roundedPill, 'pontoNotFound');
+
+            ponto.meuRH.roundedPill = roundedPill;
+            ponto.epm.roundedPill = roundedPill;
+            messages.push(MESSAGES_JSON.simulate);
+            ponto.simulate = true;
+        }
+    }
+}
+
+function _loadHoursAndInterval(result, array, hArray = [], iArray = []) {
+    for (let i = 1; i < array.length; i++) {
+        let time1 = array[i - 1];
+        let time2 = array[i]
+        let difference = _timeDifference(time1, time2);
+
+        if (i % 2 != 0) {
+            hArray.push(difference);
+        } else {
+            iArray.push(difference);
+        }
+    }
+    result.hours.value = _sumTime(hArray);
+    result.interval.value = _sumTime(iArray);
+}
+
+// === Getters ===
+function _getInitialPontoItem(i, key) {
+    let ponto = JSON.parse(JSON.stringify(PONTO_JSON))
+    ponto.i = i;
+    ponto.key = key;
+
+    ponto.title.roundedPill = BADGES_JSON.success.roundedPill;
+    ponto.title.badge = BADGES_JSON.success.badge;
+    ponto.title.icon = BADGES_JSON.success.icon;
+
+    ponto.htmlElements.hours.roundedPill = BADGES_JSON.info.roundedPill;
+    ponto.htmlElements.hours.badge = BADGES_JSON.info.badge;
+    ponto.htmlElements.hours.icon = BADGES_JSON.info.icon;
+
+    ponto.htmlElements.interval.internalRoundedPill = BADGES_JSON.common.roundedPill;
+
+    ponto.meuRH.roundedPill = BADGES_JSON.info.roundedPill;
+    ponto.epm.roundedPill = BADGES_JSON.info.roundedPill
+
+    return ponto;
+}
 
 function _getPunches(array, messages) {
     let hArray = [];
@@ -214,38 +352,7 @@ function _getIcon(badge) {
     }
 }
 
-function _loadIntervalRules(result, iArray, messages) {
-    let hours = result.hours.value;
-
-    if (_isTimeStringBiggerThen(hours, "06:00")) {
-        switch (iArray.length) {
-            case 0:
-                result.interval.roundedPill = BADGES_JSON.warning.roundedPill;
-                messages.push(MESSAGES_JSON.noInterval);
-                break;
-            case 1:
-                if (iArray[0] != "01:00" && (_isTimeStringSmallerThen(iArray[0], "01:00") || _isTimeStringBiggerThen(iArray[0], "02:00"))) {
-                    result.interval.roundedPill = BADGES_JSON.warning.roundedPill;
-                    messages.push(MESSAGES_JSON.noMainInterval);
-                }
-                break;
-            default:
-                let mainInterval = false;
-                for (let interval of iArray) {
-                    if (interval == "01:00" || (_isTimeStringBiggerThen(interval, "01:00") && _isTimeStringSmallerThen(interval, "02:00"))) {
-                        mainInterval = true;
-                        break;
-                    }
-                }
-                if (!mainInterval) {
-                    result.interval.internalRoundedPill = BADGES_JSON.warning.roundedPill;
-                    messages.push(MESSAGES_JSON.noMainIntervals);
-                }
-        }
-    }
-}
-
-// ==== Validators ====
+// === Validators ===
 function _validatePontoValue(ponto, value, messages) {
     if (value == "meuRH" || value == "epm") {
         if (ponto[value].value == "?") {
@@ -269,12 +376,12 @@ function _loadComparison(ponto, messages) {
         }
     }
 
-    if (!ponto.meuRH.value){
+    if (!ponto.meuRH.value) {
         let result = "?";
         const system = meuRH['system'][ponto.key];
         if (system) {
             const punches = system.punches;
-            if (punches.length > 1){
+            if (punches.length > 1) {
                 _loadHoursAndInterval(ponto, punches);
                 result = _timeToEPM(ponto.hours.value);
             } else result = "0,0"
@@ -292,7 +399,7 @@ function _loadComparison(ponto, messages) {
     }
 }
 
-// ==== Setters ====
+// === Setters ===
 function _setVisibilityAfterLoad(i) {
     let eSize = 0;
     let sSize = 0;
@@ -315,81 +422,9 @@ function _setVisibilityAfterLoad(i) {
     }
 }
 
-function _loadNoMatchMessage(ponto, messages) {
-    const valueMeuRH = ponto.meuRH.value;
-    const valueEPM = ponto.epm.value;
-    const oddPunches = ponto.meuRH.missingPunches;
-
-    if (valueMeuRH === "?" || valueEPM === "?") {
-        ponto.meuRH.roundedPill = BADGES_JSON.warning.roundedPill;
-        ponto.epm.roundedPill = BADGES_JSON.warning.roundedPill;
-        let location = valueMeuRH === "?" ? "<b>Meu RH</b>" : "<b>EPM</b>";
-        messages.push(`${MESSAGES_JSON.noMatch} Preencha as horas no ${location}.`);
-    } else {
-        const valMeuRH = _epmToNumber(valueMeuRH);
-        const valEPM = _epmToNumber(valueEPM);
-        const difference = valMeuRH - valEPM;
-        if (difference !== 0) {
-            ponto.meuRH.roundedPill = BADGES_JSON.warning.roundedPill;
-            ponto.epm.roundedPill = BADGES_JSON.warning.roundedPill;
-            const simuleAqui = `Caso queira calcular as horas, vá em <a class="warningLink" href="epm-conversores.html?total=${encodeURIComponent(valueMeuRH)}&usadas=${encodeURIComponent(valEPM)}">Conversores</a>`
-            switch (true) {
-                case oddPunches:
-                    messages.push(` Adicione o ponto ausente no <b>Meu RH</b> para depois comparar com o <b>EPM</b>.`);
-                    break;
-                case (valEPM === 0):
-                    messages.push(`${MESSAGES_JSON.noEPM} Adicione <b>${_numberToEpm(difference)}h</b>. ${simuleAqui}.`);
-                    break;
-                case (difference > 0):
-                    messages.push(`${MESSAGES_JSON.noMatch} Adicione <b>${_numberToEpm(difference)}h</b> ao <b>EPM</b>. ${simuleAqui}.`);
-                    break;
-                case (difference < 0):
-                    messages.push(`${MESSAGES_JSON.noMatch} Remova <b>${_numberToEpm(difference * -1)}h</b> do <b>EPM</b>. ${simuleAqui}.`);
-                    break;
-            }
-        }
-    }
-}
-
-function _loadVisualizarSimMessage(ponto, messages) {
-    const oddPunches = ponto.meuRH.missingPunches;
-    const today = _dateToDateString(new Date());
-    if (today == ponto.key && oddPunches) {
-        const div = ponto.htmlElements.punchesTable;
-        let batidasHTML = div.innerHTML;
-        if (batidasHTML) {
-            const roundedPill = BADGES_JSON.simulate.roundedPill;
-
-            _replaceRoundedPill(div, roundedPill, 'batidas');
-            _replaceRoundedPill(div, roundedPill, 'pontoNotFound');
-
-            ponto.meuRH.roundedPill = roundedPill;
-            ponto.epm.roundedPill = roundedPill;
-            messages.push(MESSAGES_JSON.simulate);
-            ponto.simulate = true;
-        }
-    }
-}
-
 function _replaceRoundedPill(div, roundedPill, classComplement) {
     let innerHTML = div.innerHTML;
     innerHTML = innerHTML.replace(`${BADGES_JSON.warning.roundedPill} ${classComplement}`, roundedPill);
     innerHTML = innerHTML.replace(`${BADGES_JSON.common.roundedPill} ${classComplement}`, roundedPill);
     div.innerHTML = innerHTML;
-}
-
-function _loadHoursAndInterval(result, array, hArray = [], iArray = []){
-    for (let i = 1; i < array.length; i++) {
-        let time1 = array[i - 1];
-        let time2 = array[i]
-        let difference = _timeDifference(time1, time2);
-
-        if (i % 2 != 0) {
-            hArray.push(difference);
-        } else {
-            iArray.push(difference);
-        }
-    }
-    result.hours.value = _sumTime(hArray);
-    result.interval.value = _sumTime(iArray);
 }

@@ -1,9 +1,11 @@
+// === Main Function ===
 function _startSimular() {
   _loadSimularPlaceHolders();
   _loadSimularEventListeners();
   _loadSimularURLParameters();
 }
 
+// === Loaders ===
 function _loadSimularPlaceHolders() {
   const input = document.getElementById('periodoInput');
   const today = new Date().toISOString().substring(0, 10);
@@ -24,39 +26,6 @@ function _loadSimularPlaceHolders() {
 
   if (saldoValue) {
     saldoDiv.value = saldoValue;
-  }
-}
-
-function _applySimulation() {
-  const periodoInput = _getInnerHTML('periodoInput');
-  const meuRH = _getLocal('meuRH');
-
-  if (periodoInput) {
-    let messages = [];
-
-    const regime = _getInnerHTML('regimeInput');
-    const saldo = _getInnerHTML('saldoInput');
-    const periodo = _dateInputToDateString(_getInnerHTML('periodoInput'));
-    const dayOfTheWeek = periodo ? _getDayOfTheWeek(periodo) : "";
-    const punches = _getSimPunches();
-    let observation = meuRH ? meuRH["system"][periodo]["observation"] : "";
-
-    _setInnerHTML('simular-date', periodo);
-    _setInnerHTML('simular-dayOfTheWeek', dayOfTheWeek);
-
-    if (punches.length > 0) {
-      if (observation) {
-        _loadSimObservation(observation, messages);
-      }
-      if (dayOfTheWeek == "Sábado" || dayOfTheWeek == "Domingo") {
-        _loadSimDayOfTheWeek(dayOfTheWeek, messages);
-      }
-      _loadPontoSim(regime, saldo, punches, observation, messages);
-    } else {
-      _loadSimWarning("Insira no mínimo 1 ponto para simular.");
-    }
-  } else {
-    _loadSimWarning("Insira uma data válida para simular.")
   }
 }
 
@@ -111,24 +80,6 @@ function _loadPontoSim(regime, currentSaldo, punchesArray, observation, messages
   _loadSimMessagesHTML(ponto, messages, observation);
 
   _loadSimHTML(ponto);
-}
-
-function _getSimPunches() {
-  let result = [];
-  for (let i = 0; i < 5; i++) {
-    let e = _getInnerHTML('e' + i);
-    if (e) {
-      result.push(e);
-    }
-    let s = _getInnerHTML('s' + i);
-    if (s) {
-      result.push(s);
-    }
-  }
-  if (result.length > 1) {
-    result = _orderArrayByTime(result);
-  }
-  return result;
 }
 
 function _loadSimWarning(text) {
@@ -237,4 +188,57 @@ function _loadSimMessagesHTML(ponto, messages, observation) {
   }
 
   ponto.htmlElements.messagesHTML = result.join("");
+}
+
+// === Getters ===
+function _getSimPunches() {
+  let result = [];
+  for (let i = 0; i < 5; i++) {
+    let e = _getInnerHTML('e' + i);
+    if (e) {
+      result.push(e);
+    }
+    let s = _getInnerHTML('s' + i);
+    if (s) {
+      result.push(s);
+    }
+  }
+  if (result.length > 1) {
+    result = _orderArrayByTime(result);
+  }
+  return result;
+}
+
+// === Setters ===
+function _applySimulation() {
+  const periodoInput = _getInnerHTML('periodoInput');
+  const meuRH = _getLocal('meuRH');
+
+  if (periodoInput) {
+    let messages = [];
+
+    const regime = _getInnerHTML('regimeInput');
+    const saldo = _getInnerHTML('saldoInput');
+    const periodo = _dateInputToDateString(_getInnerHTML('periodoInput'));
+    const dayOfTheWeek = periodo ? _getDayOfTheWeek(periodo) : "";
+    const punches = _getSimPunches();
+    let observation = meuRH ? meuRH["system"][periodo]["observation"] : "";
+
+    _setInnerHTML('simular-date', periodo);
+    _setInnerHTML('simular-dayOfTheWeek', dayOfTheWeek);
+
+    if (punches.length > 0) {
+      if (observation) {
+        _loadSimObservation(observation, messages);
+      }
+      if (dayOfTheWeek == "Sábado" || dayOfTheWeek == "Domingo") {
+        _loadSimDayOfTheWeek(dayOfTheWeek, messages);
+      }
+      _loadPontoSim(regime, saldo, punches, observation, messages);
+    } else {
+      _loadSimWarning("Insira no mínimo 1 ponto para simular.");
+    }
+  } else {
+    _loadSimWarning("Insira uma data válida para simular.")
+  }
 }

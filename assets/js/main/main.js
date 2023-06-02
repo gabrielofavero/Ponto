@@ -392,6 +392,7 @@
 
 })();
 
+// === Main Function ===
 async function _start() {
   _loadVersion();
   const meuRH = _getLocal('meuRH');
@@ -438,6 +439,7 @@ async function _start() {
 
 }
 
+// === Verifiers ===
 function _checkLogin() {
   const name = _getLocal("name");
   const fullName = _getLocal("fullName");
@@ -454,6 +456,7 @@ function _checkLogin() {
   }
 }
 
+// === Setters ===
 function _showNav(type) {
   document.getElementById(type + "-visualizar").style.display = "block";
 }

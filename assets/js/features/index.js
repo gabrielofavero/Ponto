@@ -1,5 +1,6 @@
 const INDEX_BADGES_JSON = _getJSON('assets/json/index/Index Badges.json');
 
+// === Main Function ===
 function _startIndex() {
     const meuRH = _getLocal("meuRH");
     const epm = _getLocal("epm");
@@ -10,16 +11,16 @@ function _startIndex() {
     _loadIndexEventListeners();
 
 
-        if (meuRH && meuRHValid) {
-            _setLoaded('meuRH');
-            _loadedButtons('meuRH');
-        } else if (meuRHValid) {
-            _setNotLoaded('meuRH');
-            _unloadedButtons('meuRH');
-        } else {
-            _setLoadAgain('meuRH');
-            _loadedButtons('meuRH');
-        }
+    if (meuRH && meuRHValid) {
+        _setLoaded('meuRH');
+        _loadedButtons('meuRH');
+    } else if (meuRHValid) {
+        _setNotLoaded('meuRH');
+        _unloadedButtons('meuRH');
+    } else {
+        _setLoadAgain('meuRH');
+        _loadedButtons('meuRH');
+    }
 
     if (epm && epmValid) {
         _setLoaded('epm');
@@ -38,6 +39,7 @@ function _startIndex() {
     }
 }
 
+// === Loaders ===
 function _loadIndexEventListeners() {
     const deleteMeuRH = document.getElementById('meuRH-delete');
     deleteMeuRH.addEventListener('click', function () {
@@ -52,6 +54,17 @@ function _loadIndexEventListeners() {
     });
 }
 
+function _loadedButtons(type) {
+    const deleteDiv = document.getElementById(type + "-delete");
+    deleteDiv.style.display = "";
+}
+
+function _unloadedButtons(type) {
+    const deleteDiv = document.getElementById(type + "-delete");
+    deleteDiv.style.display = "none"
+}
+
+// === Setters ===
 function _setLoaded(type) {
     let badge = document.getElementById(type + "-status-badge");
     let message = document.getElementById(type + "-status-message");
@@ -121,30 +134,20 @@ function _setYear() {
     }
 }
 
-function _loadedButtons(type) {
-    const deleteDiv = document.getElementById(type + "-delete");
-    deleteDiv.style.display = "";
-}
-
-function _unloadedButtons(type) {
-    const deleteDiv = document.getElementById(type + "-delete");
-    deleteDiv.style.display = "none"
-}
-
 function _setNotLoaded(type) {
     const badge = document.getElementById(type + "-status-badge")
     const message = document.getElementById(type + "-status-message")
     if (badge && message) {
-      badge.innerHTML = INDEX_BADGES_JSON.naoCarregado.badge;
-      message.innerHTML = INDEX_BADGES_JSON.naoCarregado.message;
+        badge.innerHTML = INDEX_BADGES_JSON.naoCarregado.badge;
+        message.innerHTML = INDEX_BADGES_JSON.naoCarregado.message;
     }
-  }
-  
-  function _setLoadAgain(type) {
+}
+
+function _setLoadAgain(type) {
     const badge = document.getElementById(type + "-status-badge")
     const message = document.getElementById(type + "-status-message")
     if (badge && message) {
-      badge.innerHTML = INDEX_BADGES_JSON.carregueNovamente.badge;
-      message.innerHTML = INDEX_BADGES_JSON.carregueNovamente.message;
+        badge.innerHTML = INDEX_BADGES_JSON.carregueNovamente.badge;
+        message.innerHTML = INDEX_BADGES_JSON.carregueNovamente.message;
     }
-  }
+}

@@ -3,6 +3,15 @@ const DATABASE_VERSION_LIMIT = "1.0.0";
 const VERSION_DATE = "02/06/2023";
 const MAJOR_RELEASE = true;
 
+// === Main Function ===
+function _startReleaseNotesHTML() {
+    _setInnerHTML("releaseNotes", 'Release Notes - v' + VERSION);
+    _setInnerHTML("releaseNotes-breadcrumb", 'v' + VERSION);
+    _setInnerHTML("versaoOutput", VERSION);
+    _setInnerHTML("lancamentoOutput", VERSION_DATE);
+}
+
+// === Loaders ===
 function _loadVersion() {
     let result = {};
     _setInnerHTML("version", "v" + VERSION);
@@ -25,7 +34,8 @@ function _loadNewIcon() {
     _addStyle("newVersion", "color: red;");
 }
 
-function _isVersionValid(database){
+// === Verifiers ===
+function _isVersionValid(database) {
     let result = true;
     if (database && database["keypoints"] && database["keypoints"]["Version"] && _isVersionOlderThan(database["keypoints"]["Version"])) {
         result = false;
@@ -46,12 +56,4 @@ function _isVersionOlderThan(version) {
         }
     }
     return result;
-}
-
-function _startReleaseNotesHTML(){
-    _setInnerHTML("releaseNotes", 'Release Notes - v' + VERSION);
-    _setInnerHTML("releaseNotes-breadcrumb", 'v' + VERSION);
-    _setInnerHTML("versaoOutput", VERSION);
-    _setInnerHTML("lancamentoOutput", VERSION_DATE);
-
 }
