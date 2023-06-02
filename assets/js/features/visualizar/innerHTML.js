@@ -48,41 +48,45 @@ function _loadMessagesHTML(ponto, messages) {
   let result = [];
   let types = [];
 
-  if (messages.includes(MESSAGES_JSON.simulate)) {
-    let messageDiv = MESSAGE_DIVS_JSON.simulate;
-    types.push(BADGES_JSON.simulate.badge);
-    result.push(messageDiv.replace("#1", _getSimulateMessageWithURL(ponto.key)));
-  } else {
-    for (let message of messages) {
-      let messageDiv;
-      switch (message) {
-        case MESSAGES_JSON.epmMissing:
-        case MESSAGES_JSON.meuRHMissing:
-          messageDiv = MESSAGE_DIVS_JSON.info;
-          types.push(BADGES_JSON.info.badge);
-          break;
-        case MESSAGES_JSON.observation:
-          messageDiv = MESSAGE_DIVS_JSON.info;
-          types.push(BADGES_JSON.info.badge);
-          message = message.replace("#1", ponto.htmlElements.observation.value);
-          break;
-        case "":
-        case undefined:
-        case null:
-          break;
-        default:
-          messageDiv = MESSAGE_DIVS_JSON.warning;
-          types.push(BADGES_JSON.warning.badge);
-      }
-      if (messageDiv) {
-        result.push(messageDiv.replace("#1", message));
+  if (messages.length > 0) {
+    if (messages.includes(MESSAGES_JSON.simulate)) {
+      let messageDiv = MESSAGE_DIVS_JSON.simulate;
+      types.push(BADGES_JSON.simulate.badge);
+      result.push(messageDiv.replace("#1", _getSimulateMessageWithURL(ponto.key)));
+    } else {
+      for (let message of messages) {
+        let messageDiv;
+        switch (message) {
+          case MESSAGES_JSON.epmMissing:
+          case MESSAGES_JSON.meuRHMissing:
+            messageDiv = MESSAGE_DIVS_JSON.info;
+            types.push(BADGES_JSON.info.badge);
+            break;
+          case MESSAGES_JSON.observation:
+            messageDiv = MESSAGE_DIVS_JSON.info;
+            types.push(BADGES_JSON.info.badge);
+            message = message.replace("#1", ponto.htmlElements.observation.value);
+            break;
+          case "":
+          case undefined:
+          case null:
+            break;
+          default:
+            messageDiv = MESSAGE_DIVS_JSON.warning;
+            types.push(BADGES_JSON.warning.badge);
+        }
+        if (messageDiv) {
+          result.push(messageDiv.replace("#1", message));
+        }
       }
     }
+  } else {
+    result.push(MESSAGE_DIVS_JSON.success.replace("#1", MESSAGES_JSON.valid));
   }
 
   ponto.htmlElements.messagesHTML = result.join("");
   let typesS = types.toString();
-  const priorityOrder = ["simulate", "warning", "info"];
+  const priorityOrder = ["simulate", "warning", "info", "success"];
 
   for (const badgeType of priorityOrder) {
     if (typesS.includes(BADGES_JSON[badgeType].badge)) {
@@ -114,25 +118,25 @@ function _getPunchesTableHTML(ponto, punchesArray, messages) {
   let batidas;
 
   if (punchesArray.length > 0) {
-    if (_isTimeStringSmallerThen(punchesArray[0], "05:00")){
+    if (_isTimeStringSmallerThen(punchesArray[0], "05:00")) {
       messages.push(MESSAGES_JSON.tooEarly);
       startInvalid = true;
     }
-  
-    if (_isTimeStringBiggerThen(punchesArray[punchesArray.length - 1], "22:00")){
+
+    if (_isTimeStringBiggerThen(punchesArray[punchesArray.length - 1], "22:00")) {
       messages.push(MESSAGES_JSON.tooLate);
       endInvalid = true;
     }
-  
+
     for (let j = 0; j < punchesArray.length; j++) {
       let value = `<span class="#1" id="#2">${punchesArray[j]}</span>`
-  
+
       if (punchesArray[j] == "?" || (j == 0 && startInvalid) || (j == punchesArray.length - 1 && endInvalid)) {
         value = value.replace('#1', `${BADGES_JSON.warning.roundedPill} pontoNotFound`);
       } else {
         value = value.replace('#1', BADGES_JSON.common.badge);
       }
-  
+
       if (j % 2 == 0) {
         value = value.replace('#2', `e-${i}-${j}`);
         entradas.push(value);

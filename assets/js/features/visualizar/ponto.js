@@ -49,7 +49,7 @@ function _loadPonto(checkBoxes, type, system) {
         const compareAndNoMeuRHCheck = (checkBoxes.checkboxMeuRH == true && checkBoxes.checkboxVazioMeuRH == true);
         const noMeuRH = (ponto.meuRH.value == "?");
         const invalidMeuRH = (compareAndNoMeuRHCheck && noMeuRH);
-        
+
         const compareAndNoEPMCheck = (checkBoxes.checkboxEPM == true && checkBoxes.checkboxVazioEPM == true);
         const noEPM = (ponto.epm.value == "?");
         const invalidEPM = (compareAndNoEPMCheck && noEPM);

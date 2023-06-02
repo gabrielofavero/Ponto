@@ -99,14 +99,14 @@ function _loadVisualizarEventListeners() {
     _resizeRegime();
 }
 
-function _loadCheckBoxVazioEPM(name){
-    if (name == 'checkboxEPM' || name == 'checkboxMeuRH'){
+function _loadCheckBoxVazioEPM(name) {
+    if (name == 'checkboxEPM' || name == 'checkboxMeuRH') {
         const type = name.replace('checkbox', "");
         const checked = document.getElementById(name).checked;
         const epmEmpty = document.getElementById(`checkboxVazio${type}-item`);
-        if (epmEmpty && checked){
+        if (epmEmpty && checked) {
             epmEmpty.classList.add('visible');
-        } else if (epmEmpty && !checked){
+        } else if (epmEmpty && !checked) {
             epmEmpty.classList.remove('visible');
         }
     }
@@ -212,10 +212,10 @@ function _updatePeriodoString(periodoString) {
     const end = periodoString.split(" - ")[1];
     const dates = _getAllIdsInClass("dateBox").sort((a, b) => a - b);
 
-    if (dates.length > 0){
+    if (dates.length > 0) {
         const startHTML = document.getElementById(dates[0]).innerHTML.trim();
         const endHTML = document.getElementById(dates[dates.length - 1]).innerHTML.trim();
-    
+
         if (start != startHTML || end != endHTML) {
             periodoString = startHTML + " - " + endHTML;
             document.getElementById('periodo').innerHTML = periodoString;
