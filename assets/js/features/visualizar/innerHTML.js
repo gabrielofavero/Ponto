@@ -123,9 +123,12 @@ function _getPunchesTableHTML(ponto, punchesArray, messages) {
       startInvalid = true;
     }
 
-    if (_isTimeStringBiggerThen(punchesArray[punchesArray.length - 1], "22:00")) {
-      messages.push(MESSAGES_JSON.tooLate);
-      endInvalid = true;
+    const lastPunch = punchesArray[punchesArray.length - 1];
+    if (lastPunch != "?"){
+      if (_isTimeStringBiggerThen(lastPunch, "22:00")) {
+        messages.push(MESSAGES_JSON.tooLate);
+        endInvalid = true;
+      }
     }
 
     for (let j = 0; j < punchesArray.length; j++) {
