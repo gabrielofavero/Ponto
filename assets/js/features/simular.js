@@ -167,7 +167,7 @@ function _loadSimMessagesHTML(ponto, messages, observation) {
   let result = [];
 
   if (_getSimPunches().length % 2 != 0) {
-    messages.push(MESSAGES_JSON.odd);
+    messages.push(MESSAGES_JSON.odd.replace("#1", _getSimulateURL(ponto.key)));
   }
   if (messages.length == 0) {
     result.push(MESSAGE_DIVS_JSON.success.replace("#1", MESSAGES_JSON.valid));

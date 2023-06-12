@@ -52,7 +52,7 @@ function _loadMessagesHTML(ponto, messages) {
     if (messages.includes(MESSAGES_JSON.simulate)) {
       let messageDiv = MESSAGE_DIVS_JSON.simulate;
       types.push(BADGES_JSON.simulate.badge);
-      result.push(messageDiv.replace("#1", _getSimulateMessageWithURL(ponto.key)));
+      result.push(messageDiv.replace("#1", _getSimulateDivWithURL(ponto.key)));
     } else {
       for (let message of messages) {
         let messageDiv;
@@ -158,7 +158,7 @@ function _getPunchesTableHTML(ponto, punchesArray, messages) {
 
   // Batidas
   if (ponto.meuRH.missingPunches == true) {
-    messages.push(MESSAGES_JSON.odd);
+    messages.push(MESSAGES_JSON.odd.replace("#1", _getSimulateURL(ponto.key)));
     ponto.meuRH.punches = punchesArray.length - 1;
     batidas = `<span class="${BADGES_JSON.warning.roundedPill} batidas">${punchesArray.length - 1}</span>`
   } else {
@@ -250,10 +250,12 @@ function _getSumUpContainerHTML(ponto, type) {
   return result;
 }
 
-function _getSimulateMessageWithURL(key) {
+function _getSimulateDivWithURL(key) {
+  return MESSAGES_JSON.simulate.replace('meuRH-simular.html', _getSimulateURL(key));
+}
+
+function _getSimulateURL(key) {
   const date = encodeURIComponent(key);
   const punches = encodeURIComponent(_getLocal("meuRH")["system"][key]["punches"].toString())
-  const url = `meuRH-simular.html?date=${date}&punches=${punches}`
-
-  return MESSAGES_JSON.simulate.replace('meuRH-simular.html', url);
+  return `meuRH-simular.html?date=${date}&punches=${punches}`
 }
