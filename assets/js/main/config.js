@@ -8,7 +8,7 @@ function _startReleaseNotesHTML() {
     _setInnerHTML("releaseNotes", 'Release Notes - v' + VERSION);
     _setInnerHTML("releaseNotes-breadcrumb", 'v' + VERSION);
     _setInnerHTML("versaoOutput", VERSION);
-    _setInnerHTML("lancamentoOutput", VERSION_DATE);
+    _setInnerHTML("lancamentoOutput", VERSION_DATE); 
 }
 
 // === Loaders ===
