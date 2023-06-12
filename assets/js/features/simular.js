@@ -242,3 +242,54 @@ function _applySimulation() {
     _loadSimWarning("Insira uma data válida para simular.")
   }
 }
+
+function _validateSaldoInput() {
+  var inputElement = document.getElementById("saldoInput");
+  var value = inputElement.value.trim();
+
+  var timePattern = /^-?\d{2}:\d{2}$/;
+
+  if (value == "-00:00") {
+    inputElement.value = "00:00";
+  }
+
+  if (!value) {
+    inputElement.value = "00:00";
+    value = "00:00";
+  } else {
+    const split = value.split(":");
+    let validation1 = true;
+  
+    if (split.length == 2 && (split[0].length != 2 || split[1].length != 2 )){
+      let hour = split[0].trim();
+      let minute = split[1].trim();
+      if (hour.length == 1){
+        hour = "0" + hour;
+      }
+      
+      if (hour.length > 2) {
+        validation1 = false;
+      } else {
+        if (minute.length == 1){
+          minute = minute + "0" ;
+        } else if (minute.length > 2) {
+          minute = minute[0] + minute[1];
+        }
+    
+        if (!isNaN(hour) && !isNaN(minute) && (parseInt(minute) < 0 || parseInt(minute) >= 60)) {
+          validation1 = false;
+        } else {
+          value = hour + ":" + minute;
+          inputElement.value = value;
+        }
+      }
+    }
+  
+    const validation2 = timePattern.test(value);
+  
+    if (!validation1 || !validation2) {
+      alert("Formato Inválido. Por favor, insira no formato HH:MM.");
+      inputElement.value = "00:00";
+    }
+  }
+}
