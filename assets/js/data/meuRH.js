@@ -17,14 +17,13 @@ function _meuRH(rawData = "") {
                     _updateJob(value);
                     jobFound = true;
                 } else if (_isFullDate(value)) {
-
+                    isAusente = false;
                     if (lastKey) {
-                        let lastObservation = _getObservation(rawData[i - 1]);
+                        let lastObservation = _getTreatedObservation(rawData[i - 1]);
                         if (lastObservation) {
                             result["system"][lastKey]["observation"] = lastObservation
                         }
                     }
-
                     if (!year) {
                         year = value.split("/")[2];
                         localStorage.setItem('year', year);
@@ -34,9 +33,12 @@ function _meuRH(rawData = "") {
                 } else if (value == "Banco de Horas") {
                     _processBancoDeHoras(rawData, result, i);
                     break;
+                } else if (_getTextMeuRH(value) == "Ausente"){
+                    result["system"][lastKey]["observation"] = "Ausente";
                 }
             }
             _updateKeypoints(result);
+            _updateAusentes(result);
             localStorage.setItem('meuRH', JSON.stringify(result));
             _start();
         }
@@ -159,16 +161,32 @@ function _getDayTime(day, dayObj) {
     return _sumTime(timeArray);
 }
 
-function _getObservation(rawData) {
-    let result = "";
-    if (rawData) {
-        const treatedData = rawData.replace(/\*/g, "").trim();
-        if (!_isTimeString(treatedData)) {
-            let observation = _getFirstCharUpperCase(treatedData);
-            if (observation != "Ausente" && observation != "Compensado" && observation != "D.S.R."){
-                result = observation;
+function _getTreatedObservation(rawData){
+    const text = _getTextMeuRH(rawData);
+    if (text && !["Ausente", "Compensado", "D.S.R."].includes(text)) {
+        return text;
+    } else return "";
+}
+
+function _getTextMeuRH(rawData) {
+    const text = rawData.replace(/\*/g, "").trim();
+    if (_isTimeString(text)) {
+        return "";
+    } else return _getFirstCharUpperCase(text);
+}
+
+function _updateAusentes(result){
+    let system = result.system;
+    const keys = Object.keys(system);
+    const today = _newDateNoHours();
+    for (let key of keys) {
+        const observation = system[key].observation;
+        if (observation == "Ausente") {
+            system[key].punches = [];
+            const date = _dateStringToDate(key);
+            if (date.getTime() > today.getTime()){
+                system[key].observation = "";
             }
         }
     }
-    return result;
 }

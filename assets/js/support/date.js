@@ -243,3 +243,8 @@ function _dateStringToDateInput(dateString) {
     const dateParts = dateString.split('/');
     return dateParts[2] + '-' + dateParts[1] + '-' + dateParts[0];
 }
+
+function _newDateNoHours(){
+    const today = new Date();
+    return new Date(`${today.getMonth()+1}/${today.getDate()}/${today.getFullYear()}`)
+}
