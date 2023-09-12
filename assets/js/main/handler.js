@@ -1,15 +1,31 @@
 function _handleMeuRH() {
   const meuRHCard = document.getElementById('meuRH-card');
-
+  const body = document.body;
+  let showDragMessage = false;
+  
   meuRHCard.addEventListener('dragover', (event) => {
     event.preventDefault();
+    if (!showDragMessage){
+      showDragMessage = true;
+      _setDragMessage('meuRH');
+    }
   });
-
+  
   meuRHCard.addEventListener('drop', async (event) => {
     event.preventDefault();
+    _setCardContent('meuRH')
+    showDragMessage = false;
     const file = event.dataTransfer.files[0];
     if (!file) return;
     _insertFileMeuRH(file);
+  });
+  
+  body.addEventListener('dragover', async (event) => {
+    event.preventDefault();
+    if (!meuRHCard.contains(event.target) && showDragMessage) {
+      _setCardContent('meuRH');
+      showDragMessage = false;
+    }
   });
 
   const inputMeuRH = document.getElementById('meuRH-input');
@@ -67,17 +83,34 @@ async function _insertFileMeuRH(file){
 
 function _handleEPM() {
   const epmCard = document.getElementById('epm-card');
+  const body = document.body;
+  let showDragMessage = false;
 
   epmCard.addEventListener('dragover', (event) => {
     event.preventDefault();
+    if (!showDragMessage){
+      showDragMessage = true;
+      _setDragMessage('epm');
+    }
   });
 
   epmCard.addEventListener('drop', async (event) => {
     event.preventDefault();
+    _setCardContent('epm')
+    showDragMessage = false;
     const file = event.dataTransfer.files[0];
     if (!file) return;
     _insertFileEPM(file);
   });
+
+  body.addEventListener('dragover', async (event) => {
+    event.preventDefault();
+    if (!epmCard.contains(event.target) && showDragMessage) {
+      _setCardContent('epm');
+      showDragMessage = false;
+    }
+  });
+
   
   const xlsxInput = document.getElementById('epm-input');
   if (xlsxInput) {
@@ -111,4 +144,28 @@ function _insertFileEPM(file) {
     _epm(xlsxContent);
   };
   reader.readAsBinaryString(file);
+}
+
+function _setDragMessage(type){
+  const loadDiv = document.getElementById(`${type}-load`);
+  loadDiv.style.border = '3px dashed #B8BFC4';
+  loadDiv.style.padding = '20px';
+  
+  const cardContentDiv = document.getElementById(`${type}-card-content`);
+  cardContentDiv.style.display = 'none'
+
+  const dropBoxDiv = document.getElementById(`${type}-drop-box`);
+  dropBoxDiv.style.display = 'flex'
+}
+
+function _setCardContent(type){
+  const loadDiv = document.getElementById(`${type}-load`);
+  loadDiv.style.border = 'none';
+  loadDiv.style.padding = '0px';
+  
+  const cardContentDiv = document.getElementById(`${type}-card-content`);
+  cardContentDiv.style.display = 'block'
+
+  const dropBoxDiv = document.getElementById(`${type}-drop-box`);
+  dropBoxDiv.style.display = 'none'
 }
