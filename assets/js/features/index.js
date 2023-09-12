@@ -44,12 +44,14 @@ function _loadIndexEventListeners() {
     const deleteMeuRH = document.getElementById('meuRH-delete');
     deleteMeuRH.addEventListener('click', function () {
         localStorage.removeItem('meuRH');
+        _setOverlap();
         _start();
     });
 
     const deleteEPM = document.getElementById('epm-delete');
     deleteEPM.addEventListener('click', function () {
         localStorage.removeItem('epm');
+        _setOverlap();
         _start();
     });
 }

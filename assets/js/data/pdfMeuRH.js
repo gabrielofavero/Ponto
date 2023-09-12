@@ -1,4 +1,4 @@
-function _meuRH(rawData = "") {
+function _pdfMeuRH(rawData = "") {
     try {
         let year;
         if (rawData) {
@@ -11,15 +11,15 @@ function _meuRH(rawData = "") {
             for (i; i < rawData.length; i++) {
                 let value = rawData[i];
                 if (value.includes("Nome: ") && !nameFound) {
-                    _updateName(value);
+                    _updateNamePDF(value);
                     nameFound = true;
                 } else if (value.includes("Função: ") && !jobFound) {
-                    _updateJob(value);
+                    _updateJobPDF(value);
                     jobFound = true;
                 } else if (_isFullDate(value)) {
                     isAusente = false;
                     if (lastKey) {
-                        let lastObservation = _getTreatedObservation(rawData[i - 1]);
+                        let lastObservation = _getTreatedObservationPDF(rawData[i - 1]);
                         if (lastObservation) {
                             result["system"][lastKey]["observation"] = lastObservation
                         }
@@ -28,10 +28,10 @@ function _meuRH(rawData = "") {
                         year = value.split("/")[2];
                         localStorage.setItem('year', year);
                     }
-                    _processDay(rawData, result, i);
+                    _processDayPDF(rawData, result, i);
                     lastKey = rawData[i];
                 } else if (value == "Banco de Horas") {
-                    _processBancoDeHoras(rawData, result, i);
+                    _processBancoDeHorasPDF(rawData, result, i);
                     break;
                 } else if (_getTextMeuRH(value) == "Ausente"){
                     result["system"][lastKey]["observation"] = "Ausente";
@@ -43,12 +43,12 @@ function _meuRH(rawData = "") {
             _start();
         }
     } catch (e) {
-        _start();
         _logger(ERROR, e.message || e.toString());
+        _setLoadAgain('meuRH');
     }
 }
 
-function _updateName(value) {
+function _updateNamePDF(value) {
     let name = value.split(": ")[1];
     let split = name.split(" ");
     for (let i = 0; i < split.length; i++) {
@@ -58,7 +58,7 @@ function _updateName(value) {
     localStorage.setItem('fullName', split.join(" "));
 }
 
-function _updateJob(value) {
+function _updateJobPDF(value) {
     let job = value.split(" - ")[1];
     let split = job.split(" ");
     for (let i = 0; i < split.length; i++) {
@@ -68,7 +68,7 @@ function _updateJob(value) {
     localStorage.setItem('job', job);
 }
 
-function _processDay(meuRH, result, i) {
+function _processDayPDF(meuRH, result, i) {
     const key = meuRH[i];
     let system = {
         [key]: {
@@ -111,7 +111,7 @@ function _processDay(meuRH, result, i) {
     result["system"] = Object.assign({}, result["system"], system);
 }
 
-function _processBancoDeHoras(meuRH, result, i) {
+function _processBancoDeHorasPDF(meuRH, result, i) {
     let keys = [];
     let values = [];
     let keysFound = false;
@@ -161,7 +161,7 @@ function _getDayTime(day, dayObj) {
     return _sumTime(timeArray);
 }
 
-function _getTreatedObservation(rawData){
+function _getTreatedObservationPDF(rawData){
     const text = _getTextMeuRH(rawData);
     if (text && !["Ausente", "Compensado", "D.S.R."].includes(text)) {
         return text;
