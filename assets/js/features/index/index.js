@@ -1,7 +1,14 @@
 const INDEX_BADGES_JSON = _getJSON('assets/json/index/Index Badges.json');
+var countMeuRH = -1;
+var countEPM = -1;
+var inserMode = false;
 
 // === Main Function ===
 function _startIndex() {
+
+    _handleMeuRH();
+    _handleEPM();
+
     const meuRH = _getLocal("meuRH");
     const epm = _getLocal("epm");
 
@@ -44,6 +51,7 @@ function _loadIndexEventListeners() {
     const deleteMeuRH = document.getElementById('meuRH-delete');
     deleteMeuRH.addEventListener('click', function () {
         localStorage.removeItem('meuRH');
+        countMeuRH = -1;
         _setOverlap();
         _start();
     });
@@ -51,6 +59,7 @@ function _loadIndexEventListeners() {
     const deleteEPM = document.getElementById('epm-delete');
     deleteEPM.addEventListener('click', function () {
         localStorage.removeItem('epm');
+        countEPM = -1;
         _setOverlap();
         _start();
     });
@@ -76,9 +85,20 @@ function _setLoaded(type) {
         let end = _dateStringToDateStringNoYear(result["keypoints"]["Fim"]);
         badge.innerHTML = INDEX_BADGES_JSON["carregado"].badge;
         message.innerHTML = INDEX_BADGES_JSON["carregado"].message.replace('#1', start).replace('#2', end);
+        
+        if (inserMode) {
+            _countSuccess(type);
+            let count = _getCount(type);
+            if (inserMode && count == 0) {
+                badge.innerHTML = INDEX_BADGES_JSON["atualizado"].badge.replace('#1', "");
+            } else if (inserMode && count > 0) {
+                badge.innerHTML = INDEX_BADGES_JSON["atualizado"].badge.replace('#1', ` (${count})`);
+            }
+        }
+
     } else {
-        badge.innerHTML = INDEX_BADGES_JSON["erro"].badge;
-        message.innerHTML = INDEX_BADGES_JSON["erro"].message;
+        badge.innerHTML = INDEX_BADGES_JSON["erroGenerico"].badge;
+        message.innerHTML = INDEX_BADGES_JSON["erroGenerico"].message;
     }
 }
 
@@ -123,8 +143,8 @@ function _restoreBadge(type) {
             badge.innerHTML = INDEX_BADGES_JSON["naoCarregado"].badge;
         } else if (currentMessage.includes('Período:')) {
             badge.innerHTML = INDEX_BADGES_JSON["carregado"].badge;
-        } else if (currentMessage == INDEX_BADGES_JSON["erro"].message) {
-            badge.innerHTML = INDEX_BADGES_JSON["erro"].badge;
+        } else if (currentMessage == INDEX_BADGES_JSON["erroGenerico"].message) {
+            badge.innerHTML = INDEX_BADGES_JSON["erroGenerico"].badge;
         }
     }
 }

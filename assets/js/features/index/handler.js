@@ -1,4 +1,5 @@
 function _handleMeuRH() {
+
   const meuRHCard = document.getElementById('meuRH-card');
   const body = document.body;
   let showDragMessage = false;
@@ -17,6 +18,7 @@ function _handleMeuRH() {
     showDragMessage = false;
     const file = event.dataTransfer.files[0];
     if (!file) return;
+    
     _insertFileMeuRH(file);
   });
   
@@ -41,6 +43,7 @@ function _handleMeuRH() {
 }
 
 async function _insertFileMeuRH(file){
+  inserMode = true;
   const fileName = file.name;
   const fileExtension = fileName.split('.').pop().toLowerCase();
 
@@ -79,6 +82,7 @@ async function _insertFileMeuRH(file){
   } else {
     console.log('Arquivo não suportado.');
   }
+  insertMode = false;
 }
 
 function _handleEPM() {
@@ -124,6 +128,7 @@ function _handleEPM() {
 }
 
 function _insertFileEPM(file) {
+  inserMode = true;
   const reader = new FileReader();
   reader.onload = (event) => {
     const data = event.target.result;
@@ -144,6 +149,7 @@ function _insertFileEPM(file) {
     _epm(xlsxContent);
   };
   reader.readAsBinaryString(file);
+  inserMode = false;
 }
 
 function _setDragMessage(type){
@@ -168,4 +174,24 @@ function _setCardContent(type){
 
   const dropBoxDiv = document.getElementById(`${type}-drop-box`);
   dropBoxDiv.style.display = 'none'
+}
+
+function _countSuccess(type) {
+  switch(type){
+    case "meuRH":
+      countMeuRH++;
+      break;
+    case "epm":
+      countEPM++;
+      break;
+  } 
+}
+
+function _getCount(type) {
+  switch(type){
+    case "meuRH":
+      return countMeuRH;
+    case "epm":
+      return countEPM;
+  } 
 }
