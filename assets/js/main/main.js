@@ -8,9 +8,7 @@
 
 (function () {
   "use strict";
-  _handleMeuRH();
-  _handleEPM();
-
+  
   const clearData = document.getElementById('clearData');
   clearData.addEventListener('click', function () {
     _clearData();
