@@ -6,7 +6,7 @@ function _htmlMeuRH(file) {
         const keypointsRaw = file.querySelectorAll('.text-center.po-sm-4.po-md-4.po-lg-4.po-xl-4');
         let keypoints = _getKeypointsHTML(keypointsRaw, startEnd);
 
-        const systemRaw = file.querySelectorAll('.line');
+        const systemRaw = Array.from(file.querySelectorAll('.line')).reverse();
         let system = _getSystemHTML(systemRaw, startEnd);
     
         result.system = system;
