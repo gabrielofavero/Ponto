@@ -3,12 +3,23 @@
         "badge": "<span class=\"badge rounded-pill bg-success\">Carregado</span>",
         "message": "<span class=\"text-muted small pt-2\">Período: #1 - #2</span>"
     },
+    "atualizado": {
+        "badge": "<span class=\"badge rounded-pill bg-success\">Atualizado#1</span>"
+    },
     "datas": {
         "badge": "<span class=\"badge rounded-pill bg-danger\">Datas Não Batem</span>"
     },
-    "erro": {
+    "erroGenerico": {
         "badge": "<span class=\"badge rounded-pill bg-danger\">Erro</span>",
         "message": "<span class=\"text-muted small pt-2\">O arquivo não foi carregado corretamente. Tente novamente</span>"
+    },
+    "erroFormatoMeuRH": {
+        "badge": "<span class=\"badge rounded-pill bg-danger\">Erro</span>",
+        "message": "<span class=\"text-muted small pt-2\">Formato não suportado. Insira um arquivo .pdf ou .html</span>"
+    },
+    "erroFormatoEpm": {
+        "badge": "<span class=\"badge rounded-pill bg-danger\">Erro</span>",
+        "message": "<span class=\"text-muted small pt-2\">Formato não suportado. Insira um arquivo .pdf ou .html</span>"
     },
     "naoCarregado": {
         "badge": "<span class=\"badge rounded-pill bg-warning text-dark\">Não Carregado</span>",
