@@ -31,7 +31,6 @@ function _handleMeuRH() {
   });
 
   const inputMeuRH = document.getElementById('meuRH-input');
-  
   if (inputMeuRH) {
     inputMeuRH.addEventListener('change', async (event) => {
       const file = event.target.files[0];
@@ -43,7 +42,7 @@ function _handleMeuRH() {
 }
 
 async function _insertFileMeuRH(file){
-  inserMode = true;
+  insertMeuRH = true;
   const fileName = file.name;
   const fileExtension = fileName.split('.').pop().toLowerCase();
 
@@ -80,9 +79,8 @@ async function _insertFileMeuRH(file){
 
     reader.readAsText(file);
   } else {
-    console.log('Arquivo não suportado.');
+    _setBadgeMessage('meuRH', 'erroFormatoMeuRH')
   }
-  insertMode = false;
 }
 
 function _handleEPM() {
@@ -128,28 +126,34 @@ function _handleEPM() {
 }
 
 function _insertFileEPM(file) {
-  inserMode = true;
-  const reader = new FileReader();
-  reader.onload = (event) => {
-    const data = event.target.result;
-    const workbook = XLSX.read(data, {
-      type: 'binary'
-    });
+  insertEPM = true;
+  const fileName = file.name;
+  const fileExtension = fileName.split('.').pop().toLowerCase();
+  if (fileExtension === 'xlsx') {
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const data = event.target.result;
+      const workbook = XLSX.read(data, {
+        type: 'binary'
+      });
+  
+      const sheetName = workbook.SheetNames[0];
+      const sheet = workbook.Sheets[sheetName];
+      const rows = XLSX.utils.sheet_to_json(sheet, {
+        header: 1
+      });
+      const xlsxContent = [];
+  
+      for (const row of rows) {
+        xlsxContent.push(row.map(cell => cell.toString()));
+      }
+      _epm(xlsxContent);
+    };
+    reader.readAsBinaryString(file);
+  } else {
+    _setBadgeMessage('epm', 'erroFormatoEPM')
+  }
 
-    const sheetName = workbook.SheetNames[0];
-    const sheet = workbook.Sheets[sheetName];
-    const rows = XLSX.utils.sheet_to_json(sheet, {
-      header: 1
-    });
-    const xlsxContent = [];
-
-    for (const row of rows) {
-      xlsxContent.push(row.map(cell => cell.toString()));
-    }
-    _epm(xlsxContent);
-  };
-  reader.readAsBinaryString(file);
-  inserMode = false;
 }
 
 function _setDragMessage(type){
@@ -183,7 +187,6 @@ function _countSuccess(type) {
       break;
     case "epm":
       countEPM++;
-      break;
   } 
 }
 
@@ -193,5 +196,15 @@ function _getCount(type) {
       return countMeuRH;
     case "epm":
       return countEPM;
+  } 
+}
+
+function _disableInsert(type){
+  switch(type){
+    case "meuRH":
+      insertMeuRH = false;
+      break;
+    case "epm":
+      insertEPM = false;
   } 
 }

@@ -4,7 +4,10 @@
         "message": "<span class=\"text-muted small pt-2\">Período: #1 - #2</span>"
     },
     "atualizado": {
-        "badge": "<span class=\"badge rounded-pill bg-success\">Atualizado#1</span>"
+        "badge": "<span class=\"badge rounded-pill bg-success\">Atualizado</span>"
+    },
+    "atualizadoMulti": {
+        "badge": "<span class=\"badge rounded-pill bg-success\">Atualizado (#1)</span>"
     },
     "datas": {
         "badge": "<span class=\"badge rounded-pill bg-danger\">Datas Não Batem</span>"

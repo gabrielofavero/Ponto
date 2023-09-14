@@ -1,13 +1,20 @@
 const INDEX_BADGES_JSON = _getJSON('assets/json/index/Index Badges.json');
-var countMeuRH = -1;
-var countEPM = -1;
-var inserMode = false;
+
+var indexBoot = true;
+
+var countMeuRH = 0;
+var countEPM = 0;
+var insertMeuRH = false;
+var insertEPM = false;
 
 // === Main Function ===
 function _startIndex() {
 
-    _handleMeuRH();
-    _handleEPM();
+    if (indexBoot){
+        indexBoot = false;
+        _handleMeuRH();
+        _handleEPM();
+    }
 
     const meuRH = _getLocal("meuRH");
     const epm = _getLocal("epm");
@@ -16,7 +23,6 @@ function _startIndex() {
     const epmValid = _isVersionValid(epm);
 
     _loadIndexEventListeners();
-
 
     if (meuRH && meuRHValid) {
         _setLoaded('meuRH');
@@ -44,6 +50,7 @@ function _startIndex() {
     if (meuRH && epm && meuRHValid && epmValid) {
         _checkOverlap();
     }
+    indexBoot = false;
 }
 
 // === Loaders ===
@@ -80,19 +87,25 @@ function _setLoaded(type) {
     let badge = document.getElementById(type + "-status-badge");
     let message = document.getElementById(type + "-status-message");
     let result = _getLocal(type)
+    const previousBadge = badge.innerHTML;
     if (result && result["keypoints"] && result["keypoints"]["Início"] && result["keypoints"]["Fim"]) {
         let start = _dateStringToDateStringNoYear(result["keypoints"]["Início"]);
         let end = _dateStringToDateStringNoYear(result["keypoints"]["Fim"]);
-        badge.innerHTML = INDEX_BADGES_JSON["carregado"].badge;
+
+        if (!badge.innerHTML || !badge.innerHTML.includes("Atualizado")) {
+            badge.innerHTML = INDEX_BADGES_JSON["carregado"].badge;
+        }
+        
         message.innerHTML = INDEX_BADGES_JSON["carregado"].message.replace('#1', start).replace('#2', end);
         
-        if (inserMode) {
+        if (insertMeuRH || insertEPM) {
+            _disableInsert(type);
             _countSuccess(type);
             let count = _getCount(type);
-            if (inserMode && count == 0) {
-                badge.innerHTML = INDEX_BADGES_JSON["atualizado"].badge.replace('#1', "");
-            } else if (inserMode && count > 0) {
-                badge.innerHTML = INDEX_BADGES_JSON["atualizado"].badge.replace('#1', ` (${count})`);
+            if (previousBadge == INDEX_BADGES_JSON["carregado"].badge) {
+                badge.innerHTML = INDEX_BADGES_JSON["atualizado"].badge;
+            } else if (previousBadge.includes("Atualizado")) {
+                badge.innerHTML = INDEX_BADGES_JSON["atualizadoMulti"].badge.replace('#1', count);
             }
         }
 
@@ -113,6 +126,13 @@ function _setNoOverlap() {
         epm.innerHTML = INDEX_BADGES_JSON["datas"].badge;
     }
     localStorage.setItem("compare", "false");
+}
+
+function _setBadgeMessage(type, indexBadgeItem) {
+    const badge = document.getElementById(`${type}-status-badge`);
+    const message = document.getElementById(`${type}-status-message`);
+    badge.innerHTML =  INDEX_BADGES_JSON[indexBadgeItem].badge;
+    message.innerHTML =  INDEX_BADGES_JSON[indexBadgeItem].message;
 }
 
 function _setOverlap() {
