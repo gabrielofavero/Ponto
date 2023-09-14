@@ -27,8 +27,8 @@ function _epm(rawData = "") {
             _start();
         }
     } catch (e) {
-        _start();
         _logger(ERROR, e.message || e.toString());
+        _setBadgeMessage('epm', 'erroGenerico');
     }
 }
 

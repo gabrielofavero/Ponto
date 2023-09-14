@@ -22,7 +22,7 @@
     },
     "erroFormatoEpm": {
         "badge": "<span class=\"badge rounded-pill bg-danger\">Erro</span>",
-        "message": "<span class=\"text-muted small pt-2\">Formato não suportado. Insira um arquivo .pdf ou .html</span>"
+        "message": "<span class=\"text-muted small pt-2\">Formato não suportado. Insira um arquivo .xlsx</span>"
     },
     "naoCarregado": {
         "badge": "<span class=\"badge rounded-pill bg-warning text-dark\">Não Carregado</span>",

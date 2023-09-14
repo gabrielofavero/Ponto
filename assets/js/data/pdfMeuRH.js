@@ -44,7 +44,7 @@ function _pdfMeuRH(rawData = "") {
         }
     } catch (e) {
         _logger(ERROR, e.message || e.toString());
-        _setLoadAgain('meuRH');
+        _setBadgeMessage('meuRH', 'erroGenerico')
     }
 }
 
