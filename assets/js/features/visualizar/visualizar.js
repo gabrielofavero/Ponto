@@ -43,9 +43,9 @@ function _startVisualizar(type) {
     _endLoad();
 
     if (!regimeFound) {
-        window.onload = function() {
+        $(document).ready(function() {
             $('#regimeModal').modal('show');
-        }
+        });
     }
 }
 

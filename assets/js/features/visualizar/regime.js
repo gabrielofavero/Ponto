@@ -31,13 +31,22 @@ function _resizeRegime() {
 }
 
 function _jobToRegime(job) {
-    const estagio = ['estágio', 'estagio', 'estagiario', 'estagiário'];
+    const formattedJob = job.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+    const estagio = ['estagio', 'estagiario', 'intern'];
     for (const word of estagio) {
-        if (job.toLowerCase().includes(word)) {
+        if (formattedJob.toLowerCase().includes(word)) {
             return REGIMES_JSON.estagio;
         }
     }
     return REGIMES_JSON.comum;
+}
+
+function _jobToRegimeDisplayText(job){
+    const regime = _jobToRegime(job);
+    if (regime === REGIMES_JSON.estagio) {
+        return "Estagiário";
+    }
+    return "Modelo de Trabalho Comum (8h)";
 }
 
 function _saveManualRegime() {

@@ -1657,3 +1657,13 @@ a.warningLink:hover {
   margin: 0;
   color: #647079;
 }
+
+#regimeInputManual{
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.inputManual{
+  margin-top: 15px;
+  margin-bottom: 15px;
+}

@@ -8,10 +8,20 @@
 
 (function () {
   "use strict";
-  
+
   const clearData = document.getElementById('clearData');
   clearData.addEventListener('click', function () {
     _clearData();
+  });
+
+  const editProfile = document.getElementById('editarPerfilBotao');
+  editProfile.addEventListener("click", function () {
+    _setProfilePlaceholders();
+  });
+
+  const saveProfile = document.getElementById('saveProfile');
+  saveProfile.addEventListener('click', function () {
+    _saveEditedProfile();
   });
 
   /**
@@ -387,14 +397,11 @@ function _checkLogin() {
   const fullName = _getLocal("fullName");
   const job = _getLocal("job");
 
-  if (name && fullName) {
-    document.getElementById("name").innerHTML = name;
-    document.getElementById("fullName").innerHTML = fullName;
+  if (name || fullName || job) {
+    document.getElementById("name").innerHTML = name || "Usuário";
+    document.getElementById("fullName").innerHTML = fullName || "Usuário";
     document.getElementById("login").style.display = "block";
-  }
-
-  if (job) {
-    document.getElementById("job").innerHTML = job;
+    document.getElementById("job").innerHTML = job || _jobToRegimeDisplayText(job);
   }
 }
 
@@ -410,6 +417,59 @@ function _hideNav(type) {
 function _clearData() {
   localStorage.clear();
   window.location.href = "index.html";
+}
+
+function _saveEditedProfile() {
+  const nameDiv = document.getElementById('inputNome');
+  const jobDiv = document.getElementById('inputCargo');
+
+  const name = nameDiv.value;
+  const job = jobDiv.value;
+
+  const starNome = document.getElementById('starNome');
+  const starCargo = document.getElementById('starCargo');
+
+  if (name || job) {
+    if (name) {
+      localStorage.setItem('name', name.split(" ")[0]);
+      localStorage.setItem('fullName', name);
+    }
+    if (job) {
+      localStorage.setItem('job', job);
+    }
+
+    nameDiv.removeAttribute('placeholder');
+    starNome.style.color = "";
+
+    jobDiv.removeAttribute('placeholder');
+    starCargo.style.color = "";
+
+    location.reload();
+  } else {
+    nameDiv.setAttribute('placeholder', 'O campo é obrigatório');
+    starNome.style.color = "red";
+
+    jobDiv.setAttribute('placeholder', 'O campo é obrigatório');
+    starCargo.style.color = "red";
+  }
+
+  document.getElementById('editarPerfilFechar').click();
+}
+
+function _setProfilePlaceholders() {
+  const nameDiv = document.getElementById('inputNome');
+  const jobDiv = document.getElementById('inputCargo');
+
+  const name = _getLocal('fullName');
+  const job = _getLocal('job');
+
+  if (name) {
+    nameDiv.setAttribute('placeholder', name);
+  }
+
+  if (job) {
+    jobDiv.setAttribute('placeholder', job);
+  }
 }
 
 function _filterVisibility() {
