@@ -16,7 +16,7 @@
 
   const editProfile = document.getElementById('editarPerfilBotao');
   editProfile.addEventListener("click", function () {
-    _setProfilePlaceholders();
+    _loadProfileModal();
   });
 
   const saveProfile = document.getElementById('saveProfile');
@@ -353,6 +353,7 @@ async function _start() {
   const epmValid = _isVersionValid(epm);
 
   _checkLogin();
+  _loadProfilePicture();
 
   if (meuRH && meuRHValid) {
     _showNav('meuRH');
@@ -422,31 +423,31 @@ function _clearData() {
   window.location.href = "index.html";
 }
 
-function _saveEditedProfile() {
+async function _saveEditedProfile() {
   const nameDiv = document.getElementById('inputNome');
   const jobDiv = document.getElementById('inputCargo');
 
+  const img = await _getImage();
   const name = nameDiv.value;
   const job = jobDiv.value;
 
   const starNome = document.getElementById('starNome');
   const starCargo = document.getElementById('starCargo');
 
-  if (name || job) {
+  if (img || name || job) {
+    
+    if (img) {
+      localStorage.setItem('profilePic', JSON.stringify(img));
+    }
+
     if (name) {
       localStorage.setItem('name', name.split(" ")[0]);
       localStorage.setItem('fullName', name);
     }
+
     if (job) {
       localStorage.setItem('job', job);
     }
-
-    nameDiv.removeAttribute('placeholder');
-    starNome.style.color = "";
-
-    jobDiv.removeAttribute('placeholder');
-    starCargo.style.color = "";
-
     location.reload();
   } else {
     nameDiv.setAttribute('placeholder', 'O campo é obrigatório');
@@ -455,13 +456,17 @@ function _saveEditedProfile() {
     jobDiv.setAttribute('placeholder', 'O campo é obrigatório');
     starCargo.style.color = "red";
   }
-
-  document.getElementById('editarPerfilFechar').click();
 }
 
-function _setProfilePlaceholders() {
+function _loadProfileModal() {
   const nameDiv = document.getElementById('inputNome');
   const jobDiv = document.getElementById('inputCargo');
+
+  nameDiv.removeAttribute('placeholder');
+  starNome.style.color = "";
+
+  jobDiv.removeAttribute('placeholder');
+  starCargo.style.color = "";
 
   const name = _getLocal('fullName');
   const job = _getLocal('job');

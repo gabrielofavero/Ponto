@@ -90,6 +90,10 @@
               <input type="text" class="form-control" id="inputCargo">
             </div>
             <div class="inputManual">
+              Foto de Perfil:
+              <input type="file" class="form-control" id="inputImage" accept="image/*">
+            </div>
+            <div class="inputManual">
               Empresa:
               <input type="text" class="form-control" value="Vetta Tecnologia S/A" disabled="">
             </div>
@@ -120,7 +124,7 @@
           <li class="nav-item dropdown pe-3" id="login">
 
             <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-              <img src="assets/img/dino.png" alt="Profile" class="rounded-circle">
+              <img id="profilePic" src="assets/img/dino.png" alt="Profile" class="rounded-circle">
               <span class="d-none d-md-block dropdown-toggle ps-2" id="name"></span>
             </a><!-- End Profile Iamge Icon -->
 
@@ -287,7 +291,8 @@
                             <li>Adicionado indicador caso o usuário atualize um arquivo;</li>
                             <li>Adicionados botões de "Simular" e "Converter EPM" em cada dia;</li>
                             <li>Adicionado dado de modelo de trabalho no "Visualizar EPM";</li>
-                            <li>Adicionada opção de adicionar múltiplos cálculos de EPM.</li>
+                            <li>Adicionada opção de adicionar múltiplos cálculos de EPM;</li>
+                            <li>Adicionada opção de incluir foto de perfil personalizada.</li>
                           </ul><br>
                           <b>Bug Fixes:</b> <br>
                           <ul>
@@ -424,6 +429,7 @@
   <script src="assets/js/features/visualizar/visualizar.js"></script>
   <script src="assets/js/features/conversores.js"></script>
   <script src="assets/js/features/simular.js"></script>
+  <script src="assets/js/support/image.js"></script>
   <script src="assets/js/features/index/index.js"></script>
   <script src="assets/js/features/index/handler.js"></script>
   <script src="assets/js/main/main.js"></script>
