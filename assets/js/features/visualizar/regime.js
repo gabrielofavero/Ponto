@@ -45,8 +45,9 @@ function _jobToRegimeDisplayText(job){
     const regime = _jobToRegime(job);
     if (regime === REGIMES_JSON.estagio) {
         return "Estagiário";
+    } else {
+        return _getLocal('job');
     }
-    return "Modelo de Trabalho Comum (8h)";
 }
 
 function _saveManualRegime() {
