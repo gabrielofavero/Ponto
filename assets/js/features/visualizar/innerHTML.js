@@ -14,6 +14,13 @@ function _loadAccordionItemHTML(ponto) {
       <div class="accordion-body">
 
         ${ponto.htmlElements.observation.innerHTML}
+
+        <div class="item-internal-buttons" id="buttons${ponto.i}" ${_getInternalButtonsStyle(ponto.title.value)}>
+          <div class="btn-group" role="group">
+            ${_getInternalButtons(ponto)}
+          </div>
+        </div>
+
         ${ponto.htmlElements.sumUpContainerHTML}
 
         <div class="item-comparison-container" id="punchesTable${ponto.i}">
@@ -28,14 +35,8 @@ function _loadAccordionItemHTML(ponto) {
             </div>
             <div class="item-internal-container">
               <div class="item-comparison-title">EPM</div>
-              <div><span class="${ponto.epm.roundedPill}">${ponto.epm.value}</span></div>
+              <div><span class="${ponto.epm.roundedPill}">${ponto.epm.value || '0,0'}</span></div>
             </div>
-          </div>
-        </div>
-
-        <div class="item-internal-buttons" id="buttons${ponto.i}" ${_getInternalButtonsStyle(ponto.title.value)}>
-          <div class="btn-group" role="group">
-            ${_getInternalButtons(ponto)}
           </div>
         </div>
 
