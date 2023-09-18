@@ -63,9 +63,9 @@ function _loadMessagesHTML(ponto, messages) {
             types.push(BADGES_JSON.info.badge);
             break;
           case MESSAGES_JSON.observation:
-            messageDiv = MESSAGE_DIVS_JSON.info;
+            // messageDiv = MESSAGE_DIVS_JSON.info;
             types.push(BADGES_JSON.info.badge);
-            message = message.replace("#1", ponto.htmlElements.observation.value);
+            // message = message.replace("#1", ponto.htmlElements.observation.value);
             break;
           case "":
           case undefined:

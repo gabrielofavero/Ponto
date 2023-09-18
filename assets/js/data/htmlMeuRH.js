@@ -68,7 +68,7 @@ function _getSystemHTML(systemRaw, startEnd) {
             const divergentAlignRaw = day.querySelectorAll('.divergent-align, .text-center')[2].innerText || "";
 
             systemDay.punches = _getPunchesHTML(columnTimesheetRaw);
-            systemDay.observation = _getObservationHTML(divergentAlignRaw)
+            systemDay.observation = divergentAlignRaw.trim();
         }
 
         system[date] = systemDay
@@ -129,10 +129,4 @@ function _sortTimeArray(timeArray) {
 function _isValidTime(timeStr) {
     const timePattern = /^([01]\d|2[0-3]):([0-5]\d)$/;
     return timePattern.test(timeStr);
-}
-
-function _getObservationHTML(divergentAlignRaw) {
-    if (divergentAlignRaw[2] && divergentAlignRaw[2].innerText) {
-        return divergentAlignRaw[2].innerText.trim();
-    } else return "";
 }
