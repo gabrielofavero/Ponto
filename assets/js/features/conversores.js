@@ -62,7 +62,7 @@ function _loadEPMToTime(epm) {
     outputTime.innerHTML = result
 }
 
-function _loadConvertionHours(inputID) {
+function _loadConvertionHours(inputID='0') {
     const i = inputID.replace(/[^0-9]/g, '');
 
     const totalVal = document.getElementById(`inputTotal${i}`).value;
@@ -102,11 +102,11 @@ function _loadConvertionURLParameters() {
     const usadas = urlParams.get('usadas');
 
     if (total) {
-        document.getElementById("inputTotal").value = _epmToNumber(total);
+        document.getElementById("inputTotal0").value = _epmToNumber(total);
     }
 
     if (usadas) {
-        document.getElementById("inputUsadas").value = _epmToNumber(usadas);
+        document.getElementById("inputUsadas0").value = _epmToNumber(usadas);
     }
 
     if (total || usadas) {
