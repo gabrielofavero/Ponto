@@ -39,7 +39,7 @@ function _startIndex() {
         _setLoaded('epm');
         _loadedButtons('epm');
     } else if (epmValid) {
-        _setBadgeMessage('meuRH', 'naoCarregado');
+        _setBadgeMessage('epm', 'naoCarregado');
         _unloadedButtons('epm');
     } else {
         _setBadgeMessage('epm', 'carregueNovamente');
