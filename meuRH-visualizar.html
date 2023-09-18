@@ -216,6 +216,30 @@
                   <div class="inner-card-value" id="saldo"></div>
                 </div>
               </div>
+              <!-- Basic Modal -->
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#regimeModal"
+                style="display: none;">
+                Solicitar Modelo
+              </button>
+              <div class="modal fade" id="regimeModal" tabindex="-1">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Inserir Modelo de Trabalho</h5>
+                    </div>
+                    <div class="modal-body">
+                      Não foi possível detectar automaticamente seu modelo de trabalho. Por favor, selecione abaixo:<br>
+                      <select class="form-select" id="regimeInputManual">
+                        <option id="optionComum" selected value="Comum (8h)">Comum (8h)</option>
+                        <option id="optionEstagio" value="Estágio (6h)">Estágio (6h)</option>
+                      </select>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" id="regimeSaveManual" class="btn btn-primary">Salvar</button>
+                    </div>
+                  </div>
+                </div>
+              </div><!-- End Basic Modal-->
             </div>
           </div>
         </div>
@@ -328,6 +352,7 @@
   <script src="assets/js/data/compare.js"></script>
   <script src="assets/js/features/visualizar/innerHTML.js"></script>
   <script src="assets/js/features/visualizar/ponto.js"></script>
+  <script src="assets/js/features/visualizar/regime.js"></script>
   <script src="assets/js/features/visualizar/visualizar.js"></script>
   <script src="assets/js/features/conversores.js"></script>
   <script src="assets/js/features/simular.js"></script>
