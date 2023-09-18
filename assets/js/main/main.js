@@ -397,10 +397,13 @@ function _checkLogin() {
   const fullName = _getLocal("fullName");
   const job = _getLocal("job");
 
+  if (_getLocal('meuRH') || _getLocal('epm')) {
+    document.getElementById("login").style.display = "block";
+  }
+
   if (name || fullName || job) {
     document.getElementById("name").innerHTML = name || "Usuário";
     document.getElementById("fullName").innerHTML = fullName || "Usuário";
-    document.getElementById("login").style.display = "block";
     document.getElementById("job").innerHTML = job || _jobToRegimeDisplayText(job);
   }
 }
