@@ -402,11 +402,9 @@ function _checkLogin() {
     document.getElementById("login").style.display = "block";
   }
 
-  if (name || fullName || job) {
-    document.getElementById("name").innerHTML = name || "Usuário";
-    document.getElementById("fullName").innerHTML = fullName || "Usuário";
-    document.getElementById("job").innerHTML = _jobToRegimeDisplayText(job);
-  }
+  document.getElementById("name").innerHTML = name || "Usuário";
+  document.getElementById("fullName").innerHTML = fullName || "Usuário";
+  document.getElementById("job").innerHTML = _jobToRegimeDisplayText(job);
 }
 
 // === Setters ===
