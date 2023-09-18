@@ -16,7 +16,6 @@ function _startVisualizar(type) {
         document.getElementById('regime').innerHTML = regime;
     }
 
-
     if (type == 'meuRH') {
         let saldo = _getSaldo();
         if (saldo) {
