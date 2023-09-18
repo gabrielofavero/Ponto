@@ -73,6 +73,36 @@
       </div>
     </div>
 
+    <div class="modal fade" id="editarPerfil" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Editar Perfil</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="inputManual">
+              Nome Completo: <a id="starNome">*</a>
+              <input type="text" class="form-control" id="inputNome">
+            </div>
+            <div class="inputManual">
+              Cargo: <a id="starCargo">*</a>
+              <input type="text" class="form-control" id="inputCargo">
+            </div>
+            <div class="inputManual">
+              Empresa:
+              <input type="text" class="form-control" value="Vetta Tecnologia S/A" disabled="">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button id="editarPerfilFechar" type="button" class="btn btn-secondary"
+              data-bs-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-primary" id="saveProfile">Salvar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- ======= Header ======= -->
     <header id="header" class="header fixed-top d-flex align-items-center">
 
@@ -99,6 +129,13 @@
                 <h6 id="fullName">Usuário</h6>
                 <div id="job"></div>
                 <span>Vetta Tecnologia S/A</span>
+              </li>
+              <li id="editarPerfilBotao">
+                <a class="dropdown-item d-flex align-items-center" href="#" data-bs-toggle="modal"
+                  data-bs-target="#editarPerfil">
+                  <i class="bi bi-pencil-square"></i>
+                  <span>Editar Pefil</span>
+                </a>
               </li>
               <li>
                 <a class="dropdown-item d-flex align-items-center" href="#" data-bs-toggle="modal"
