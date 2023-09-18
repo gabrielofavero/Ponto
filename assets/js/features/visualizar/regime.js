@@ -43,14 +43,10 @@ function _jobToRegime(job) {
 
 function _jobToRegimeDisplayText(job){
     const regime = _jobToRegime(job);
-
-    switch (regime) {
-        case REGIMES_JSON.estagio:
-            return "Estagiário";
-        case REGIMES_JSON.comum:
-            return "Modelo de Trabalho Comum (8h)";
-        default:
-            return job;
+    if (regime === REGIMES_JSON.estagio) {
+        return "Estagiário";
+    } else {
+        return _getLocal('job');
     }
 }
 
