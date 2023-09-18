@@ -287,11 +287,11 @@ function _getInternalButtons(ponto) {
       `
   } else if (valueMeuRH) {
     return `
-    <a href="${_getLinkMeuRH(ponto.key)}" class="btn btn-outline-ponto">Simular Meu RH</a>
+    <a href="${_getLinkMeuRH(ponto.key)}" target="_blank" class="btn btn-outline-ponto">Simular Meu RH</a>
     `
   } else if (valueEPM) {
     return `
-      <a href="${_getLinkEPM(ponto.epm.value, "")}" class="btn btn-outline-ponto">Converter EPM</a>
+      <a href="${_getLinkEPM(ponto.epm.value, "")}" target="_blank" class="btn btn-outline-ponto">Converter EPM</a>
       `
   } else return "";
 }
