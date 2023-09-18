@@ -75,11 +75,23 @@ function _loadIndexEventListeners() {
 function _loadedButtons(type) {
     const deleteDiv = document.getElementById(type + "-delete");
     deleteDiv.style.display = "";
+
+    const iconDiv = document.getElementById(type + "-icon");
+    iconDiv.style.display = "none";
+
+    const iconAddDiv = document.getElementById(type + "-icon-add");
+    iconAddDiv.style.display = "";
 }
 
 function _unloadedButtons(type) {
     const deleteDiv = document.getElementById(type + "-delete");
     deleteDiv.style.display = "none"
+
+    const iconDiv = document.getElementById(type + "-icon");
+    iconDiv.style.display = "";
+
+    const iconAddDiv = document.getElementById(type + "-icon-add");
+    iconAddDiv.style.display = "none";
 }
 
 // === Setters ===
