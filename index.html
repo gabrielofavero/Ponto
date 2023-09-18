@@ -65,7 +65,7 @@
   </div>
 
   <div id="main-container">
-    <div class="modal fade" id="verticalycentered" tabindex="-1">
+    <div class="modal fade" id="sair" tabindex="-1">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
@@ -78,6 +78,36 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
             <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="clearData">Confirmar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="editarPerfil" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Editar Perfil</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="inputManual">
+              Nome Completo: <a id="starNome">*</a>
+              <input type="text" class="form-control" id="inputNome">
+            </div>
+            <div class="inputManual">
+              Cargo: <a id="starCargo">*</a>
+              <input type="text" class="form-control" id="inputCargo">
+            </div>
+            <div class="inputManual">
+              Empresa:
+              <input type="text" class="form-control" value="Vetta Tecnologia S/A" disabled="">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button id="editarPerfilFechar" type="button" class="btn btn-secondary"
+              data-bs-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-primary" id="saveProfile">Salvar</button>
           </div>
         </div>
       </div>
@@ -110,9 +140,15 @@
                 <div id="job"></div>
                 <span>Vetta Tecnologia S/A</span>
               </li>
+              <li id="editarPerfilBotao">
+                <a class="dropdown-item d-flex align-items-center" href="#" data-bs-toggle="modal"
+                  data-bs-target="#editarPerfil">
+                  <i class="bi bi-pencil-square"></i>
+                  <span>Editar Pefil</span>
+                </a>
               <li>
                 <a class="dropdown-item d-flex align-items-center" href="#" data-bs-toggle="modal"
-                  data-bs-target="#verticalycentered">
+                  data-bs-target="#sair">
                   <i class="bi bi-box-arrow-right"></i>
                   <span>Sair</span>
                 </a>
@@ -222,53 +258,71 @@
               <!-- Sales Card -->
               <div class="col-xxl-4 col-md-6" id="meuRH-card">
                 <div class="card info-card customers-card" id="meuRH-load">
+                  <div id="meuRH-card-content">
+                    <div class="filter" id="meuRH-filter">
+                      <label class="icon" id="meuRH-delete" style="display:none"><i class="bi bi-trash"></i></label>
+                      <label class="icon" id="meuRH-icon" for="meuRH-input"><i id="meuRH-inner-icon"
+                          class="bi bi-upload"></i></label>
+                      <label class="icon" id="meuRH-icon-add" style="display:none" for="meuRH-input"><i id="meuRH-inner-icon"
+                          class="bi bi-plus-lg"></i></label>
+                      <input type="file" id="meuRH-input" accept=".pdf, .html">
+                    </div>
 
-                  <div class="filter" id="meuRH-filter">
-                    <label class="icon" id="meuRH-delete" style="display:none"><i class="bi bi-trash"></i></label>
-                    <label class="icon" id="meuRH-icon" for="meuRH-input"><i id="meuRH-inner-icon"
-                        class="bi bi-upload"></i></label>
-                    <input type="file" id="meuRH-input" accept=".pdf">
-                  </div>
+                    <div class="card-body">
+                      <h5 class="card-title">Meu RH <span>| PDF ou HTML</span></h5>
 
-                  <div class="card-body">
-                    <h5 class="card-title">Meu RH <span>| Arquivo PDF</span></h5>
-
-                    <div class="d-flex align-items-center">
-                      <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                        <i class="bi bi-filetype-pdf"></i>
-                      </div>
-                      <div class="ps-3" id="meuRH-status">
-                        <span id="meuRH-status-badge"></span><br>
-                        <span id="meuRH-status-message"></span><br>
+                      <div class="d-flex align-items-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                          <i class="bi bi-filetype-pdf"></i>
+                        </div>
+                        <div class="ps-3" id="meuRH-status">
+                          <span id="meuRH-status-badge"></span><br>
+                          <span id="meuRH-status-message"></span><br>
+                        </div>
                       </div>
                     </div>
                   </div>
 
+                  <div id="meuRH-drop-box" class="drop-box" style="display: none">
+                    <div class="drop-inner-box">
+                      <h4 class="drop-box-message">Insira o arquivo 'Meu RH' em PDF ou HTML</h4>
+                    </div>
+                  </div>
                 </div>
+
               </div><!-- End Sales Card -->
 
               <!-- Revenue Card -->
               <div class="col-xxl-4 col-md-6" id="epm-card">
                 <div class="card info-card revenue-card" id="epm-load">
+                  <div id="epm-card-content">
+                    <div class="filter" id="epm-filter">
+                      <label class="icon" id="epm-delete" style="display:none"><i class="bi bi-trash"></i></label>
+                      <label class="icon" id="epm-icon" for="epm-input"><i id="epm-inner-icon"
+                          class="bi bi-upload"></i></label>
+                      <label class="icon" id="epm-icon-add" style="display:none" for="epm-input"><i id="epm-inner-icon"
+                          class="bi bi-plus-lg"></i></label>
+                      <input type="file" id="epm-input" accept=".xlsx">
+                    </div>
 
-                  <div class="filter" id="epm-filter">
-                    <label class="icon" id="epm-delete" style="display:none"><i class="bi bi-trash"></i></label>
-                    <label class="icon" id="epm-icon" for="epm-input"><i id="epm-inner-icon"
-                        class="bi bi-upload"></i></label>
-                    <input type="file" id="epm-input" accept=".xlsx">
+                    <div class="card-body">
+                      <h5 class="card-title">EPM <span>| XLSX</span></h5>
+
+                      <div class="d-flex align-items-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                          <i class="bi bi-filetype-xlsx"></i>
+                        </div>
+                        <div class="ps-3" id="epm-status">
+                          <span id="epm-status-badge"></span><br>
+                          <span id="epm-status-message"></span><br>
+                        </div>
+                      </div>
+                    </div>
                   </div>
 
-                  <div class="card-body">
-                    <h5 class="card-title">EPM <span>| Arquivo XLSX</span></h5>
-
-                    <div class="d-flex align-items-center">
-                      <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                        <i class="bi bi-filetype-xlsx"></i>
-                      </div>
-                      <div class="ps-3" id="epm-status">
-                        <span id="epm-status-badge"></span><br>
-                        <span id="epm-status-message"></span><br>
-                      </div>
+                  <div id="epm-drop-box" class="drop-box" style="display: none">
+                    <div class="drop-inner-box">
+                      <h4 class="drop-box-message">Insira o arquivo 'EPM' em XLSX</h4>
                     </div>
                   </div>
 
@@ -315,13 +369,16 @@
   <script src="assets/js/support/date.js"></script>
   <script src="assets/js/main/config.js"></script>
   <script src="assets/js/support/html.js"></script>
-  <script src="assets/js/data/meuRH.js"></script>
+  <script src="assets/js/data/pdfMeuRH.js"></script>
+  <script src="assets/js/data/htmlMeuRH.js"></script>
   <script src="assets/js/data/epm.js"></script>
   <script src="assets/js/data/compare.js"></script>
+  <script src="assets/js/features/visualizar/regime.js"></script>
   <script src="assets/js/features/visualizar/visualizar.js"></script>
   <script src="assets/js/features/conversores.js"></script>
   <script src="assets/js/features/simular.js"></script>
-  <script src="assets/js/features/index.js"></script>
+  <script src="assets/js/features/index/index.js"></script>
+  <script src="assets/js/features/index/handler.js"></script>
   <script src="assets/js/main/main.js"></script>
 
 </body>

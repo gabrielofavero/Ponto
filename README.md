@@ -1,4 +1,3 @@
 # Ponto
 
-## To-Do
-- adicionar botão de simular em cada acordeon
+Simulador de Ponto não-oficial para a Vetta. Utiliza dados do Meu RH e EPM

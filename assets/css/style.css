@@ -1403,6 +1403,23 @@ h6 {
   padding-bottom: 5px;
 }
 
+.item-internal-buttons{
+  text-align: center;
+  margin-top: 20px;
+}
+
+.btn-outline-ponto {
+  color: rgb(71, 71, 71);;
+  border-color: #EBEEF4;
+  font-size: 14px;
+}
+
+.btn-outline-ponto:hover {
+  color: #012970;
+  background-color: #F6F9FF;
+  border-color: #EBEEF4;
+}
+
 .item-internal-footer {
   border-top: 1px solid #EBEEF4;
   padding: 1px;
@@ -1637,4 +1654,41 @@ a.warningLink:hover {
 #checkboxVazioEPM-item.visible,
 #checkboxVazioMeuRH-item.visible {
   max-height: 100px; /* adjust this value to match the actual height of the item */
+}
+
+#meuRH-drop-box, #epm-drop-box{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 100%;
+}
+
+.drop-inner-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.drop-box-message {
+  margin: 0;
+  color: #647079;
+}
+
+#regimeInputManual{
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.inputManual{
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+#add-converter-button {
+  width: 50px;
+  margin: 10px;
+  margin-right: 20px;
+  font-size: large;
+  align-self: flex-end;
 }

@@ -3,7 +3,6 @@ const MESSAGES_JSON = _getJSON('assets/json/visualizar/Messages.json');
 const BUTTONS_JSON = _getJSON('assets/json/visualizar/Messages.json');
 const BADGES_JSON = _getJSON('assets/json/visualizar/Badges.json');
 const PONTO_JSON = _getJSON('assets/json/visualizar/Ponto.json');
-const REGIMES_JSON = _getJSON('assets/json/visualizar/Regimes.json');
 var PERIODO;
 
 // === Main Function ===
@@ -12,21 +11,20 @@ function _startVisualizar(type) {
     let checkBoxes = _getCheckboxes(type);;
     let database = "";
 
+    let regime = _getRegime();
+    if (regime) {
+        document.getElementById('regime').innerHTML = regime;
+    }
+
+
     if (type == 'meuRH') {
-        let regime = _getRegime();
         let saldo = _getSaldo();
-
-        if (regime) {
-            document.getElementById('regime').innerHTML = regime;
-        }
-
         if (saldo) {
             document.getElementById('saldo').innerHTML = saldo;
         }
-        database = _getLocal('meuRH');
-    } else if (type == 'epm') {
-        database = _getLocal('epm');
-    }
+    } 
+
+    database = _getLocal(type);
 
     let periodo = _getPeriodo(checkBoxes, type);
     let periodoString = "";
@@ -42,6 +40,12 @@ function _startVisualizar(type) {
 
     _updatePeriodoString(periodoString);
     _endLoad();
+
+    if (!regimeFound) {
+        $(document).ready(function() {
+            $('#regimeModal').modal('show');
+        });
+    }
 }
 
 // === Loaders ===
@@ -97,6 +101,9 @@ function _unloadCheckbox(name, checkBoxes) {
 
 function _loadVisualizarEventListeners() {
     _resizeRegime();
+    document.getElementById('regimeSaveManual').addEventListener('click', function () {
+        _saveManualRegime()
+    });
 }
 
 function _loadCheckBoxVazioEPM(name) {
@@ -113,18 +120,6 @@ function _loadCheckBoxVazioEPM(name) {
 }
 
 // === Getters ===
-function _getRegime() {
-    let job = _getLocal('job');
-    if (job) {
-        if ((job.toLowerCase().includes('estagiario'))) {
-            job = REGIMES_JSON.estagio;
-        } else {
-            job = REGIMES_JSON.comum;
-        }
-    }
-    return job;
-}
-
 function _getSaldo() {
     const meuRH = _getLocal('meuRH');
     if (meuRH && meuRH['keypoints'] && meuRH['keypoints']['Saldo Atual']) {
@@ -226,17 +221,3 @@ function _updatePeriodoString(periodoString) {
 
 }
 
-function _resizeRegime() {
-    window.addEventListener('resize', function () {
-        var width = window.innerWidth;
-        var regimeTitle = document.getElementById('regimeTitle');
-        if (regimeTitle) {
-            if (width < 484 || (width < 1400 && width >= 1200)) {
-                regimeTitle.innerHTML = 'Modelo';
-            } else {
-                regimeTitle.innerHTML = 'Modelo de Trabalho';
-            }
-        }
-    });
-    window.dispatchEvent(new Event('resize'));
-}

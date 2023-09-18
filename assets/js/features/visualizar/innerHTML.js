@@ -33,6 +33,12 @@ function _loadAccordionItemHTML(ponto) {
           </div>
         </div>
 
+        <div class="item-internal-buttons" id="buttons${ponto.i}" ${_getInternalButtonsStyle(ponto.title.value)}>
+          <div class="btn-group" role="group">
+            ${_getInternalButtons(ponto)}
+          </div>
+        </div>
+
         <div class="item-internal-messages" id="message${ponto.i}">
             ${ponto.htmlElements.messagesHTML}
         </div>
@@ -63,9 +69,9 @@ function _loadMessagesHTML(ponto, messages) {
             types.push(BADGES_JSON.info.badge);
             break;
           case MESSAGES_JSON.observation:
-            messageDiv = MESSAGE_DIVS_JSON.info;
+            // messageDiv = MESSAGE_DIVS_JSON.info;
             types.push(BADGES_JSON.info.badge);
-            message = message.replace("#1", ponto.htmlElements.observation.value);
+            // message = message.replace("#1", ponto.htmlElements.observation.value);
             break;
           case "":
           case undefined:
@@ -158,7 +164,7 @@ function _getPunchesTableHTML(ponto, punchesArray, messages) {
 
   // Batidas
   if (ponto.meuRH.missingPunches == true) {
-    messages.push(MESSAGES_JSON.odd.replace("#1", _getSimulateURL(ponto.key)));
+    messages.push(MESSAGES_JSON.odd);
     ponto.meuRH.punches = punchesArray.length - 1;
     batidas = `<span class="${BADGES_JSON.warning.roundedPill} batidas">${punchesArray.length - 1}</span>`
   } else {
@@ -191,6 +197,12 @@ function _getPunchesTableHTML(ponto, punchesArray, messages) {
     <span class="item-comparison-title">Batidas: </span>${batidas}
   </div>
     `
+}
+
+function _getInternalButtonsStyle(val){
+  if (val == "00:00"){
+    return `style="display:none"`
+  } else return "";
 }
 
 function _getPontoObservationInnerHTML(value, i) {
@@ -251,11 +263,35 @@ function _getSumUpContainerHTML(ponto, type) {
 }
 
 function _getSimulateDivWithURL(key) {
-  return MESSAGES_JSON.simulate.replace('meuRH-simular.html', _getSimulateURL(key));
+  return MESSAGES_JSON.simulate.replace('meuRH-simular.html', _getLinkMeuRH(key));
 }
 
-function _getSimulateURL(key) {
+function _getLinkMeuRH(key) {
   const date = encodeURIComponent(key);
   const punches = encodeURIComponent(_getLocal("meuRH")["system"][key]["punches"].toString())
   return `meuRH-simular.html?date=${date}&punches=${punches}`
+}
+
+function _getLinkEPM(valueMeuRH, valueEPM){
+  return `epm-conversores.html?total=${encodeURIComponent(valueMeuRH)}&usadas=${encodeURIComponent(valueEPM)}`
+}
+
+function _getInternalButtons(ponto) {
+  const valueMeuRH = ponto.meuRH.value;
+  const valueEPM = ponto.epm.value;
+
+  if (valueMeuRH && valueEPM) {
+    return `
+      <a href="${_getLinkMeuRH(ponto.key)}" class="btn btn-outline-ponto">Simular Meu RH</a>
+      <a href="${_getLinkEPM(ponto.meuRH.value, ponto.epm.value)}" class="btn btn-outline-ponto">Converter EPM</a>
+      `
+  } else if (valueMeuRH) {
+    return `
+    <a href="${_getLinkMeuRH(ponto.key)}" class="btn btn-outline-ponto">Simular Meu RH</a>
+    `
+  } else if (valueEPM) {
+    return `
+      <a href="${_getLinkEPM(ponto.epm.value, "")}" class="btn btn-outline-ponto">Converter EPM</a>
+      `
+  } else return "";
 }

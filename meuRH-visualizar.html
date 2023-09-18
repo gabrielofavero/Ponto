@@ -55,7 +55,7 @@
   </div>
 
   <div id="main-container">
-    <div class="modal fade" id="verticalycentered" tabindex="-1">
+    <div class="modal fade" id="sair" tabindex="-1">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
@@ -68,6 +68,36 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
             <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="clearData">Confirmar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="editarPerfil" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Editar Perfil</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="inputManual">
+              Nome Completo: <a id="starNome">*</a>
+              <input type="text" class="form-control" id="inputNome">
+            </div>
+            <div class="inputManual">
+              Cargo: <a id="starCargo">*</a>
+              <input type="text" class="form-control" id="inputCargo">
+            </div>
+            <div class="inputManual">
+              Empresa:
+              <input type="text" class="form-control" value="Vetta Tecnologia S/A" disabled="">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button id="editarPerfilFechar" type="button" class="btn btn-secondary"
+              data-bs-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-primary" id="saveProfile">Salvar</button>
           </div>
         </div>
       </div>
@@ -96,13 +126,20 @@
 
             <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
               <li class="dropdown-header">
-                <h6 id="fullName"></h6>
+                <h6 id="fullName">Usuário</h6>
                 <div id="job"></div>
                 <span>Vetta Tecnologia S/A</span>
               </li>
+              <li id="editarPerfilBotao">
+                <a class="dropdown-item d-flex align-items-center" href="#" data-bs-toggle="modal"
+                  data-bs-target="#editarPerfil">
+                  <i class="bi bi-pencil-square"></i>
+                  <span>Editar Pefil</span>
+                </a>
+              </li>
               <li>
                 <a class="dropdown-item d-flex align-items-center" href="#" data-bs-toggle="modal"
-                  data-bs-target="#verticalycentered">
+                  data-bs-target="#sair">
                   <i class="bi bi-box-arrow-right"></i>
                   <span>Sair</span>
                 </a>
@@ -216,6 +253,30 @@
                   <div class="inner-card-value" id="saldo"></div>
                 </div>
               </div>
+              <!-- Vertically centered Modal -->
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#regimeModal"
+                style="display: none;">
+                Solicitar Modelo
+              </button>
+              <div class="modal fade" id="regimeModal" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Inserir Modelo de Trabalho</h5>
+                    </div>
+                    <div class="modal-body">
+                      Não foi possível detectar automaticamente seu modelo de trabalho. Por favor, selecione abaixo:
+                      <select class="form-select" id="regimeInputManual">
+                        <option id="optionComum" selected value="Comum (8h)">Comum (8h)</option>
+                        <option id="optionEstagio" value="Estágio (6h)">Estágio (6h)</option>
+                      </select>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" id="regimeSaveManual" class="btn btn-primary">Salvar</button>
+                    </div>
+                  </div>
+                </div>
+              </div><!-- End Vertically centered Modal-->
             </div>
           </div>
         </div>
@@ -322,15 +383,18 @@
   <script src="assets/js/support/date.js"></script>
   <script src="assets/js/support/html.js"></script>
   <script src="assets/js/main/config.js"></script>
-  <script src="assets/js/data/meuRH.js"></script>
+  <script src="assets/js/data/pdfMeuRH.js"></script>
+  <script src="assets/js/data/htmlMeuRH.js"></script>
   <script src="assets/js/data/epm.js"></script>
   <script src="assets/js/data/compare.js"></script>
   <script src="assets/js/features/visualizar/innerHTML.js"></script>
   <script src="assets/js/features/visualizar/ponto.js"></script>
+  <script src="assets/js/features/visualizar/regime.js"></script>
   <script src="assets/js/features/visualizar/visualizar.js"></script>
   <script src="assets/js/features/conversores.js"></script>
   <script src="assets/js/features/simular.js"></script>
-  <script src="assets/js/features/index.js"></script>
+  <script src="assets/js/features/index/index.js"></script>
+  <script src="assets/js/features/index/handler.js"></script>
   <script src="assets/js/main/main.js"></script>
 
 </body>

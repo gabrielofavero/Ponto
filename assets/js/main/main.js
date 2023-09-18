@@ -9,68 +9,19 @@
 (function () {
   "use strict";
 
-  const pdfInput = document.getElementById('meuRH-input');
-  if (pdfInput) {
-    pdfInput.addEventListener('change', async (event) => {
-      const file = event.target.files[0];
-      if (!file) return;
-
-      pdfInput.value = '';
-
-      const pdf = await pdfjsLib.getDocument({
-        url: URL.createObjectURL(file)
-      }).promise;
-      const numPages = pdf.numPages;
-      const pdfTextContent = [];
-
-      for (let pageIndex = 1; pageIndex <= numPages; pageIndex++) {
-        const page = await pdf.getPage(pageIndex);
-        const
-          content = await page.getTextContent();
-        const strings = content.items.map(item => item.str.trim());
-        const lines = strings.join('\n').split('\n');
-
-        for (const line of lines) {
-          pdfTextContent.push(line);
-        }
-      }
-      _meuRH(pdfTextContent);
-    });
-  }
-  const xlsxInput = document.getElementById('epm-input');
-  if (xlsxInput) {
-    xlsxInput.addEventListener('change', (event) => {
-      const file = event.target.files[0];
-      if (!file) return;
-
-      xlsxInput.value = '';
-
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const data = event.target.result;
-        const workbook = XLSX.read(data, {
-          type: 'binary'
-        });
-
-        const sheetName = workbook.SheetNames[0];
-        const sheet = workbook.Sheets[sheetName];
-        const rows = XLSX.utils.sheet_to_json(sheet, {
-          header: 1
-        });
-        const xlsxContent = [];
-
-        for (const row of rows) {
-          xlsxContent.push(row.map(cell => cell.toString()));
-        }
-        _epm(xlsxContent);
-      };
-      reader.readAsBinaryString(file);
-    });
-  }
-
   const clearData = document.getElementById('clearData');
   clearData.addEventListener('click', function () {
     _clearData();
+  });
+
+  const editProfile = document.getElementById('editarPerfilBotao');
+  editProfile.addEventListener("click", function () {
+    _setProfilePlaceholders();
+  });
+
+  const saveProfile = document.getElementById('saveProfile');
+  saveProfile.addEventListener('click', function () {
+    _saveEditedProfile();
   });
 
   /**
@@ -446,14 +397,14 @@ function _checkLogin() {
   const fullName = _getLocal("fullName");
   const job = _getLocal("job");
 
-  if (name && fullName) {
-    document.getElementById("name").innerHTML = name;
-    document.getElementById("fullName").innerHTML = fullName;
+  if (_getLocal('meuRH') || _getLocal('epm')) {
     document.getElementById("login").style.display = "block";
   }
 
-  if (job) {
-    document.getElementById("job").innerHTML = job;
+  if (name || fullName || job) {
+    document.getElementById("name").innerHTML = name || "Usuário";
+    document.getElementById("fullName").innerHTML = fullName || "Usuário";
+    document.getElementById("job").innerHTML = _jobToRegimeDisplayText(job);
   }
 }
 
@@ -469,6 +420,59 @@ function _hideNav(type) {
 function _clearData() {
   localStorage.clear();
   window.location.href = "index.html";
+}
+
+function _saveEditedProfile() {
+  const nameDiv = document.getElementById('inputNome');
+  const jobDiv = document.getElementById('inputCargo');
+
+  const name = nameDiv.value;
+  const job = jobDiv.value;
+
+  const starNome = document.getElementById('starNome');
+  const starCargo = document.getElementById('starCargo');
+
+  if (name || job) {
+    if (name) {
+      localStorage.setItem('name', name.split(" ")[0]);
+      localStorage.setItem('fullName', name);
+    }
+    if (job) {
+      localStorage.setItem('job', job);
+    }
+
+    nameDiv.removeAttribute('placeholder');
+    starNome.style.color = "";
+
+    jobDiv.removeAttribute('placeholder');
+    starCargo.style.color = "";
+
+    location.reload();
+  } else {
+    nameDiv.setAttribute('placeholder', 'O campo é obrigatório');
+    starNome.style.color = "red";
+
+    jobDiv.setAttribute('placeholder', 'O campo é obrigatório');
+    starCargo.style.color = "red";
+  }
+
+  document.getElementById('editarPerfilFechar').click();
+}
+
+function _setProfilePlaceholders() {
+  const nameDiv = document.getElementById('inputNome');
+  const jobDiv = document.getElementById('inputCargo');
+
+  const name = _getLocal('fullName');
+  const job = _getLocal('job');
+
+  if (name) {
+    nameDiv.setAttribute('placeholder', name);
+  }
+
+  if (job) {
+    jobDiv.setAttribute('placeholder', job);
+  }
 }
 
 function _filterVisibility() {
