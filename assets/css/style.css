@@ -1684,3 +1684,11 @@ a.warningLink:hover {
   margin-top: 15px;
   margin-bottom: 15px;
 }
+
+#add-converter-button {
+  width: 50px;
+  margin: 10px;
+  margin-right: 20px;
+  font-size: large;
+  align-self: flex-end;
+}

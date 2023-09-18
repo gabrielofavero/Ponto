@@ -1,9 +1,18 @@
+var convertions = []
+
+
 // === Main Function ===
 function _startConversores() {
     const inputTime = document.getElementById('inputTime');
     const inputEPM = document.getElementById('inputEPM');
-    const inputTotal = document.getElementById('inputTotal');
-    const inputUsadas = document.getElementById('inputUsadas');
+    const addConvertionButton = document.getElementById('add-converter-button');
+
+    const visualizarBox = document.getElementById('visualizarBox');
+    visualizarBox.addEventListener('input', (event) => {
+    if (event.target.classList.contains('conversor')) {
+        _loadConvertionHours(event.target.id);
+    }
+    });
 
     _loadConvertionURLParameters();
 
@@ -15,12 +24,8 @@ function _startConversores() {
         _loadEPMToTime(event.target.value);
     });
 
-    inputTotal.addEventListener('input', (event) => {
-        _loadConvertionHours();
-    });
-
-    inputUsadas.addEventListener('input', (event) => {
-        _loadConvertionHours();
+    addConvertionButton.addEventListener('click', (event) => {
+        _addConvertion();
     });
 }
 
@@ -57,10 +62,14 @@ function _loadEPMToTime(epm) {
     outputTime.innerHTML = result
 }
 
-function _loadConvertionHours() {
-    const totalVal = document.getElementById("inputTotal").value;
-    const usadasVal = document.getElementById("inputUsadas").value;
-    const outputDiv = document.getElementById("outputRestante");
+function _loadConvertionHours(inputID) {
+    const i = inputID.replace(/[^0-9]/g, '');
+
+    const totalVal = document.getElementById(`inputTotal${i}`).value;
+    const usadasVal = document.getElementById(`inputUsadas${i}`).value;
+    const outputDiv = document.getElementById(`outputRestante${i}`);
+
+    convertions[i] = [totalVal, usadasVal];
 
     let result = "-,-"
 
@@ -102,5 +111,45 @@ function _loadConvertionURLParameters() {
 
     if (total || usadas) {
         _loadConvertionHours();
+    }
+}
+
+function _addConvertion() {
+    convertions.push([]);
+    const i = convertions.length - 1;
+
+    visualizarBox.innerHTML += `
+    <div class="card-body visualizar" id="visualizar${i}">
+        <div id="conversorHoras1" class="inner-card-body conversor-item-1">
+            <input id="inputTotal${i}" type="number" step="0.1" min="0" max="100" placeholder="-,-" class="form-control conversor input">
+        </div>
+        <div id="conversorHoras2" class="inner-card-body conversor-item-2">
+            <input id="inputUsadas${i}" type="number" step="0.1" min="0" max="100" placeholder="-,-" class="form-control conversor input">
+        </div>
+        <div class="inner-card-body">
+            <div class="inner-card-value output" id="outputRestante${i}">0,0</div>
+        </div>
+    </div>
+    `;
+
+    _reloadConvertionValues();
+
+    const previous = document.getElementById(`outputRestante${i-1}`).innerText.replace(",", ".");
+    document.getElementById(`inputTotal${i}`).value = previous;
+    _loadConvertionHours(`inputTotal${i}`);
+}
+
+function _reloadConvertionValues() {
+    for (let i = 0; i < convertions.length; i++) {
+        if (convertions[i].length) {
+            const total = convertions[i][0];
+            const usadas = convertions[i][1];
+            if (total) {
+                document.getElementById(`inputTotal${i}`).value = total;
+            }
+            if (usadas) {
+                document.getElementById(`inputUsadas${i}`).value = usadas;
+            }
+        }
     }
 }
