@@ -11,21 +11,20 @@ function _startVisualizar(type) {
     let checkBoxes = _getCheckboxes(type);;
     let database = "";
 
+    let regime = _getRegime();
+    if (regime) {
+        document.getElementById('regime').innerHTML = regime;
+    }
+
+
     if (type == 'meuRH') {
-        let regime = _getRegime();
         let saldo = _getSaldo();
-
-        if (regime) {
-            document.getElementById('regime').innerHTML = regime;
-        }
-
         if (saldo) {
             document.getElementById('saldo').innerHTML = saldo;
         }
-        database = _getLocal('meuRH');
-    } else if (type == 'epm') {
-        database = _getLocal('epm');
-    }
+    } 
+
+    database = _getLocal(type);
 
     let periodo = _getPeriodo(checkBoxes, type);
     let periodoString = "";

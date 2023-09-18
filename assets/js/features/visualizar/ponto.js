@@ -222,13 +222,13 @@ function _loadNoMatchMessage(ponto, messages) {
                     messages.push(` Adicione o ponto ausente no <b>Meu RH</b> para depois comparar com o <b>EPM</b>.`);
                     break;
                 case (valEPM === 0):
-                    messages.push(`${MESSAGES_JSON.noEPM} Adicione <b>${_numberToEpm(difference)}h</b>. ${simuleAqui}.`);
+                    messages.push(`${MESSAGES_JSON.noEPM} Adicione <b>${_numberToEpm(difference)}h</b>.`);
                     break;
                 case (difference > 0):
-                    messages.push(`${MESSAGES_JSON.noMatch} Adicione <b>${_numberToEpm(difference)}h</b> ao <b>EPM</b>. ${simuleAqui}.`);
+                    messages.push(`${MESSAGES_JSON.noMatch} Adicione <b>${_numberToEpm(difference)}h</b> ao <b>EPM</b>.`);
                     break;
                 case (difference < 0):
-                    messages.push(`${MESSAGES_JSON.noMatch} Remova <b>${_numberToEpm(difference * -1)}h</b> do <b>EPM</b>. ${simuleAqui}.`);
+                    messages.push(`${MESSAGES_JSON.noMatch} Remova <b>${_numberToEpm(difference * -1)}h</b> do <b>EPM</b>.`);
                     break;
             }
         }

@@ -404,7 +404,7 @@ function _checkLogin() {
   if (name || fullName || job) {
     document.getElementById("name").innerHTML = name || "Usuário";
     document.getElementById("fullName").innerHTML = fullName || "Usuário";
-    document.getElementById("job").innerHTML = job || _jobToRegimeDisplayText(job);
+    document.getElementById("job").innerHTML = _jobToRegimeDisplayText(job);
   }
 }
 

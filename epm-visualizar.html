@@ -242,6 +242,43 @@
 
         <div class="row">
           <div class="col-lg-6">
+            <div class="card">
+              <div class="card-body visualizar">
+                <div class="inner-card-body">
+                  <div class="inner-card-title" id="regimeTitle">Modelo de Trabalho</div>
+                  <div class="inner-card-value" id="regime"></div>
+                </div>
+              </div>
+              <!-- Vertically centered Modal -->
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#regimeModal"
+                style="display: none;">
+                Solicitar Modelo
+              </button>
+              <div class="modal fade" id="regimeModal" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Inserir Modelo de Trabalho</h5>
+                    </div>
+                    <div class="modal-body">
+                      Não foi possível detectar automaticamente seu modelo de trabalho. Por favor, selecione abaixo:
+                      <select class="form-select" id="regimeInputManual">
+                        <option id="optionComum" selected value="Comum (8h)">Comum (8h)</option>
+                        <option id="optionEstagio" value="Estágio (6h)">Estágio (6h)</option>
+                      </select>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" id="regimeSaveManual" class="btn btn-primary">Salvar</button>
+                    </div>
+                  </div>
+                </div>
+              </div><!-- End Vertically centered Modal-->
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-6">
 
             <div class="card">
               <div class="card-body">

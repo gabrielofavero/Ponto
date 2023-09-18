@@ -1403,6 +1403,23 @@ h6 {
   padding-bottom: 5px;
 }
 
+.item-internal-buttons{
+  text-align: center;
+  margin-top: 20px;
+}
+
+.btn-outline-ponto {
+  color: rgb(71, 71, 71);;
+  border-color: #EBEEF4;
+  font-size: 14px;
+}
+
+.btn-outline-ponto:hover {
+  color: #012970;
+  background-color: #F6F9FF;
+  border-color: #EBEEF4;
+}
+
 .item-internal-footer {
   border-top: 1px solid #EBEEF4;
   padding: 1px;
