@@ -19,15 +19,15 @@ function _startIndex() {
     const meuRH = _getLocal("meuRH");
     const epm = _getLocal("epm");
 
-    const meuRHValid = _isVersionValid(meuRH);
-    const epmValid = _isVersionValid(epm);
+    const versionValidMeuRH = _isVersionValid(meuRH);
+    const versionValidEPM = _isVersionValid(epm);
 
     _loadIndexEventListeners();
 
-    if (meuRH && meuRHValid) {
+    if (meuRH && versionValidMeuRH) {
         _setLoaded('meuRH');
         _loadedButtons('meuRH');
-    } else if (meuRHValid) {
+    } else if (versionValidMeuRH) {
         _setBadgeMessage('meuRH', 'naoCarregado');
         _unloadedButtons('meuRH');
     } else {
@@ -35,10 +35,10 @@ function _startIndex() {
         _loadedButtons('meuRH');
     }
 
-    if (epm && epmValid) {
+    if (epm && versionValidEPM) {
         _setLoaded('epm');
         _loadedButtons('epm');
-    } else if (epmValid) {
+    } else if (versionValidEPM) {
         _setBadgeMessage('epm', 'naoCarregado');
         _unloadedButtons('epm');
     } else {
@@ -47,7 +47,7 @@ function _startIndex() {
     }
 
     _setYear();
-    if (meuRH && epm && meuRHValid && epmValid) {
+    if (meuRH && epm && versionValidMeuRH && versionValidEPM) {
         _checkOverlap();
     }
     indexBoot = false;
@@ -167,18 +167,21 @@ function _updateKeypoints(result) {
 }
 
 function _restoreBadge(type) {
-    let badge = document.getElementById(type + "-status-badge");
-    let message = document.getElementById(type + "-status-message");
+    const badge = document.getElementById(type + "-status-badge");
+    const message = document.getElementById(type + "-status-message");
     const currentMessage = message.innerHTML;
+    const badgeText = badge.innerText;
 
-    if (currentMessage.includes('Período:')){
-        badge.innerHTML = INDEX_BADGES_JSON["carregado"].badge;
-    } else {
-        const keys = Object.keys(INDEX_BADGES_JSON)
-        for (let key of keys) {
-            if (currentMessage === INDEX_BADGES_JSON[key].message){
-                badge.innerHTML = INDEX_BADGES_JSON[key].badge;
-                break;
+    if (!badgeText.includes("Atualizado")) {
+        if (currentMessage.includes('Período:')){
+            badge.innerHTML = INDEX_BADGES_JSON["carregado"].badge;
+        } else {
+            const keys = Object.keys(INDEX_BADGES_JSON)
+            for (let key of keys) {
+                if (currentMessage === INDEX_BADGES_JSON[key].message){
+                    badge.innerHTML = INDEX_BADGES_JSON[key].badge;
+                    break;
+                }
             }
         }
     }
