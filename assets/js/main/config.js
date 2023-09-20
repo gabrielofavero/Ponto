@@ -1,6 +1,6 @@
-const VERSION = '1.1.0';
+const VERSION = '1.1.1';
 const DATABASE_VERSION_LIMIT = "1.1.0";
-const VERSION_DATE = "18/09/2023";
+const VERSION_DATE = "20/09/2023";
 const MAJOR_RELEASE = true;
 
 // === Main Function ===
@@ -36,24 +36,20 @@ function _loadNewIcon() {
 
 // === Verifiers ===
 function _isVersionValid(database) {
-    let result = true;
-    if (database && database["keypoints"] && database["keypoints"]["Version"] && _isVersionOlderThan(database["keypoints"]["Version"])) {
-        result = false;
-    }
-    return result;
+    if (database && database["keypoints"] && database["keypoints"]["Version"]) {
+        return _isDatabaseVersionValid(database["keypoints"]["Version"])
+    } else return true;
 }
 
-function _isVersionOlderThan(version) {
-    let result = false;
-    if (version) {
-        let split = version.split(".");
-        let split2 = DATABASE_VERSION_LIMIT.split(".");
-        for (let i = 0; i < split.length; i++) {
-            if (split[i] < split2[i]) {
-                result = true;
-                break;
+function _isDatabaseVersionValid(databaseVersion) {
+    if (databaseVersion) {
+        let databaseVersionSplit = databaseVersion.split(".");
+        let limitSplit = DATABASE_VERSION_LIMIT.split(".");
+        for (let i = 0; i < 3; i++) {
+            if (databaseVersionSplit[i] < limitSplit[i]){
+                return false;
             }
         }
     }
-    return result;
+    return true;
 }
