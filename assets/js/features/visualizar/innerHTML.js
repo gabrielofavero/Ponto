@@ -283,8 +283,8 @@ function _getInternalButtons(ponto) {
 
   if (valueMeuRH && valueEPM) {
     return `
-      <a href="${_getLinkMeuRH(ponto.key)}" class="btn btn-outline-ponto">Simular Meu RH</a>
-      <a href="${_getLinkEPM(ponto.meuRH.value, ponto.epm.value)}" class="btn btn-outline-ponto">Converter EPM</a>
+      <a href="${_getLinkMeuRH(ponto.key)}" target="_blank" class="btn btn-outline-ponto">Simular Meu RH</a>
+      <a href="${_getLinkEPM(ponto.meuRH.value, ponto.epm.value)}" target="_blank" class="btn btn-outline-ponto">Converter EPM</a>
       `
   } else if (valueMeuRH) {
     return `
