@@ -43,10 +43,10 @@ function _updateYearEPM(epm) {
     for (let key of keys) {
         let month = parseInt(key.split("/")[1]);
         let newKey;
-        if (month <= startMonth) {
-            newKey = key + "/" + year;
-        } else {
+        if (startMonth === 12 && month === 1) {
             newKey = key + "/" + (year + 1);
+        } else {
+            newKey = key + "/" + year;
         }
         result["system"][newKey] = epm["system"][key];
     }
