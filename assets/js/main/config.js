@@ -1,6 +1,6 @@
 const VERSION = '1.1.2';
 const DATABASE_VERSION_LIMIT = "1.1.2";
-const VERSION_DATE = "02/10/2023";
+const VERSION_DATE = "09/10/2023";
 const MAJOR_RELEASE = true;
 
 // === Main Function ===
